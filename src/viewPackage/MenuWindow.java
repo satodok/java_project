@@ -46,6 +46,8 @@ public class MenuWindow extends JFrame{
 
         quit = new JMenuItem("Quit");
         application.add(quit);
+        ExitListener exitListener = new ExitListener();
+        quit.addActionListener(exitListener);
 
         subscribe = new JMenuItem("Subscribe");
         subscription.add(subscribe);
@@ -64,8 +66,19 @@ public class MenuWindow extends JFrame{
         stations = new JMenuItem("Stations list");
         bikeRental.add(stations);
 
-        // ajouter boutton quitter
 
+        register.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                RegistrationForm registrationForm = new RegistrationForm();
+                setContentPane(registrationForm);
+                revalidate();
+            }
+        });
         this.setVisible(true);
+    }
+    private class ExitListener implements ActionListener {
+        public void actionPerformed (ActionEvent event) {
+            System.exit(0);
+        }
     }
 }
