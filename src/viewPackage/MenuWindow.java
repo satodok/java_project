@@ -22,6 +22,7 @@ public class MenuWindow extends JFrame{
 
     // my account item
     private JMenuItem myInformations;
+    private JMenuItem register;
 
     // rental items
     private JMenuItem rentABike;
@@ -53,6 +54,8 @@ public class MenuWindow extends JFrame{
         subscriptionList = new JMenuItem("Subscription list");
         subscription.add(subscriptionList);
 
+        register = new JMenuItem("Register");
+        myAccount.add(register);
         myInformations = new JMenuItem("My informations");
         myAccount.add(myInformations);
 
