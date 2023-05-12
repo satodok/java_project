@@ -1,22 +1,32 @@
 package viewPackage;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class MenuWindow extends JFrame{
     private JMenuBar menuBar;
 
+    // menus
     private JMenu application;
     private JMenu bikeRental;
-    private JMenu signUp;
-    private JMenu informations;
+    private JMenu myAccount;
     private JMenu subscription;
 
-    private JMenuItem quitButton;
-    private JMenuItem bikeRentalButton;
-    private JMenuItem signUpButton;
-    private JMenuItem informationsButton;
-    private JMenuItem subscriptionButton;
+    // quit item
+    private JMenuItem quit;
+
+    // subscription items
+    private JMenuItem subscribe;
+    private JMenuItem subscriptionList;
+    private JMenuItem unsubscribe;
+
+    // my account item
+    private JMenuItem myInformations;
+
+    // rental items
+    private JMenuItem rentABike;
+    private JMenuItem stations;
+
 
     public MenuWindow(){
         super("Libia Vélo");
@@ -24,16 +34,34 @@ public class MenuWindow extends JFrame{
 
         this.menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
-        this.signUp = new JMenu("Sign up");
-        this.menuBar.add(signUp);
-        this.informations = new JMenu("Informations");
-        this.menuBar.add(informations);
+        this.application = new JMenu("Application");
+        this.menuBar.add(application);
+        this.myAccount = new JMenu("My account");
+        this.menuBar.add(myAccount);
         this.subscription = new JMenu("Subscription");
         this.menuBar.add(subscription);
         this.bikeRental = new JMenu("Rental");
         this.menuBar.add(bikeRental);
 
-        // ajouter bouton quitter avec ExitListener
+        quit = new JMenuItem("Quit");
+        application.add(quit);
+
+        subscribe = new JMenuItem("Subscribe");
+        subscription.add(subscribe);
+        unsubscribe = new JMenuItem("Unsubscribe");
+        subscription.add(unsubscribe);
+        subscriptionList = new JMenuItem("Subscription list");
+        subscription.add(subscriptionList);
+
+        myInformations = new JMenuItem("My informations");
+        myAccount.add(myInformations);
+
+        rentABike = new JMenuItem("Rent a bike");
+        bikeRental.add(rentABike);
+        stations = new JMenuItem("Stations list");
+        bikeRental.add(stations);
+
+        // ajouter boutton quitter
 
         this.setVisible(true);
     }
