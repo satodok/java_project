@@ -3,8 +3,12 @@ package viewPackage;
 import javax.swing.*;
 import java.awt.*;
 import com.toedter.calendar.JDateChooser;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 public class RegistrationForm extends JPanel{
+    private MenuWindow menuWindow;
     private JPanel formPanel;
     private JPanel buttonsPanel;
 
@@ -86,6 +90,27 @@ public class RegistrationForm extends JPanel{
         buttonsPanel.add(validationButton);
         buttonsPanel.add(backButton);
         buttonsPanel.add(reinitialisationButton);
+
+        reinitialisationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                nationalNumber.setText("");
+                lastName.setText("");
+                firstName.setText("");
+                phoneNumber.setText("");
+                gender.setSelectedIndex(0);
+                emailAdress.setText("");
+                birthDate.setDate(null);
+                street.setText("");
+                streetNumber.setText("");
+                locality.setText("");
+                postalCode.setText("");
+                newsletter.setSelected(false);
+
+                JOptionPane.showMessageDialog(null, "Form reset.", "Information", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
 
         add(formPanel,BorderLayout.CENTER);
         add(buttonsPanel,BorderLayout.SOUTH);
