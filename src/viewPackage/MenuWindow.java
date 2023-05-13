@@ -32,6 +32,7 @@ public class MenuWindow extends JFrame{
     public MenuWindow(){
         super("Libia Vélo");
         this.setBounds(100,100,600,600);
+        JOptionPane.showMessageDialog(null,"Welcome to the Libia Vélo app!","Welcome",JOptionPane.INFORMATION_MESSAGE);
 
         this.menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
@@ -74,11 +75,11 @@ public class MenuWindow extends JFrame{
                 revalidate();
             }
         });
+        addWindowListener (new WindowAdapter() {
+            public void windowClosing (WindowEvent e) {
+                System.exit(0);
+            }
+        } );
         this.setVisible(true);
-    }
-    private class ExitListener implements ActionListener {
-        public void actionPerformed (ActionEvent event) {
-            System.exit(0);
-        }
     }
 }

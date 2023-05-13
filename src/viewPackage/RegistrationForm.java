@@ -8,12 +8,10 @@ import java.awt.event.ActionListener;
 
 
 public class RegistrationForm extends JPanel{
-    private MenuWindow menuWindow;
     private JPanel formPanel;
     private JPanel buttonsPanel;
 
     private JButton validationButton;
-    private JButton backButton;
     private JButton reinitialisationButton;
 
     private JTextField nationalNumber;
@@ -28,6 +26,21 @@ public class RegistrationForm extends JPanel{
     private JTextField locality;
     private JTextField postalCode;
     private JCheckBox newsletter;
+
+    public void resetForm(){
+        nationalNumber.setText("");
+        lastName.setText("");
+        firstName.setText("");
+        phoneNumber.setText("");
+        gender.setSelectedIndex(0);
+        emailAdress.setText("");
+        birthDate.setDate(null);
+        street.setText("");
+        streetNumber.setText("");
+        locality.setText("");
+        postalCode.setText("");
+        newsletter.setSelected(false);
+    }
 
     public RegistrationForm(){
         formPanel = new JPanel();
@@ -84,31 +97,32 @@ public class RegistrationForm extends JPanel{
         buttonsPanel = new JPanel();
 
         validationButton = new JButton("Validation");
-        backButton = new JButton("Back");
         reinitialisationButton = new JButton("Reinitialisation");
 
         buttonsPanel.add(validationButton);
-        buttonsPanel.add(backButton);
         buttonsPanel.add(reinitialisationButton);
 
         reinitialisationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                nationalNumber.setText("");
-                lastName.setText("");
-                firstName.setText("");
-                phoneNumber.setText("");
-                gender.setSelectedIndex(0);
-                emailAdress.setText("");
-                birthDate.setDate(null);
-                street.setText("");
-                streetNumber.setText("");
-                locality.setText("");
-                postalCode.setText("");
-                newsletter.setSelected(false);
-
+                resetForm();
                 JOptionPane.showMessageDialog(null, "Form reset.", "Information", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        validationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to validate your registration?", "Validation", JOptionPane.YES_NO_OPTION);
+                if(response == JOptionPane.YES_OPTION){
+                    // VERIFIER LES DONNEES
+                    // SI ELLES SONT BONNES
+                        // ENTRER LES DONNEES DANS LA BD
+                        JOptionPane.showMessageDialog(null, "Registration validated.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        resetForm();
+                    // SI ELLES SONT PAS BONNES
+                        // MESSAGE ERREUR ET RECOMMENCER
+                }
             }
         });
 
