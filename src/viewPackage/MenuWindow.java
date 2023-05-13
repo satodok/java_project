@@ -80,8 +80,28 @@ public class MenuWindow extends JFrame{
         myInformations.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 MemberInformations memberInformations = new MemberInformations();
-                setContentPane(memberInformations);
-                revalidate();
+                memberInformations.setVisible(true);
+            }
+        });
+
+        subscribe.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                SubscribeWindow subscribeWindow = new SubscribeWindow();
+                subscribeWindow.setVisible(true);
+            }
+        });
+
+        unsubscribe.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                UnsubscribeWindow unSubscribeWindow = new UnsubscribeWindow();
+                unSubscribeWindow.setVisible(true);
+            }
+        });
+
+        subscriptionList.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                SubscriptionInformations subscriptionInformations = new SubscriptionInformations();
+                subscriptionInformations.setVisible(true);
             }
         });
 

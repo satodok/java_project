@@ -3,11 +3,11 @@ package viewPackage;
 import javax.swing.*;
 import java.awt.*;
 
-public class MemberInformations extends JFrame {
+public class MemberInformations extends JFrame{
 
     public MemberInformations(){
         super("My informations");
-        this.setBounds(100,100,600,600);
+        this.setBounds(100,100,400,400);
         String nationalNumberInupt = JOptionPane.showInputDialog(null, "Please enter your national number");
         int nationalNumber = Integer.parseInt(nationalNumberInupt);
 
