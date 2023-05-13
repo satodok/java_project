@@ -1,6 +1,7 @@
 package viewPackage;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class MenuWindow extends JFrame{
@@ -75,6 +76,15 @@ public class MenuWindow extends JFrame{
                 revalidate();
             }
         });
+
+        myInformations.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                MemberInformations memberInformations = new MemberInformations();
+                setContentPane(memberInformations);
+                revalidate();
+            }
+        });
+
         addWindowListener (new WindowAdapter() {
             public void windowClosing (WindowEvent e) {
                 System.exit(0);
