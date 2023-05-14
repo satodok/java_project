@@ -1,15 +1,15 @@
 package viewPackage;
 
-import modelPackage.discountMemberAgeRangeModel;
+import modelPackage.discountMember;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
 public class findDiscountMemberAgeRangeModel extends AbstractTableModel {
     private ArrayList<String> columnNames;
-    private ArrayList<discountMemberAgeRangeModel> contents;
+    private ArrayList<discountMember> contents;
 
-    public findDiscountMemberAgeRangeModel(ArrayList<discountMemberAgeRangeModel> members) {
+    public findDiscountMemberAgeRangeModel(ArrayList<discountMember> members) {
         columnNames = new ArrayList<>();
         columnNames.add("First name");
         columnNames.add("Last name");
@@ -18,7 +18,7 @@ public class findDiscountMemberAgeRangeModel extends AbstractTableModel {
         setContents(members);
     }
 
-    private void setContents(ArrayList<discountMemberAgeRangeModel> members) {
+    private void setContents(ArrayList<discountMember> members) {
         contents = members;
     }
 
@@ -27,12 +27,12 @@ public class findDiscountMemberAgeRangeModel extends AbstractTableModel {
     public String getColumnName(int column) { return columnNames.get(column); }
 
     public Object getValueAt (int row, int column) {
-        discountMemberAgeRangeModel member = contents.get(row);
+        discountMember member = contents.get(row);
         switch(column) {
             case 0 : return member.getFirstName();
             case 1 : return member.getLastName();
-            case 2: return member.getDiscount();
-            case 3: return member.getClientNumber();
+            case 2 : return member.getDiscount();
+            case 3 : return member.getClientNumber();
             default : return null;
         }
     }

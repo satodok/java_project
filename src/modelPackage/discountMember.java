@@ -1,12 +1,12 @@
 package modelPackage;
 
-public class discountMemberAgeRangeModel  {
+public class discountMember {
     private String firstName;
     private String lastName;
     private Integer discount;
     private Integer clientNumber;
 
-    public discountMemberAgeRangeModel (){}
+    public discountMember(){}
 
 
     public String getFirstName() {

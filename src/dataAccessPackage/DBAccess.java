@@ -3,12 +3,9 @@ package dataAccessPackage;
 import modelPackage.*;
 import exceptionPackage.*;
 
-import java.lang.reflect.Member;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public class DBAccess implements DataAccess{
 
@@ -138,6 +135,55 @@ public class DBAccess implements DataAccess{
 
 
 
+@Override
+    public ArrayList<discountMember> findMembersWithDiscountFromAgeRange(GregorianCalendar dateMin, GregorianCalendar dateMax) throws UnfoundException, ConnectionException{
 
-    ArrayList<discountMemberAgeRangeModel> findMembersWithDiscountFromAgeRange(Integer ageMin, Integer ageMax);
+        try {
+            Connection connection = SingletonConnection.getInstance("mdp");
+            // Instruction
+            String sql = "SELECT m.firstName, m.lastName, s.discount, c.clientNumber\n" +
+                    "from member m\n" +
+                    "inner join card c\n" +
+                    "on m.clientNumber = c.clientNumber\n" +
+                    "inner join subscription s\n" +
+                    "on s.clientNumber = c.clientNumber\n" +
+                    "where m.birthDate >= ? AND m.birthDate <= ?";
+
+            //Creation du preparedStatement a partir de l'instruction sql
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, new java.sql.Date(dateMin.getTimeInMillis()));
+            preparedStatement.setDate(2, new java.sql.Date(dateMax.getTimeInMillis()));
+
+            // executer la requete et recuperer le resultat
+            ResultSet data = preparedStatement.executeQuery();
+
+            discountMember member;
+            String firstName, lastName;
+            int discount, clientNumber;
+            ArrayList<discountMember> members = new ArrayList<>();
+
+            while(data.next()) {
+                member = new discountMember();
+
+                firstName = data.getString("firstName");
+                member.setFirstName(firstName);
+
+                lastName = data.getString("lastName");
+                member.setLastName(lastName);
+
+                discount = data.getInt("discount");
+                member.setDiscount(discount);
+
+                clientNumber = data.getInt("clientNumber");
+                member.setClientNumber(clientNumber);
+
+                members.add(member);
+            }
+
+            return members;
+
+        } catch (SQLException sqlException) {
+            throw new UnfoundException("Erreur : aucun résultat ne correspond à votre recherche.");
+        }
+    }
 }
