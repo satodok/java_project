@@ -1,16 +1,16 @@
 package dataAccessPackage;
 
 import exceptionPackage.ConnectionException;
-import exceptionPackage.UnfoundException;
+import exceptionPackage.UnfoundResearchException;
 import modelPackage.MemberAddress;
-import modelPackage.discountMember;
+import modelPackage.DiscountMember;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 public interface DataAccess {
-    public MemberAddress findMemberAdressByNationalNumber(Integer nationalNumber) throws UnfoundException, ConnectionException;
-    public ArrayList<discountMember> findMembersWithDiscountFromAgeRange(GregorianCalendar dateMin, GregorianCalendar dateMax) throws UnfoundException, ConnectionException;
+    public MemberAddress findMemberAdressByNationalNumber(Integer nationalNumber) throws UnfoundResearchException, ConnectionException;
+    public ArrayList<DiscountMember> findMembersWithDiscountFromAgeRange(GregorianCalendar dateMin, GregorianCalendar dateMax) throws UnfoundResearchException, ConnectionException;
     //Member findMembersFromSubscriptionPlan(String subscriptionType);
     //RentalDetails findRentalDetailsFromDateRange(Date startDate, Date endDate);
 

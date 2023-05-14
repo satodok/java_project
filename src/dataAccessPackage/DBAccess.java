@@ -10,11 +10,13 @@ import java.util.GregorianCalendar;
 public class DBAccess implements DataAccess{
 
     @Override
-    public MemberAddress findMemberAdressByNationalNumber(Integer nationalNumber) throws UnfoundException, ConnectionException{
+    public MemberAddress findMemberAdressByNationalNumber(Integer nationalNumber) throws UnfoundResearchException, ConnectionException{
 
         try{
             MemberAddress memberAddress;
-            Connection connection = SingletonConnection.getInstance("mdp");
+            System.out.println("Ok");
+            Connection connection = SingletonConnection.getInstance("Haloreach89");
+            System.out.println("Ok numero 2");
             // Instruction
             String sqlInstruction = "SELECT m.firstName, m.lastName, a.street, a.streetNumber, l.postalCode, l.name\n" +
                     "FROM libiavelo.member m \n" +
@@ -42,101 +44,13 @@ public class DBAccess implements DataAccess{
 
         }
         catch(SQLException sqlException){
-            throw new UnfoundException("Erreur : aucun résultat ne correspond à votre recherche.");
+            throw new UnfoundResearchException("Erreur : aucun résultat ne correspond à votre recherche.");
         }
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @Override
-    public ArrayList<discountMember> findMembersWithDiscountFromAgeRange(GregorianCalendar dateMin, GregorianCalendar dateMax) throws UnfoundException, ConnectionException{
+    public ArrayList<DiscountMember> findMembersWithDiscountFromAgeRange(GregorianCalendar dateMin, GregorianCalendar dateMax) throws UnfoundResearchException, ConnectionException{
 
         try {
             Connection connection = SingletonConnection.getInstance("mdp");
@@ -157,13 +71,13 @@ public class DBAccess implements DataAccess{
             // executer la requete et recuperer le resultat
             ResultSet data = preparedStatement.executeQuery();
 
-            discountMember member;
+            DiscountMember member;
             String firstName, lastName;
             int discount, clientNumber;
-            ArrayList<discountMember> members = new ArrayList<>();
+            ArrayList<DiscountMember> members = new ArrayList<>();
 
             while(data.next()) {
-                member = new discountMember();
+                member = new DiscountMember();
 
                 firstName = data.getString("firstName");
                 member.setFirstName(firstName);
@@ -183,7 +97,7 @@ public class DBAccess implements DataAccess{
             return members;
 
         } catch (SQLException sqlException) {
-            throw new UnfoundException("Erreur : aucun résultat ne correspond à votre recherche.");
+            throw new UnfoundResearchException("Erreur : aucun résultat ne correspond à votre recherche.");
         }
     }
 }

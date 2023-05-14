@@ -1,12 +1,12 @@
 package modelPackage;
 
-public class discountMember {
+public class DiscountMember {
     private String firstName;
     private String lastName;
     private Integer discount;
     private Integer clientNumber;
 
-    public discountMember(){}
+    public DiscountMember(){}
 
 
     public String getFirstName() {

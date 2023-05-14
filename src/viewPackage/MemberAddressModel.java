@@ -1,13 +1,15 @@
-package modelPackage;
+package viewPackage;
+
+import modelPackage.MemberAddress;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
-public class MemberAddressTableModel extends AbstractTableModel {
+public class MemberAddressModel extends AbstractTableModel {
 
     private ArrayList<String> columnNames;
     private MemberAddress content;
-    public MemberAddressTableModel(MemberAddress memberAddress) {
+    public MemberAddressModel(MemberAddress memberAddress) {
         columnNames = new ArrayList<>();
         columnNames.add("First name");
         columnNames.add("Last name");
@@ -16,7 +18,7 @@ public class MemberAddressTableModel extends AbstractTableModel {
     }
 
     public void setContent(MemberAddress memberAddress) {
-        this.content = content;
+        this.content = memberAddress;
     }
 
     public int getColumnCount( ) { return columnNames.size( );

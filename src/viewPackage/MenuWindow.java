@@ -12,6 +12,7 @@ public class MenuWindow extends JFrame{
     private JMenu bikeRental;
     private JMenu myAccount;
     private JMenu subscription;
+    private JMenu researches;
 
     // quit item
     private JMenuItem quit;
@@ -29,6 +30,10 @@ public class MenuWindow extends JFrame{
     private JMenuItem rentABike;
     private JMenuItem stations;
 
+    // Researches items
+    private JMenuItem searchMemberAddress;
+    private JMenuItem searchMembersWithDiscount;
+
 
     public MenuWindow(){
         super("Libia Vélo");
@@ -45,6 +50,8 @@ public class MenuWindow extends JFrame{
         this.menuBar.add(subscription);
         this.bikeRental = new JMenu("Rental");
         this.menuBar.add(bikeRental);
+        this.researches = new JMenu("Researches");
+        this.menuBar.add(researches);
 
         quit = new JMenuItem("Quit");
         application.add(quit);
@@ -68,6 +75,10 @@ public class MenuWindow extends JFrame{
         stations = new JMenuItem("Stations list");
         bikeRental.add(stations);
 
+        searchMemberAddress = new JMenuItem("Search member address");
+        researches.add(searchMemberAddress);
+        searchMembersWithDiscount = new JMenuItem("Search members with discount");
+        researches.add(searchMembersWithDiscount);
 
         register.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -103,6 +114,12 @@ public class MenuWindow extends JFrame{
                 SubscriptionInformations subscriptionInformations = new SubscriptionInformations();
                 subscriptionInformations.setVisible(true);
             }
+        }
+        );
+        searchMemberAddress.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                MemberAddressPanel memberAddressPanel = new MemberAddressPanel();
+            }
         });
 
         addWindowListener (new WindowAdapter() {
@@ -112,4 +129,5 @@ public class MenuWindow extends JFrame{
         } );
         this.setVisible(true);
     }
+
 }
