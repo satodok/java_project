@@ -1,10 +1,104 @@
 package dataAccessPackage;
 
 import modelPackage.MemberAddress;
+import modelPackage.discountMemberAgeRangeModel;
+
+import java.util.ArrayList;
 
 public class DBAccess implements DataAccess{
 
     MemberAddress findMemberAdressByNationalNumber(Integer nationalNumber){
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ArrayList<discountMemberAgeRangeModel> findMembersWithDiscountFromAgeRange(Integer ageMin, Integer ageMax);
 }
