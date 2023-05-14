@@ -18,11 +18,10 @@ public class SingletonConnection {
                         "root",
                             password);
             }
+            return uniqueConnection;
         } catch (SQLException sqlException) {
-            String message = "Erreur lors de la connexion à la base de données libiavelo.";
-            throw new ConnectionException(message);
+            throw new ConnectionException("Erreur lors de la connexion à la base de données libiavelo.");
 
         }
-        return uniqueConnection;
     }
 }
