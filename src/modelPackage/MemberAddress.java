@@ -3,18 +3,32 @@ package modelPackage;
 public class MemberAddress {
     String lastName;
     String firstName;
-    Integer postalCode;
-    String locality;
-    Integer streetNumber;
-    String street;
+    String address;
 
-    public MemberAddress(String lastName, String firstName, Integer postalCode,
-                         String locality, Integer streetNumber, String street){
+    public MemberAddress(){
+    }
+
+    public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
-        this.postalCode = postalCode;
-        this.locality = locality;
-        this.streetNumber = streetNumber;
-        this.street = street;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getAddress() {
+        return address;
     }
 }
