@@ -66,8 +66,8 @@ public class DBAccess implements DataAccess{
 
             //Creation du preparedStatement a partir de l'instruction sql
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setDate(1, new java.sql.Date(dateMin.getTimeInMillis()));
-            preparedStatement.setDate(2, new java.sql.Date(dateMax.getTimeInMillis()));
+            preparedStatement.setDate(1, new java.sql.Date(dateMax.getTimeInMillis()));
+            preparedStatement.setDate(2, new java.sql.Date(dateMin.getTimeInMillis()));
 
             // executer la requete et recuperer le resultat
             ResultSet data = preparedStatement.executeQuery();
