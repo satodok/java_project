@@ -4,7 +4,6 @@ import controllerPackage.ApplicationController;
 import exceptionPackage.ConnectionException;
 import exceptionPackage.UnfoundResearchException;
 import modelPackage.DiscountMember;
-import modelPackage.MemberAddress;
 
 import javax.swing.*;
 import java.util.ArrayList;
