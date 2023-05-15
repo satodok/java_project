@@ -95,7 +95,7 @@ public class MenuWindow extends JFrame{
 
         myInformations.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                MemberInformations memberInformations = new MemberInformations();
+                MemberInformationsPanel memberInformations = new MemberInformationsPanel();
                 memberInformations.setVisible(true);
             }
         });

@@ -239,11 +239,11 @@ public class DBAccess implements DataAccess{
             MemberInformations memberInformations;
             Connection connection = SingletonConnection.getInstance("Haloreach89");
             // Instruction
-            String sqlInstruction = "SELECT m.firstName, m.lastName, m.birthDate, m.phoneNumber, m.gender, m.email, m.newsletter\n" +
-                    "FROM libiavelo.member m\n" +
-                    "JOIN libiavelo.address a ON (m.street = a.street AND m.streetNumber = a.streetNumber)\n" +
-                    "JOIN libiavelo.locality l ON (l.postalCode = a.postalCode AND l.name = a.locality)\n" +
-                    "WHERE m.nationalNumber = ? ";
+            String sqlInstruction = "SELECT m.firstName, m.lastName, m.birthDate, m.phoneNumber, m.gender, m.email, m.newsletter, m.street, m.streetNumber, m.clientNumber " +
+                    "FROM libiavelo.member m " +
+                    "JOIN libiavelo.address a ON (m.street = a.street AND m.streetNumber = a.streetNumber) " +
+                    "JOIN libiavelo.locality l ON (l.postalCode = a.postalCode AND l.name = a.locality)  " +
+                    "WHERE m.nationalNumber = ?";
             //Creation du preparedStatement a partir de l'instruction sql
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setString(1, nationalNumber);
