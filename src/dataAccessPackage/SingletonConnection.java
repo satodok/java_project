@@ -8,7 +8,6 @@ import java.sql.*;
 public class SingletonConnection {
     private static Connection uniqueConnection;
     private SingletonConnection() {
-
     }
 
     public static Connection getInstance(String password) throws ConnectionException {

@@ -15,7 +15,7 @@ public class DBAccess implements DataAccess{
         try{
             MemberAddress memberAddress;
             System.out.println("Ok");
-            Connection connection = SingletonConnection.getInstance("Haloreach89");
+            Connection connection = SingletonConnection.getInstance("mdp");
             System.out.println("Ok numero 2");
             // Instruction
             String sqlInstruction = "SELECT m.firstName, m.lastName, a.street, a.streetNumber, l.postalCode, l.name\n" +
@@ -23,6 +23,7 @@ public class DBAccess implements DataAccess{
                     "JOIN libiavelo.address a ON (m.street = a.street AND m.streetNumber = a.streetNumber)\n" +
                     "JOIN libiavelo.locality l ON(l.postalCode = a.postalCode AND l.name = a.locality)\n" +
                     "WHERE m.nationalNumber = ?";
+
             //Creation du preparedStatement a partir de l'instruction sql
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setInt(1, nationalNumber);
