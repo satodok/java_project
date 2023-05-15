@@ -25,7 +25,7 @@ public class BusinessManager {
             return dao.findMemberAdressByNationalNumber(nationalNumber);
     }
 
-    public ArrayList<DiscountMember> findMembersWithDiscountFromAgeRange(Integer ageMin, Integer ageMax) throws UnfoundResearchException, ConnectionException{
+    public ArrayList<DiscountMember> findMembersWithDiscountFromAgeRange(Integer ageMin, Integer ageMax) throws UnfoundResearchException, ConnectionException, MemberDiscountException{
 
         GregorianCalendar dateMin, dateMax;
 
@@ -33,8 +33,8 @@ public class BusinessManager {
         int transformationDateMin = currentYear - ageMin;
         int transformationDateMax = currentYear - ageMax;
 
-        dateMin = new GregorianCalendar(transformationDateMin, 0, 1);
-        dateMax = new GregorianCalendar(transformationDateMax, 0, 1);
+        dateMax = new GregorianCalendar(transformationDateMin, 11, 31);
+        dateMin = new GregorianCalendar(transformationDateMax, 0, 1);
 
         return dao.findMembersWithDiscountFromAgeRange(dateMin, dateMax);
     }

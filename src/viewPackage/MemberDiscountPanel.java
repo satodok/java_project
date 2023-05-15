@@ -2,6 +2,7 @@ package viewPackage;
 
 import controllerPackage.ApplicationController;
 import exceptionPackage.ConnectionException;
+import exceptionPackage.MemberDiscountException;
 import exceptionPackage.UnfoundResearchException;
 import modelPackage.DiscountMember;
 
@@ -18,6 +19,7 @@ public class MemberDiscountPanel extends JFrame {
         super("Research member discount");
         this.setBounds(100,100,400,400);
         setController(new ApplicationController());
+
         ageMinInput = JOptionPane.showInputDialog(null, "Please enter the minimum age");
         ageMin = Integer.parseInt(ageMinInput);
         ageMaxInput = JOptionPane.showInputDialog(null, "Please enter the maximum age");
@@ -38,6 +40,10 @@ public class MemberDiscountPanel extends JFrame {
         }
         catch(ConnectionException connectionException){
             JOptionPane.showMessageDialog(null, connectionException.getMessage(),
+                    "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+        catch(MemberDiscountException memberDiscountException){
+            JOptionPane.showMessageDialog(null, memberDiscountException.getMessage(),
                     "Erreur", JOptionPane.ERROR_MESSAGE);
         }
 

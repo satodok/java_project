@@ -22,7 +22,7 @@ public class ApplicationController {
         return businessManager.findMemberAdressByNationalNumber(nationalNumber);
     }
 
-    public ArrayList<DiscountMember> findMembersWithDiscountFromAgeRange(Integer ageMin, Integer ageMax) throws UnfoundResearchException, ConnectionException{
+    public ArrayList<DiscountMember> findMembersWithDiscountFromAgeRange(Integer ageMin, Integer ageMax) throws UnfoundResearchException, ConnectionException, MemberDiscountException{
         return businessManager.findMembersWithDiscountFromAgeRange(ageMin, ageMax);
     }
 
