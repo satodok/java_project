@@ -2,6 +2,11 @@ package businessPackage;
 import modelPackage.*;
 import exceptionPackage.*;
 import dataAccessPackage.*;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 public class BusinessManager {
     private DataAccess dao;
     public BusinessManager(){
@@ -14,5 +19,19 @@ public class BusinessManager {
 
     public MemberAddress findMemberAdressByNationalNumber(Integer nationalNumber) throws UnfoundResearchException,ConnectionException{
             return dao.findMemberAdressByNationalNumber(nationalNumber);
+    }
+
+    public ArrayList<DiscountMember> findMembersWithDiscountFromAgeRange(Integer ageMin, Integer ageMax) throws UnfoundResearchException, ConnectionException{
+
+        GregorianCalendar dateMin, dateMax;
+
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        int transformationDateMin = currentYear - ageMin;
+        int transformationDateMax = currentYear - ageMax;
+
+        dateMin = new GregorianCalendar(transformationDateMin, 0, 1);
+        dateMax = new GregorianCalendar(transformationDateMax, 0, 1);
+
+        return dao.findMembersWithDiscountFromAgeRange(dateMin, dateMax);
     }
 }

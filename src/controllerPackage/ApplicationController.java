@@ -3,6 +3,9 @@ package controllerPackage;
 import modelPackage.*;
 import businessPackage.*;
 import exceptionPackage.*;
+
+import java.util.ArrayList;
+
 public class ApplicationController {
 
     private BusinessManager businessManager;
@@ -13,6 +16,10 @@ public class ApplicationController {
 
     public MemberAddress findMemberAdressByNationalNumber(Integer nationalNumber) throws UnfoundResearchException,ConnectionException{
         return businessManager.findMemberAdressByNationalNumber(nationalNumber);
+    }
+
+    public ArrayList<DiscountMember> findMembersWithDiscountFromAgeRange(Integer ageMin, Integer ageMax) throws UnfoundResearchException, ConnectionException{
+        return businessManager.findMembersWithDiscountFromAgeRange(ageMin, ageMax);
     }
 
 }

@@ -43,7 +43,7 @@ public class DiscountMemberModel extends AbstractTableModel {
         switch (column) {
             case 0: c = String.class; break;
             case 1: c = String.class; break;
-            case 2: c = Integer.class; break;
+            case 2: c = Double.class; break;
             case 3: c = Integer.class; break;
             default: c = String.class;
         }

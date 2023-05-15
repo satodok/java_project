@@ -15,7 +15,7 @@ public class DBAccess implements DataAccess{
         try{
             MemberAddress memberAddress;
             System.out.println("Ok");
-            Connection connection = SingletonConnection.getInstance("Haloreach89");
+            Connection connection = SingletonConnection.getInstance("mdp");
             System.out.println("Ok numero 2");
             // Instruction
             String sqlInstruction = "SELECT m.firstName, m.lastName, a.street, a.streetNumber, l.postalCode, l.name\n" +
@@ -23,6 +23,7 @@ public class DBAccess implements DataAccess{
                     "JOIN libiavelo.address a ON (m.street = a.street AND m.streetNumber = a.streetNumber)\n" +
                     "JOIN libiavelo.locality l ON(l.postalCode = a.postalCode AND l.name = a.locality)\n" +
                     "WHERE m.nationalNumber = ?";
+
             //Creation du preparedStatement a partir de l'instruction sql
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setInt(1, nationalNumber);
@@ -53,7 +54,7 @@ public class DBAccess implements DataAccess{
     public ArrayList<DiscountMember> findMembersWithDiscountFromAgeRange(GregorianCalendar dateMin, GregorianCalendar dateMax) throws UnfoundResearchException, ConnectionException{
 
         try {
-            Connection connection = SingletonConnection.getInstance("mdp");
+            Connection connection = SingletonConnection.getInstance("Fr!te1017");
             // Instruction
             String sql = "SELECT m.firstName, m.lastName, s.discount, c.clientNumber\n" +
                     "from member m\n" +
@@ -65,15 +66,16 @@ public class DBAccess implements DataAccess{
 
             //Creation du preparedStatement a partir de l'instruction sql
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setDate(1, new java.sql.Date(dateMin.getTimeInMillis()));
-            preparedStatement.setDate(2, new java.sql.Date(dateMax.getTimeInMillis()));
+            preparedStatement.setDate(1, new java.sql.Date(dateMax.getTimeInMillis()));
+            preparedStatement.setDate(2, new java.sql.Date(dateMin.getTimeInMillis()));
 
             // executer la requete et recuperer le resultat
             ResultSet data = preparedStatement.executeQuery();
 
             DiscountMember member;
             String firstName, lastName;
-            int discount, clientNumber;
+            Double discount;
+            int  clientNumber;
             ArrayList<DiscountMember> members = new ArrayList<>();
 
             while(data.next()) {
@@ -85,7 +87,7 @@ public class DBAccess implements DataAccess{
                 lastName = data.getString("lastName");
                 member.setLastName(lastName);
 
-                discount = data.getInt("discount");
+                discount = data.getDouble("discount");
                 member.setDiscount(discount);
 
                 clientNumber = data.getInt("clientNumber");
