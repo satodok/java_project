@@ -126,7 +126,7 @@ public class MenuWindow extends JFrame{
 
         searchMembersWithDiscount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                MemberDiscountPanel memberDiscountPanel = new MemberDiscountPanel();
+                DiscountMemberPanel memberDiscountPanel = new DiscountMemberPanel();
             }
         });
 

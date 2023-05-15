@@ -9,13 +9,13 @@ import modelPackage.DiscountMember;
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class MemberDiscountPanel extends JFrame {
+public class DiscountMemberPanel extends JFrame {
 
     private ApplicationController controller;
     private String ageMinInput, ageMaxInput;
     private Integer ageMin, ageMax;
 
-    public MemberDiscountPanel(){
+    public DiscountMemberPanel(){
         super("Research member discount");
         this.setBounds(100,100,400,400);
         setController(new ApplicationController());
