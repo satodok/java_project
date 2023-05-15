@@ -1,7 +1,6 @@
 package viewPackage;
 
 import controllerPackage.ApplicationController;
-import exceptionPackage.AllNationalNumbersException;
 import exceptionPackage.ConnectionException;
 import exceptionPackage.UnfoundResearchException;
 import modelPackage.MemberAddress;
@@ -10,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class MemberAddressPanel extends JFrame {
     private ApplicationController controller;
@@ -78,7 +76,7 @@ public class MemberAddressPanel extends JFrame {
             });
 
         }
-        catch (AllNationalNumbersException | ConnectionException exception) {
+        catch (UnfoundResearchException | ConnectionException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
     }

@@ -18,7 +18,7 @@ public class BusinessManager {
     }
 
     //Recherche 1
-    public ArrayList<String> getAllNationalNumbers() throws ConnectionException, AllNationalNumbersException{
+    public ArrayList<String> getAllNationalNumbers() throws ConnectionException, UnfoundResearchException{
         return dao.getAllNationalNumbers();
     }
 
@@ -42,7 +42,7 @@ public class BusinessManager {
     }
 
     //Recherche 3
-    public ArrayList<Member> findMembersFromSubscriptionPlan(String subscriptionType) throws ConnectionException, SubscriptionTypeException{
+    public ArrayList<Member> findMembersFromSubscriptionPlan(String subscriptionType) throws ConnectionException, UnfoundResearchException{
         return dao.findMembersFromSubscriptionPlan(subscriptionType);
     }
 
