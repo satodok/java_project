@@ -17,14 +17,16 @@ public class BusinessManager {
         this.dao = dao;
     }
 
+    //Recherche 1
     public ArrayList<String> getAllNationalNumbers() throws ConnectionException, AllNationalNumbersException{
         return dao.getAllNationalNumbers();
     }
 
-    public MemberAddress findMemberAdressByNationalNumber(String nationalNumber) throws UnfoundResearchException,ConnectionException{
-            return dao.findMemberAdressByNationalNumber(nationalNumber);
+    public MemberAddress findMemberAddressByNationalNumber(String nationalNumber) throws UnfoundResearchException,ConnectionException{
+            return dao.findMemberAddressByNationalNumber(nationalNumber);
     }
 
+    // Recherche 2
     public ArrayList<DiscountMember> findMembersWithDiscountFromAgeRange(Integer ageMin, Integer ageMax) throws UnfoundResearchException, ConnectionException, MemberDiscountException{
 
         GregorianCalendar dateMin, dateMax;
@@ -38,4 +40,10 @@ public class BusinessManager {
 
         return dao.findMembersWithDiscountFromAgeRange(dateMin, dateMax);
     }
+
+    //Recherche 3
+    public ArrayList<Member> findMembersFromSubscriptionPlan(String subscriptionType) throws ConnectionException, SubscriptionTypeException{
+        return dao.findMembersFromSubscriptionPlan(subscriptionType);
+    }
+
 }
