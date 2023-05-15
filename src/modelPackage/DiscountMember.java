@@ -3,7 +3,7 @@ package modelPackage;
 public class DiscountMember {
     private String firstName;
     private String lastName;
-    private Integer discount;
+    private Double discount;
     private Integer clientNumber;
 
     public DiscountMember(){}
@@ -25,11 +25,11 @@ public class DiscountMember {
         this.lastName = lastName;
     }
 
-    public Integer getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Integer discount) {
+    public void setDiscount(Double discount) {
         this.discount = discount;
     }
 

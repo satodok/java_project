@@ -74,7 +74,8 @@ public class DBAccess implements DataAccess{
 
             DiscountMember member;
             String firstName, lastName;
-            int discount, clientNumber;
+            Double discount;
+            int  clientNumber;
             ArrayList<DiscountMember> members = new ArrayList<>();
 
             while(data.next()) {
@@ -86,7 +87,7 @@ public class DBAccess implements DataAccess{
                 lastName = data.getString("lastName");
                 member.setLastName(lastName);
 
-                discount = data.getInt("discount");
+                discount = data.getDouble("discount");
                 member.setDiscount(discount);
 
                 clientNumber = data.getInt("clientNumber");
