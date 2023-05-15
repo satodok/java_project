@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import exceptionPackage.AllNationalNumbersException;
 import modelPackage.MemberInformations;
 import exceptionPackage.ConnectionException;
 import exceptionPackage.UnfoundResearchException;
