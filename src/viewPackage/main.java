@@ -1,7 +1,7 @@
 package viewPackage;
 
-public class main {
+public class Main {
     public static void main(String[] args) {
-        MenuWindow menuWindow = new MenuWindow();
+        new MenuWindow();
     }
 }
