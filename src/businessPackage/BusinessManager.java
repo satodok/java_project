@@ -3,6 +3,7 @@ import modelPackage.*;
 import exceptionPackage.*;
 import dataAccessPackage.*;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -50,5 +51,10 @@ public class BusinessManager {
 
     public MemberInformations findMemberInformationsByNationalNumber(String nationalNumber) throws UnfoundResearchException,ConnectionException{
         return dao.findMemberInformationsByNationalNumber(nationalNumber);
+    }
+
+    //recherche 4
+    public ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, RentalDetailsException{
+        return dao.findRentalDetailsFromDateRange(startDate, endDate);
     }
 }

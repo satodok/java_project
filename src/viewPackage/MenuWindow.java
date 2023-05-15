@@ -143,7 +143,7 @@ public class MenuWindow extends JFrame{
         searchRentalsDetails.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MemberSubscriptionPanel memberSubscriptionPanel = new MemberSubscriptionPanel();
+                RentalDetailsInformationPanel rentalDetailsInformationPanel = new RentalDetailsInformationPanel();
             }
         });
 

@@ -4,6 +4,7 @@ import modelPackage.*;
 import businessPackage.*;
 import exceptionPackage.*;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class ApplicationController {
@@ -36,6 +37,11 @@ public class ApplicationController {
     //CRUD member
     public MemberInformations findMemberInformationsByNationalNumber(String nationalNumber) throws UnfoundResearchException,ConnectionException{
         return businessManager.findMemberInformationsByNationalNumber(nationalNumber);
+    }
+
+    //Recherche 4
+    public ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, RentalDetailsException{
+        return businessManager.findRentalDetailsFromDateRange(startDate, endDate);
     }
 
 }
