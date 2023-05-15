@@ -17,7 +17,11 @@ public class BusinessManager {
         this.dao = dao;
     }
 
-    public MemberAddress findMemberAdressByNationalNumber(Integer nationalNumber) throws UnfoundResearchException,ConnectionException{
+    public ArrayList<String> getAllNationalNumbers() throws ConnectionException, AllNationalNumbersException{
+        return dao.getAllNationalNumbers();
+    }
+
+    public MemberAddress findMemberAdressByNationalNumber(String nationalNumber) throws UnfoundResearchException,ConnectionException{
             return dao.findMemberAdressByNationalNumber(nationalNumber);
     }
 

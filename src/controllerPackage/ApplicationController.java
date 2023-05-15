@@ -14,7 +14,11 @@ public class ApplicationController {
         businessManager = new BusinessManager();
     }
 
-    public MemberAddress findMemberAdressByNationalNumber(Integer nationalNumber) throws UnfoundResearchException,ConnectionException{
+    public ArrayList<String> getAllNationalNumbers() throws ConnectionException, AllNationalNumbersException{
+        return businessManager.getAllNationalNumbers();
+    }
+
+    public MemberAddress findMemberAdressByNationalNumber(String nationalNumber) throws UnfoundResearchException,ConnectionException{
         return businessManager.findMemberAdressByNationalNumber(nationalNumber);
     }
 
