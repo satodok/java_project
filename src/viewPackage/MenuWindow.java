@@ -1,7 +1,6 @@
 package viewPackage;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
 public class MenuWindow extends JFrame{
@@ -119,6 +118,12 @@ public class MenuWindow extends JFrame{
         searchMemberAddress.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 MemberAddressPanel memberAddressPanel = new MemberAddressPanel();
+            }
+        });
+
+        searchMembersWithDiscount.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                MemberDiscountPanel memberDiscountPanel = new MemberDiscountPanel();
             }
         });
 

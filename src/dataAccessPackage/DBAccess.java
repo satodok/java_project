@@ -54,7 +54,7 @@ public class DBAccess implements DataAccess{
     public ArrayList<DiscountMember> findMembersWithDiscountFromAgeRange(GregorianCalendar dateMin, GregorianCalendar dateMax) throws UnfoundResearchException, ConnectionException{
 
         try {
-            Connection connection = SingletonConnection.getInstance("mdp");
+            Connection connection = SingletonConnection.getInstance("Fr!te1017");
             // Instruction
             String sql = "SELECT m.firstName, m.lastName, s.discount, c.clientNumber\n" +
                     "from member m\n" +
