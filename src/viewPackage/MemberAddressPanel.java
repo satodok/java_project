@@ -14,33 +14,42 @@ import java.util.ArrayList;
 
 public class MemberAddressPanel extends JFrame {
     private ApplicationController controller;
-    private String nationalNumberInupt;
     private String nationalNumber;
+    private JLabel nationalNumberLabel;
     private JComboBox<String> nationalNumbersComboBox;
     private JPanel comboBoxPanel;
+    private JButton researchButton;
+    private MemberAddress memberAddress;
+    private MemberAddressModel model;
+    private JScrollPane scrollPane;
+    private JTable table;
+
     public MemberAddressPanel() {
         super("Research member address");
-        this.setBounds(100,100,600,600);
+        this.setBounds(100, 100, 600, 600);
         setController(new ApplicationController());
 
         try {
             // Créer la JComboBox et ajouter des numéros nationaux à partir de getAllNationalNumbers()
-            nationalNumbersComboBox = new JComboBox<String>();
+            nationalNumberLabel = new JLabel("Choose a national number");
+            nationalNumbersComboBox = new JComboBox<>();
+
             for (String nationalNumber : controller.getAllNationalNumbers()) {
                 nationalNumbersComboBox.addItem(nationalNumber);
             }
 
             // Ajouter la JComboBox à un panneau
             comboBoxPanel = new JPanel();
+            comboBoxPanel.add(nationalNumberLabel);
             comboBoxPanel.add(nationalNumbersComboBox);
             setVisible(true);
-            add(comboBoxPanel);
-            JButton researchButton = new JButton("Search");
+            add(comboBoxPanel, BorderLayout.NORTH);
+
+            //Ajouter un bouton de recherche
+            researchButton = new JButton("Search");
             comboBoxPanel.add(researchButton);
 
-            // Ajouter le panneau à un conteneur
-
-            // Ajouter un écouteur d'événements pour la JComboBox
+            // Ajouter un écouteur d'événements pour le bouton
             researchButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -49,30 +58,36 @@ public class MemberAddressPanel extends JFrame {
 
                     // Lancer la recherche
                     try {
-                        MemberAddress memberAddress = controller.findMemberAdressByNationalNumber(nationalNumber);
-                        MemberAddressModel model = new MemberAddressModel(memberAddress);
+                        memberAddress = controller.findMemberAdressByNationalNumber(nationalNumber);
+                        model = new MemberAddressModel(memberAddress);
 
+                        // Vider la JTable si des infos ont déjà été affichées avec le bouton search
+                        if (scrollPane != null) {
+                            remove(scrollPane);
+                        }
                         //Afficher le resultat de la recherche
-                        JTable table = new JTable(model);
-                        JScrollPane scrollPane = new JScrollPane(table);
-                        add(scrollPane, BorderLayout.SOUTH);
-
+                        table = new JTable(model);
+                        scrollPane = new JScrollPane(table);
+                        add(scrollPane, BorderLayout.CENTER);
                         setVisible(true);
-                    } catch (UnfoundResearchException | ConnectionException exception) {
+                    }
+                    catch (UnfoundResearchException | ConnectionException exception) {
                         JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
 
-        } catch (AllNationalNumbersException | ConnectionException exception ) {
+        }
+        catch (AllNationalNumbersException | ConnectionException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
+    private void setController(ApplicationController controller) {
 
-
-
-
-    public void setController(ApplicationController controller) {
         this.controller = controller;
     }
 }
+
+
+
+

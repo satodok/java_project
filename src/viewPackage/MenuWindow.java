@@ -32,6 +32,7 @@ public class MenuWindow extends JFrame{
     // Researches items
     private JMenuItem searchMemberAddress;
     private JMenuItem searchMembersWithDiscount;
+    private JMenuItem searchMembersSubscriptionPlan;
 
 
     public MenuWindow(){
@@ -78,6 +79,8 @@ public class MenuWindow extends JFrame{
         researches.add(searchMemberAddress);
         searchMembersWithDiscount = new JMenuItem("Search members with discount");
         researches.add(searchMembersWithDiscount);
+        searchMembersSubscriptionPlan = new JMenuItem("Search members from subscription plan");
+        researches.add(searchMembersSubscriptionPlan);
 
         register.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -124,6 +127,13 @@ public class MenuWindow extends JFrame{
         searchMembersWithDiscount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 MemberDiscountPanel memberDiscountPanel = new MemberDiscountPanel();
+            }
+        });
+
+        searchMembersSubscriptionPlan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MemberSubscriptionPanel memberSubscriptionPanel = new MemberSubscriptionPanel();
             }
         });
 
