@@ -11,7 +11,7 @@ public class DBAccess implements DataAccess{
 
     // Recherche numéro 1
     @Override
-    public ArrayList<String> getAllNationalNumbers() throws ConnectionException, AllNationalNumbersException{
+    public ArrayList<String> getAllNationalNumbers() throws ConnectionException, UnfoundResearchException{
         try{
             ArrayList<String>nationalNumbers = new ArrayList<>();
             Connection connection = SingletonConnection.getInstance("Haloreach89");
@@ -28,7 +28,7 @@ public class DBAccess implements DataAccess{
             return nationalNumbers;
         }
         catch(SQLException sqlException){
-            throw new AllNationalNumbersException("Erreur : échec de récupération des numéros nationaux.");
+            throw new UnfoundResearchException("Erreur : aucun résultat ne correspond à votre recherche.");
         }
         }
 
@@ -129,7 +129,7 @@ public class DBAccess implements DataAccess{
 
 
     @Override
-    public ArrayList<Member> findMembersFromSubscriptionPlan(String subscriptionType) throws ConnectionException, SubscriptionTypeException {
+    public ArrayList<Member> findMembersFromSubscriptionPlan(String subscriptionType) throws ConnectionException, UnfoundResearchException {
         try{
             Connection connection = SingletonConnection.getInstance("Haloreach89");
             // Instruction SQL
@@ -162,7 +162,7 @@ public class DBAccess implements DataAccess{
 
         }
         catch(SQLException sqlException){
-            throw new SubscriptionTypeException("Erreur : veuillez entrer un des 3 types proposés -> BRONZE,SILVER,GOLD");
+            throw new  UnfoundResearchException("Erreur : aucun résultat ne correspond à votre recherche.");
         }
     }
 

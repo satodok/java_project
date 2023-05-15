@@ -2,9 +2,8 @@ package viewPackage;
 
 import controllerPackage.ApplicationController;
 import exceptionPackage.ConnectionException;
-import exceptionPackage.SubscriptionTypeException;
+import exceptionPackage.UnfoundResearchException;
 import modelPackage.Member;
-import modelPackage.MemberAddress;
 
 import javax.swing.*;
 import java.awt.*;
@@ -67,7 +66,7 @@ public class MemberSubscriptionPanel extends JFrame{
                     add(scrollPane, BorderLayout.CENTER);
                     setVisible(true);
                 }
-                catch (SubscriptionTypeException | ConnectionException exception) {
+                catch (UnfoundResearchException | ConnectionException exception) {
                     JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
 
