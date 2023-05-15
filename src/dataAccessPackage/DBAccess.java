@@ -165,4 +165,72 @@ public class DBAccess implements DataAccess{
             throw new SubscriptionTypeException("Erreur : veuillez entrer un des 3 types proposés -> BRONZE,SILVER,GOLD");
         }
     }
+
+    //recherche 4
+
+
+    @Override
+    public ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, RentalDetailsException{
+        try {
+            Connection connection = SingletonConnection.getInstance("Fr!te1017");
+            // Instruction
+            String sql = "Select s.name, b.typeName, c.clientNumber, m.firstName, m.lastName\n" +
+                    "from station s\n" +
+                    "inner join rental r\n" +
+                    "on s.stationNumber = r.stationNumber\n" +
+                    "inner join bike b\n" +
+                    "on b.serialNumber = r.bikeSerialNumber\n" +
+                    "inner join type t\n" +
+                    "on t.typeName = b.typeName\n" +
+                    "inner join card c\n" +
+                    "on c.clientNumber = r.clientNumber\n" +
+                    "inner join member m\n" +
+                    "on m.clientNumber = c.clientNumber\n" +
+                    "where r.startDate > ? And r.returnDate < ?;";
+
+            //Creation du preparedStatement a partir de l'instruction sql
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, startDate);
+            preparedStatement.setDate(2, endDate);
+
+            // executer la requete et recuperer le resultat
+            ResultSet data = preparedStatement.executeQuery();
+
+            RentalDetailsInformation rental;
+            String firstName, lastName, name, type;
+            int clientNumber;
+
+            ArrayList<RentalDetailsInformation> rentals = new ArrayList<>();
+
+            while(data.next()) {
+                rental = new RentalDetailsInformation();
+
+                name = data.getString("name");
+                rental.setName(name);
+
+                type = data.getString("type");
+                rental.setType(type);
+
+                clientNumber = data.getInt("clientNumber");
+                rental.setClientNumber(clientNumber);
+
+                firstName = data.getString("firstName");
+                rental.setFirstName(firstName);
+
+                lastName = data.getString("lastName");
+                rental.setLastName(lastName);
+
+                rentals.add(rental);
+            }
+
+            if(rentals.isEmpty()){
+                throw new UnfoundResearchException("Erreur : aucun résultat ne correspond à votre recherche.");
+            }
+
+            return rentals;
+
+        } catch (SQLException sqlException) {
+            throw new RentalDetailsException("Erreur : a revoir plus tard");
+        }
+    }
 }
