@@ -33,4 +33,9 @@ public class ApplicationController {
         return businessManager.findMembersFromSubscriptionPlan(subscriptionType);
     }
 
+    //CRUD member
+    public MemberInformations findMemberInformationsByNationalNumber(String nationalNumber) throws UnfoundResearchException,ConnectionException{
+        return businessManager.findMemberInformationsByNationalNumber(nationalNumber);
+    }
+
 }

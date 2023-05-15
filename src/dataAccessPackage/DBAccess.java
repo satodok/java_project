@@ -234,7 +234,7 @@ public class DBAccess implements DataAccess{
         }
     }
     @Override
-    public MemberInformations findMemberInformationsByNationalNumber(Integer nationalNumber) throws UnfoundResearchException, ConnectionException {
+    public MemberInformations findMemberInformationsByNationalNumber(String nationalNumber) throws UnfoundResearchException, ConnectionException {
         try {
             MemberInformations memberInformations;
             Connection connection = SingletonConnection.getInstance("Haloreach89");
@@ -246,7 +246,7 @@ public class DBAccess implements DataAccess{
                     "WHERE m.nationalNumber = ? ";
             //Creation du preparedStatement a partir de l'instruction sql
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-            preparedStatement.setInt(1, nationalNumber);
+            preparedStatement.setString(1, nationalNumber);
 
             // executer la requete et recuperer le resultat
             ResultSet data = preparedStatement.executeQuery();

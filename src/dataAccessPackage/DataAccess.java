@@ -15,7 +15,7 @@ public interface DataAccess {
     public ArrayList<DiscountMember> findMembersWithDiscountFromAgeRange(GregorianCalendar dateMin, GregorianCalendar dateMax) throws UnfoundResearchException, ConnectionException;
     public ArrayList <Member> findMembersFromSubscriptionPlan(String subscriptionType) throws ConnectionException,SubscriptionTypeException;
     public ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, RentalDetailsException;
-    public MemberInformations findMemberInformationsByNationalNumber(Integer nationalNumber) throws UnfoundResearchException, ConnectionException;
+    public MemberInformations findMemberInformationsByNationalNumber(String nationalNumber) throws UnfoundResearchException, ConnectionException;
 
 
 }

@@ -46,4 +46,9 @@ public class BusinessManager {
         return dao.findMembersFromSubscriptionPlan(subscriptionType);
     }
 
+    // CRUD member
+
+    public MemberInformations findMemberInformationsByNationalNumber(String nationalNumber) throws UnfoundResearchException,ConnectionException{
+        return dao.findMemberInformationsByNationalNumber(nationalNumber);
+    }
 }
