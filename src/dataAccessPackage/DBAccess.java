@@ -233,4 +233,50 @@ public class DBAccess implements DataAccess{
             throw new RentalDetailsException("Erreur : a revoir plus tard");
         }
     }
+    @Override
+    public MemberInformations findMemberInformationsByNationalNumber(Integer nationalNumber) throws UnfoundResearchException, ConnectionException {
+        try {
+            MemberInformations memberInformations;
+            Connection connection = SingletonConnection.getInstance("Haloreach89");
+            // Instruction
+            String sqlInstruction = "SELECT m.firstName, m.lastName, m.birthDate, m.phoneNumber, m.gender, m.email, m.newsletter\n" +
+                    "FROM locationvelo.member m\n" +
+                    "JOIN locationvelo.address a ON (m.street = a.street AND m.streetNumber = a.streetNumber)\n" +
+                    "JOIN locationvelo.locality l ON (l.postalCode = a.adress_codePostal AND l.name = a.address_name)\n" +
+                    "WHERE m.nationalNumber = ? ";
+            //Creation du preparedStatement a partir de l'instruction sql
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1, nationalNumber);
+
+            // executer la requete et recuperer le resultat
+            ResultSet data = preparedStatement.executeQuery();
+            data.next();
+            memberInformations = new MemberInformations();
+            String lastName = data.getString("lastName");
+            String firstName = data.getString("firstName");
+            Date birthDate = data.getDate("birthDate");
+            Integer phoneNumber = data.getInt("phoneNumber");
+            String gender = data.getString("gender");
+            String email = data.getString("email");
+            Boolean newsletter = data.getBoolean("newsletter");
+            String street = data.getString("street");
+            String locality = data.getString("name");
+            Integer streetNumber = data.getInt("streetNumber");
+            Integer postalCode = data.getInt("postalCode");
+
+            memberInformations.setFirstName(firstName);
+            memberInformations.setLastName(lastName);
+            memberInformations.setBirthDate(birthDate);
+            memberInformations.setPhoneNumber(phoneNumber);
+            memberInformations.setGender(gender);
+            memberInformations.setEmailAddress(email);
+            memberInformations.setNewsletter(newsletter);
+            memberInformations.setAddress(streetNumber + " "+ street + ", " + postalCode + " " + locality);
+            return memberInformations;
+
+        }
+        catch(SQLException sqlException){
+            throw new UnfoundResearchException("Erreur : aucun résultat ne correspond à votre recherche.");
+        }
+    }
 }
