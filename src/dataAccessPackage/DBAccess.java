@@ -9,14 +9,36 @@ import java.util.GregorianCalendar;
 
 public class DBAccess implements DataAccess{
 
+    // Recherche numéro 1
     @Override
-    public MemberAddress findMemberAdressByNationalNumber(Integer nationalNumber) throws UnfoundResearchException, ConnectionException{
+    public ArrayList<String> getAllNationalNumbers() throws ConnectionException, AllNationalNumbersException{
+        try{
+            ArrayList<String>nationalNumbers = new ArrayList<>();
+            Connection connection = SingletonConnection.getInstance("Haloreach89");
+            String sqlInstruction = "SELECT nationalNumber FROM libiavelo.member";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            ResultSet data = preparedStatement.executeQuery();
+            String nationalNumber;
+
+            while(data.next()){
+                nationalNumber = data.getString("nationalNumber");
+                nationalNumbers.add(nationalNumber);
+            }
+            return nationalNumbers;
+        }
+        catch(SQLException sqlException){
+            throw new AllNationalNumbersException("Erreur : échec de récupération des numéros nationaux.");
+        }
+        }
+
+
+    @Override
+    public MemberAddress findMemberAddressByNationalNumber(String nationalNumber) throws UnfoundResearchException, ConnectionException{
 
         try{
             MemberAddress memberAddress;
-            System.out.println("Ok");
-            Connection connection = SingletonConnection.getInstance("mdp");
-            System.out.println("Ok numero 2");
+            Connection connection = SingletonConnection.getInstance("Haloreach89");
             // Instruction
             String sqlInstruction = "SELECT m.firstName, m.lastName, a.street, a.streetNumber, l.postalCode, l.name\n" +
                     "FROM libiavelo.member m \n" +
@@ -26,7 +48,7 @@ public class DBAccess implements DataAccess{
 
             //Creation du preparedStatement a partir de l'instruction sql
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-            preparedStatement.setInt(1, nationalNumber);
+            preparedStatement.setString(1, nationalNumber);
 
             // executer la requete et recuperer le resultat
             ResultSet data = preparedStatement.executeQuery();
@@ -100,6 +122,47 @@ public class DBAccess implements DataAccess{
 
         } catch (SQLException sqlException) {
             throw new UnfoundResearchException("Erreur : aucun résultat ne correspond à votre recherche.");
+        }
+    }
+
+    // Recherche numéro 3
+
+
+    @Override
+    public ArrayList<Member> findMembersFromSubscriptionPlan(String subscriptionType) throws ConnectionException, SubscriptionTypeException {
+        try{
+            Connection connection = SingletonConnection.getInstance("Haloreach89");
+            // Instruction SQL
+            String sqlInstruction = "SELECT m.firstName, m.lastName, m.clientNumber\n" +
+                    "FROM libiavelo.member m\n" +
+                    "JOIN libiavelo.card c ON (c.clientNumber = m.clientNumber)\n" +
+                    "JOIN libiavelo.subscription sub ON (sub.clientNumber = c.clientNumber)\n" +
+                    "WHERE sub.typeName = ?";
+
+            //Creation du preparedStatement a partir de l'instruction sql
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setString(1, subscriptionType);
+
+            // executer la requete et recuperer le resultat
+            ResultSet data = preparedStatement.executeQuery();
+            Member member;
+            ArrayList<Member>members = new ArrayList<>();
+            while(data.next()){
+                member = new Member();
+                String firstName = data.getString("firstName");
+                member.setFirstName(firstName);
+                String lastName = data.getString("lastName");
+                member.setLastName(lastName);
+                Integer clientNumber = data.getInt("clientNumber");
+                member.setClientNumber(clientNumber);
+
+                members.add(member);
+            }
+            return members;
+
+        }
+        catch(SQLException sqlException){
+            throw new SubscriptionTypeException("Erreur : veuillez entrer un des 3 types proposés -> BRONZE,SILVER,GOLD");
         }
     }
 }
