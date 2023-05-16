@@ -1,11 +1,134 @@
 package viewPackage;
 
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SubscriptionFormPanel extends JPanel {
+    private JPanel formPanel;
+    private JPanel buttonsPanel;
+
+    private JButton validationButton;
+    private JButton reinitialisationButton;
+    private JButton quitButton;
+
+    private JTextField price;
+    private JCheckBox pricePayed;
+    private JCheckBox cautionPayed;
+    private JDateChooser startDate;
+    private JCheckBox automaticRenewal;
+    private JComboBox<String> typeName;
+    private JTextField clientNumber;
+
 
     public SubscriptionFormPanel(){
-        super("Subscribe");
-        this.setBounds(100,100,400,400);
+        formPanel = new JPanel();
+        formPanel.setLayout(new GridLayout(0, 2, 10, 15));
+
+        formPanel.add(new JLabel("Price"));
+        price = new JTextField();
+        formPanel.add(price);
+
+        formPanel.add(new JLabel("Price payed"));
+        pricePayed = new JCheckBox();
+        formPanel.add(pricePayed);
+
+        formPanel.add(new JLabel("Caution payed"));
+        cautionPayed = new JCheckBox();
+        formPanel.add(cautionPayed);
+
+        formPanel.add(new JLabel("Start date"));
+        startDate = new JDateChooser();
+        formPanel.add(startDate);
+
+        formPanel.add(new JLabel("Automatic renewal"));
+        automaticRenewal = new JCheckBox();
+        formPanel.add(automaticRenewal);
+
+        String[] types = {"BRONZE","SILVER","GOLD"};
+        formPanel.add(new JLabel("Type"));
+        typeName = new JComboBox<>(types);
+        formPanel.add(typeName);
+
+        formPanel.add(new JLabel("Client number"));
+        clientNumber = new JTextField();
+        formPanel.add(clientNumber);
+
+        buttonsPanel = new JPanel();
+
+        validationButton = new JButton("Validation");
+        reinitialisationButton = new JButton("Reinitialisation");
+        quitButton = new JButton("Quit");
+
+        buttonsPanel.add(validationButton);
+        buttonsPanel.add(reinitialisationButton);
+        buttonsPanel.add(quitButton);
+
+        add(formPanel,BorderLayout.NORTH);
+        add(buttonsPanel, BorderLayout.SOUTH);
+
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+            }
+        });
+
+        reinitialisationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset the form?", "Validation", JOptionPane.YES_NO_OPTION);
+                if(response == JOptionPane.YES_OPTION) {
+                    resetForm();
+                    JOptionPane.showMessageDialog(null, "Form reset.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+        validationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String errorMessage = checkForm();
+                if (!errorMessage.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+    }
+    public String checkForm(){
+        String errorMessage = "";
+        if (price.getText().isEmpty()) {
+            errorMessage += "Price field is mandatory\n";
+        }
+        if(!price.getText().isEmpty() || !containsOnlyDigits(price.getText())){
+            errorMessage += "The price must only contain digits\n";
+        }
+        if (clientNumber.getText().isEmpty()) {
+            errorMessage += "Price field is mandatory\n";
+        }
+        if(!clientNumber.getText().isEmpty() || !containsOnlyDigits(clientNumber.getText())){
+            errorMessage += "The client number must only contain digits\n";
+        }
+        if (startDate == null) {
+            errorMessage += "Start date field is mandatory\n";
+        }
+
+        return errorMessage;
+    }
+    public void resetForm(){
+        price.setText("");
+        pricePayed.setSelected(false);
+        cautionPayed.setSelected(false);
+        startDate.setDate(null);
+        typeName.setSelectedItem(0);
+        automaticRenewal.setSelected(false);
+        clientNumber.setText("");
+    }
+    public boolean containsOnlyDigits(String str) {
+        // Utiliser une expression régulière pour vérifier si la chaîne ne contient que des chiffres
+        String digitsRegex = "\\d+";
+        return str.matches(digitsRegex);
     }
 }

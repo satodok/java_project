@@ -104,7 +104,8 @@ public class MenuWindow extends JFrame{
         subscribe.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 SubscriptionFormPanel subscribeWindow = new SubscriptionFormPanel();
-                subscribeWindow.setVisible(true);
+                setContentPane(subscribeWindow);
+                revalidate();
             }
         });
 
