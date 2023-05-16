@@ -451,17 +451,17 @@ public class DBAccess implements DataAccess{
 
 
     @Override
-    public void deleteSubscription(int subscriptionID) throws ConnectionException, UnfoundResearchException {
+    public void deleteSubscription(String subscriptionID) throws ConnectionException, UnfoundResearchException {
         try {
             Connection connection = SingletonConnection.getInstance();
             String sqlInstruction = "DELETE FROM libiavelo.subscription \n" +
                     "WHERE subscriptionId = ?;";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-            preparedStatement.setInt(1, subscriptionID);
-            preparedStatement.executeUpdate();
+            preparedStatement.setString(1, subscriptionID);
+            int rowsAffected = preparedStatement.executeUpdate();
 
-        }catch (SQLException sqlException) {
+        } catch (SQLException sqlException) {
             throw new UnfoundResearchException("rien trouvé");
         }
     }

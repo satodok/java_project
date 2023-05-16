@@ -25,5 +25,5 @@ public interface DataAccess {
     public Subscription findSubscriptionBySubscriptionID(String subscriptionID) throws UnfoundResearchException, ConnectionException;
 
     void addNewSubscription(String subscriptionID, int price, Double discount, Date startDate, Date endDate, boolean automaticRenewal, boolean pricePayed, boolean cautionPayed, String typeName, int clientNumber) throws ConnectionException;
-    void deleteSubscription(int subscriptionID) throws ConnectionException, UnfoundResearchException;
+    void deleteSubscription(String subscriptionID) throws ConnectionException, UnfoundResearchException;
 }
