@@ -8,21 +8,22 @@ public class Member {
     private String lastName;
     private String firstName;
     private Date birthDate;
-    private Integer phoneNumber;
+    private String phoneNumber;
     private String gender;
     private String email;
     private Boolean newsletter;
     private String street;
-    private Integer streetNumber;
+    private String streetNumber;
     private Integer clientNumber;
     private String locality;
+    private Integer postalCode;
 
 
     // Constructeur vide pour la recherche numéro 3
     public Member(){}
     public Member(String nationalNumber,String lastName,String firstName, Date birthDate,
-                  Integer phoneNumber, String gender, String email, Boolean newsletter,
-                  String street, Integer streetNumber, String locality){
+                  String phoneNumber, String gender, String email, Boolean newsletter,
+                  String street, String streetNumber, String locality){
         this.nationalNumber = nationalNumber;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -57,6 +58,49 @@ public class Member {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public void setPostalCode(Integer postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public Integer getPostalCode() {
+        return postalCode;
+    }
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public Boolean getNewsletter() {
+        return newsletter;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public String getStreetNumber() {
+        return streetNumber;
+    }
+
+    public String getNationalNumber() {
+        return nationalNumber;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+    public String getGender() {
+        return gender;
     }
 
 }

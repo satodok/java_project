@@ -5,6 +5,7 @@ import java.awt.*;
 import com.toedter.calendar.JDateChooser;
 import controllerPackage.*;
 import exceptionPackage.ConnectionException;
+import exceptionPackage.ExistingElementException;
 import exceptionPackage.UnfoundResearchException;
 import modelPackage.*;
 
@@ -28,7 +29,7 @@ public class RegistrationForm extends JPanel{
     private JTextField firstNameField;
     private JDateChooser birthDateField;
     private JTextField phoneNumberField;
-    private JComboBox<String> genderComboBox;
+    private JTextField genderField;
     private JTextField emailAdressField;
     private JTextField streetField;
     private JTextField streetNumberField;
@@ -37,23 +38,7 @@ public class RegistrationForm extends JPanel{
     private JButton quitButton;
 
 
-    public void resetForm(){
-        nationalNumberField.setText("");
-        lastNameField.setText("");
-        firstNameField.setText("");
-        phoneNumberField.setText("");
-        genderComboBox.setSelectedIndex(0);
-        emailAdressField.setText("");
-        birthDateField.setDate(null);
-        streetField.setText("");
-        streetNumberField.setText("");
-        localityField.setSelectedItem(0);
-        newsletterField.setSelected(false);
-    }
 
-    public boolean validForm(){
-        return false;
-    }
 
     public RegistrationForm(){
         setController(new ApplicationController());
@@ -81,11 +66,8 @@ public class RegistrationForm extends JPanel{
         formPanel.add(phoneNumberField);
 
         formPanel.add(new JLabel("Gender"));
-        genderComboBox = new JComboBox<>();
-        genderComboBox.addItem("Male");
-        genderComboBox.addItem("Female");
-        genderComboBox.addItem("Other");
-        formPanel.add(genderComboBox);
+        genderField = new JTextField();
+        formPanel.add(genderField);
 
         formPanel.add(new JLabel("Email address"));
         emailAdressField = new JTextField();
@@ -152,89 +134,126 @@ public class RegistrationForm extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String errorMessage = "";
-                if (nationalNumberField.getText().isEmpty()) {
-                    errorMessage += "National number field is mandatory\n";
-                }
-                if (!nationalNumberField.getText().isEmpty() && nationalNumberField.getText().length() != 11) {
-                    errorMessage += "Please, enter a nationalNumber of 11 numbers.\n";
-                }
-                if (lastNameField.getText().isEmpty()) {
-                    errorMessage += "Last name field is mandatory\n";
-                }
-                if (firstNameField.getText().isEmpty()) {
-                    errorMessage += "First name field is mandatory\n";
-                }
-                // Vérifier si le nom et le prénom sont valides
-                if (!firstNameField.getText().isEmpty() && !lastNameField.getText().isEmpty() && !validNames()) {
-                    errorMessage += "First name and last name should contain only letters\n";
-                }
-                if (birthDateField.getDate() == null) {
-                    errorMessage += "Birthdate field is mandatory\n";
-                }
-                if (!phoneNumberField.getText().isEmpty()) {
-                    try {
-                        Integer phoneNumber = Integer.parseInt(phoneNumberField.getText());
-
-                    } catch (NumberFormatException ex) {
-                        errorMessage += "Please enter a valid phone number of 10 to 12 numbers.\n";
-                    }
-                }
-                if (emailAdressField.getText().isEmpty()) {
-                    errorMessage += "Email address field is mandatory\n";
-                }
-                if (!emailAdressField.getText().isEmpty() && !isValidEmailAddress(emailAdressField.getText())) {
-                    errorMessage += "Please, enter a valid email address.\n";
-                }
-                if (streetField.getText().isEmpty()) {
-                    errorMessage += "Street field is mandatory\n";
-                }
-                if (!streetField.getText().isEmpty() && containsOnlyDigits(streetField.getText())) {
-                    errorMessage += "Street field should not contain any digits.\n";
-                }
-
-                if (streetNumberField.getText().isEmpty()) {
-                    errorMessage += "Street number field is mandatory\n";
-                }
-                if (!streetNumberField.getText().isEmpty()) {
-                    try {
-                        Integer streetNumber = Integer.parseInt(streetNumberField.getText());
-
-                    } catch (NumberFormatException ex) {
-                        errorMessage += "Please enter a valid street number.\n";
-                    }
-                }
-                if (!newsletterField.isSelected()) {
-                    errorMessage += "NewsLetter field is mandatory\n";
-                }
-
 
                 // Si le message d'erreur n'est pas vide, afficher un msg d'erreur
-                if (errorMessage != "") {
+                String errorMessage = checkForm();
+                if (!errorMessage.isEmpty()) {
                     JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                // Si tout est correct enregistrer les données dans la BD et valider le formulaire
+
+                // Si tout est correct valider le formulaire et enregistrer les données dans la BD
                 else {
+                    // transformer les valeurs facultatives en null si elles sont vides
+                    if(phoneNumberField.getText().isEmpty()){
+                        phoneNumberField.setText(null);
+                    }
+                    if(genderField.getText().isEmpty()){
+                        genderField.setText(null);
+                    }
+                    // Demander la validation du formulaire avant de le sauver
                     int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to validate your registration?", "Validation", JOptionPane.YES_NO_OPTION);
                     if (response == JOptionPane.YES_OPTION) {
-                        Member member = new Member(nationalNumberField.getText(), lastNameField.getText(), firstNameField.getName(),
-                                birthDateField.getDate(), Integer.parseInt(phoneNumberField.getText()),
-                                (String) genderComboBox.getSelectedItem(), emailAdressField.getText(),
-                                newsletterField.isSelected(), streetField.getText(),
-                                Integer.parseInt(streetNumberField.getText()), (String) localityField.getSelectedItem());
-
                         JOptionPane.showMessageDialog(null, "Registration validated.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        setVisible(false);
+                        Member member = new Member(nationalNumberField.getText(), lastNameField.getText(), firstNameField.getText(),
+                                birthDateField.getDate(), phoneNumberField.getText(),
+                                (String) genderField.getText(), emailAdressField.getText(),
+                                newsletterField.isSelected(), streetField.getText(),
+                                streetNumberField.getText(), (String) localityField.getSelectedItem());
+                        try{
+                            controller.addMember(member);
+                        }
+                        catch(ExistingElementException | ConnectionException exception){
+                            JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                        }
+
                     }
                 }
             }
         });
 
     }
+    // Methode permettant de vérifier si le formulaire est valide ou non
+    public String checkForm(){
+        // Verification s'il y a des erreurs ou non
+        String errorMessage = "";
+        if (nationalNumberField.getText().isEmpty()) {
+            errorMessage += "National number field is mandatory\n";
+        }
+        if (!nationalNumberField.getText().isEmpty() && nationalNumberField.getText().length() != 11
+                || !containsOnlyDigits(nationalNumberField.getText())) {
+            errorMessage += "Please, enter a national number of 11 numbers.\n";
+        }
+        if (lastNameField.getText().isEmpty()) {
+            errorMessage += "Last name field is mandatory\n";
+        }
+        if (firstNameField.getText().isEmpty()) {
+            errorMessage += "First name field is mandatory\n";
+        }
+        if (!firstNameField.getText().isEmpty() && !containsOnlyLetters(firstNameField.getText())) {
+            errorMessage += "First name field must contain only letters\n";
+        }
+        if (!lastNameField.getText().isEmpty() && !containsOnlyLetters(lastNameField.getText())) {
+            errorMessage += "Last name field must contain only letters\n";
+        }
+        if (birthDateField.getDate() == null) {
+            errorMessage += "Birth date field is mandatory\n";
+        }
+        if ((!phoneNumberField.getText().isEmpty())){
+            if(!containsOnlyDigits(phoneNumberField.getText()) ||phoneNumberField.getText().length() != 10){
+                errorMessage += "Phone number field must contain 10 digits.\n";
+            }
+        }
+        if (!genderField.getText().isEmpty() && !containsOnlyLetters(genderField.getText())) {
+            errorMessage += "Gender field must contain only letters\n";
+        }
+        if (emailAdressField.getText().isEmpty()) {
+            errorMessage += "Email address field is mandatory\n";
+        }
+        if (!emailAdressField.getText().isEmpty() && !isValidEmailAddress(emailAdressField.getText())) {
+            errorMessage += "Please, enter a valid email address.\n";
+        }
+        if (streetField.getText().isEmpty()) {
+            errorMessage += "Street field is mandatory\n";
+        }
+        if (!streetField.getText().isEmpty() && !containsOnlyLetters(streetField.getText())) {
+            errorMessage += "Street field must contain only letters.\n";
+        }
+
+        if (streetNumberField.getText().isEmpty()) {
+            errorMessage += "Street number field is mandatory\n";
+        }
+        if (!streetNumberField.getText().isEmpty() && !containsOnlyDigits(streetNumberField.getText())) {
+            errorMessage += "Street number field must contain only digits.";
+        }
+        return errorMessage;
+
+    }
+    // Reinitialisation du formulaire
+    public void resetForm(){
+        nationalNumberField.setText("");
+        lastNameField.setText("");
+        firstNameField.setText("");
+        phoneNumberField.setText("");
+        genderField.setText("");
+        emailAdressField.setText("");
+        birthDateField.setDate(null);
+        streetField.setText("");
+        streetNumberField.setText("");
+        localityField.setSelectedItem(0);
+        newsletterField.setSelected(false);
+    }
+
     //REGEX pour vérifier si les champs int contiennent que des chiffres
     public boolean containsOnlyDigits(String str) {
         // Utiliser une expression régulière pour vérifier si la chaîne ne contient que des chiffres
         String digitsRegex = "\\d+";
         return str.matches(digitsRegex);
+    }
+    // REGEX pour vérifier si les champs String ne contiennent que des lettres
+    public boolean containsOnlyLetters(String input) {
+        String lettersRegex = "^[a-zA-Z\\s-]+$";
+        return input.matches(lettersRegex);
     }
 
     // REGEX pour vérifier si les noms et prénoms sont valables
@@ -242,7 +261,7 @@ public class RegistrationForm extends JPanel{
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
 
-        // Utiliser une expression régulière pour vérifier si le nom et le prénom ne contiennent que des lettres
+        // REGEX pour vérifier si le nom et le prénom ne contiennent que des lettres
         String lettersRegex = "^[a-zA-Z]+$";
         boolean isFirstNameValid = firstName.matches(lettersRegex);
         boolean isLastNameValid = lastName.matches(lettersRegex);

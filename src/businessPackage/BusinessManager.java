@@ -18,6 +18,10 @@ public class BusinessManager {
         this.dao = dao;
     }
 
+    // CRUD member
+    public void addMember(Member member) throws ConnectionException, ExistingElementException{
+        dao.addMember(member);
+    }
     //Récupérer toutes les localités
     public ArrayList<String> getLocalities() throws ConnectionException, UnfoundResearchException{
         return dao.getLocalities();

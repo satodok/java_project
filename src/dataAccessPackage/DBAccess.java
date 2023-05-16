@@ -8,9 +8,76 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 public class DBAccess implements DataAccess{
+
+    // Fonction utilisée pour l'ajout pour le CRUD membre
+    @Override
+    public void addAddress(String streetNumber, String street, String locality) throws ExistingElementException, ConnectionException {
+        //Récupérer le codePostal depuis la localité choisi par le membre dans la ComboBox du formulaire
+        try{
+            Connection connection = SingletonConnection.getInstance("Haloreach89");
+            String sqlInstruction = "SELECT postalCode FROM libiavelo.locality WHERE name = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setString(1, locality);
+            ResultSet data = preparedStatement.executeQuery();
+
+            Integer postalCode;
+            data.next();
+
+            postalCode = data.getInt("postalCode");
+            // Insérer l'adresse du membre dans la BD
+            connection = SingletonConnection.getInstance("Haloreach89");
+            String sqlInstruction2 = "INSERT into libiavelo.address (street, streetNumber, postalCode, locality)\n" +
+                    "VALUES (?, ?, ?, ?)";
+            preparedStatement = connection.prepareStatement(sqlInstruction2);
+            preparedStatement.setString(1, street);
+            preparedStatement.setString(2, streetNumber);
+            preparedStatement.setInt(3, postalCode);
+            preparedStatement.setString(4, locality);
+            preparedStatement.executeUpdate();
+        }
+        catch(SQLException sqlException){
+            throw new ExistingElementException("Erreur : l'adresse que vous essayez d'entrer existe déjà");
+        }
+    }
+
+    //Fonction principale pour l'ajout pour le CRUD membre
+    @Override
+    public void addMember(Member member) throws ConnectionException, ExistingElementException {
+        try{
+            //Appel a la fonction d'ajout d'adresse
+            addAddress(member.getStreetNumber(), member.getStreet(), member.getLocality());
+            Connection connection = SingletonConnection.getInstance("Haloreach89");
+
+            // Créer la carte du membre et donc son numéro client
+            String sqlInstruction1 = "INSERT into libiavelo.card (clientNumber) values (NULL);\n";
+            PreparedStatement statement = connection.prepareStatement(sqlInstruction1);
+            statement.executeUpdate();
+
+            //Insérer toutes les valeurs dans la table membre
+            String sqlInstruction2 = "INSERT into libiavelo.member(nationalNumber, lastName, firstName, birthDate, phoneNumber, gender, email, newsletter, street, streetNumber, clientNumber)\n" +
+                    "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, LAST_INSERT_ID());\n";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction2);
+
+            preparedStatement.setString(1, member.getNationalNumber());
+            preparedStatement.setString(2, member.getLastName());
+            preparedStatement.setString(3, member.getFirstName());
+            preparedStatement.setDate(4, new java.sql.Date(member.getBirthDate().getTime()));
+            preparedStatement.setString(5, member.getPhoneNumber());
+            preparedStatement.setString(6, member.getGender());
+            preparedStatement.setString(7, member.getEmail());
+            preparedStatement.setBoolean(8, member.getNewsletter());
+            preparedStatement.setString(9, member.getStreet());
+            preparedStatement.setString(10, member.getStreetNumber());
+            preparedStatement.executeUpdate();
+
+
+        }
+        catch(SQLException sqlException){
+            throw new ExistingElementException("Erreur : ce membre existe déjà");
+        }
+    }
+
     // Récupérer toutes les localités
-
-
     @Override
     public ArrayList<String> getLocalities() throws ConnectionException, UnfoundResearchException {
         try{
@@ -31,6 +98,7 @@ public class DBAccess implements DataAccess{
             throw new UnfoundResearchException("Erreur : aucun résultat ne correspond à votre recherche.");
         }
     }
+
 
     // Recherche numéro 1
     @Override
