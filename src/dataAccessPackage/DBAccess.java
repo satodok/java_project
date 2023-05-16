@@ -459,4 +459,21 @@ public class DBAccess implements DataAccess{
             throw new ConnectionException("Erreur lors de la connection à la base de donnée");
         }
     }
+
+
+    @Override
+    public void deleteSubscription(String subscriptionID) throws ConnectionException, UnfoundResearchException {
+        try {
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "DELETE FROM libiavelo.subscription \n" +
+                    "WHERE subscriptionId = ?;";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setString(1, subscriptionID);
+            int rowsAffected = preparedStatement.executeUpdate();
+
+        } catch (SQLException sqlException) {
+            throw new UnfoundResearchException("rien trouvé");
+        }
+    }
 }

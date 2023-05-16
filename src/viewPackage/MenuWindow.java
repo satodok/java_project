@@ -18,12 +18,14 @@ public class MenuWindow extends JFrame{
 
     // subscription items
     private JMenuItem subscribe;
+    private String ok;
     private JMenuItem subscriptionSearch;
     private JMenuItem unsubscribe;
 
     // my account item
     private JMenuItem myInformations;
     private JMenuItem register;
+    private JMenuItem update;
 
     // rental items
     private JMenuItem rentABike;
@@ -45,7 +47,7 @@ public class MenuWindow extends JFrame{
         this.setJMenuBar(menuBar);
         this.application = new JMenu("Application");
         this.menuBar.add(application);
-        this.myAccount = new JMenu("My account");
+        this.myAccount = new JMenu("Account");
         this.menuBar.add(myAccount);
         this.subscription = new JMenu("Subscription");
         this.menuBar.add(subscription);
@@ -70,6 +72,8 @@ public class MenuWindow extends JFrame{
         myAccount.add(register);
         myInformations = new JMenuItem("My informations");
         myAccount.add(myInformations);
+        update = new JMenuItem(("Update"));
+        myAccount.add(update);
 
         rentABike = new JMenuItem("Rent a bike");
         bikeRental.add(rentABike);
@@ -85,6 +89,14 @@ public class MenuWindow extends JFrame{
         searchRentalsDetails = new JMenuItem("Search rentalsDetails from date Range");
         researches.add(searchRentalsDetails);
 
+        update.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                RegistrationUpdateFormPanel registrationUpdateFormPanel = new RegistrationUpdateFormPanel();
+                setContentPane(registrationUpdateFormPanel);
+                revalidate();
+            }
+        });
         register.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
@@ -108,7 +120,6 @@ public class MenuWindow extends JFrame{
                 revalidate();
             }
         });
-
         unsubscribe.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 SubscriptionDeleteWindow unSubscribeWindow = new SubscriptionDeleteWindow();
