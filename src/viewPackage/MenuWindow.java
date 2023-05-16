@@ -88,7 +88,7 @@ public class MenuWindow extends JFrame{
         register.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                RegistrationFormWindow registrationForm = new RegistrationFormWindow();
+                RegistrationFormPanel registrationForm = new RegistrationFormPanel();
                 setContentPane(registrationForm);
                 revalidate();
             }
@@ -103,14 +103,14 @@ public class MenuWindow extends JFrame{
 
         subscribe.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SubscribeWindow subscribeWindow = new SubscribeWindow();
+                SubscriptionFormPanel subscribeWindow = new SubscriptionFormPanel();
                 subscribeWindow.setVisible(true);
             }
         });
 
         unsubscribe.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                UnsubscribeWindow unSubscribeWindow = new UnsubscribeWindow();
+                SubscriptionDeleteWindow unSubscribeWindow = new SubscriptionDeleteWindow();
                 unSubscribeWindow.setVisible(true);
             }
         });

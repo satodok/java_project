@@ -4,12 +4,12 @@ import controllerPackage.ApplicationController;
 
 import javax.swing.*;
 
-public class DeleteMemberInformations extends JFrame {
+public class RegistrationsDeleteWindow extends JFrame {
     private ApplicationController controller;
     private String nationalNumberInupt;
     private Integer nationalNumber;
 
-    public DeleteMemberInformations(){
+    public RegistrationsDeleteWindow(){
         super("My informations");
         this.setBounds(100,100,400,400);
         setController(new ApplicationController());

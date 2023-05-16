@@ -2,9 +2,9 @@ package viewPackage;
 
 import javax.swing.*;
 
-public class SubscribeWindow extends JFrame {
+public class SubscriptionFormPanel extends JPanel {
 
-    public SubscribeWindow(){
+    public SubscriptionFormPanel(){
         super("Subscribe");
         this.setBounds(100,100,400,400);
     }
