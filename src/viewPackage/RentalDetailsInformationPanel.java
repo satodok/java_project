@@ -35,11 +35,13 @@ public class RentalDetailsInformationPanel extends JFrame {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Demande de startDate et endDate en utilisant JOptionPane
-                String startDateInput = JOptionPane.showInputDialog(null, "Enter the start date (yyyy-mm-dd):");
-                String endDateInput = JOptionPane.showInputDialog(null, "Enter the end date (yyyy-mm-dd):");
 
                 try {
+
+                    // Demande de startDate et endDate en utilisant JOptionPane
+                    String startDateInput = JOptionPane.showInputDialog(null, "Enter the start date (yyyy-mm-dd):");
+                    String endDateInput = JOptionPane.showInputDialog(null, "Enter the end date (yyyy-mm-dd):");
+
                     // Conversion des dates en GregorianCalendar
                     startDate.setTime(Date.valueOf(startDateInput));
                     endDate.setTime(Date.valueOf(endDateInput));
@@ -53,15 +55,12 @@ public class RentalDetailsInformationPanel extends JFrame {
                     add(scrollPane, BorderLayout.SOUTH);
                     setVisible(true);
 
-                } catch (UnfoundResearchException unfoundResearchException) {
+                } catch (UnfoundResearchException | RentalDetailsException | ConnectionException unfoundResearchException) {
                     JOptionPane.showMessageDialog(null, unfoundResearchException.getMessage(),
                             "Erreur", JOptionPane.ERROR_MESSAGE);
-                } catch (ConnectionException connectionException) {
-                    JOptionPane.showMessageDialog(null, connectionException.getMessage(),
-                            "Erreur", JOptionPane.ERROR_MESSAGE);
-
-                } catch (RentalDetailsException exception) {
-                    JOptionPane.showMessageDialog(null, exception.getMessage(),
+                } catch (IllegalArgumentException invalidArgumentException) {
+                    System.out.println("test2");
+                    JOptionPane.showMessageDialog(null, invalidArgumentException.getMessage(),
                             "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
             }

@@ -54,7 +54,7 @@ public class BusinessManager {
     }
 
     //recherche 4
-    public ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, RentalDetailsException{
+    public ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, RentalDetailsException, WrongArgumentException{
         return dao.findRentalDetailsFromDateRange(startDate, endDate);
     }
 }

@@ -170,7 +170,7 @@ public class DBAccess implements DataAccess{
 
 
     @Override
-    public ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, RentalDetailsException{
+    public ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, RentalDetailsException, WrongArgumentException{
         try {
             Connection connection = SingletonConnection.getInstance("Fr!te1017");
             // Instruction
@@ -229,6 +229,10 @@ public class DBAccess implements DataAccess{
 
         } catch (SQLException sqlException) {
             throw new RentalDetailsException("Erreur : a revoir plus tard");
+        }
+        catch (IllegalArgumentException invalidArgumentException) {
+            System.out.println("test 1");
+            throw new WrongArgumentException("Mauvaise donnée");
         }
     }
     @Override
