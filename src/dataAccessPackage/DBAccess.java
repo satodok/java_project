@@ -320,6 +320,7 @@ public class DBAccess implements DataAccess{
             data.next();
             subscription = new Subscription();
 
+            String ID = data.getString("subscriptionID");
             int price = data.getInt("price");
             double discount = data.getDouble("discount");
             Date startDate = data.getDate("startDate");
@@ -330,6 +331,7 @@ public class DBAccess implements DataAccess{
             String typeName = data.getString("typeName");
             int clientNumber = data.getInt("clientNumber");
 
+            subscription.setSubscriptionID(ID);
             subscription.setPrice(price);
             subscription.setDiscount(discount);
             subscription.setStartDate(startDate);
