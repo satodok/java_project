@@ -3,6 +3,9 @@ package dataAccessPackage;
 import modelPackage.*;
 import exceptionPackage.*;
 
+import javax.swing.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -418,31 +421,39 @@ public class DBAccess implements DataAccess{
     }
 
     @Override
-    public void addNewSubscription(String subscriptionID, int price, Double discount, Date startDate, Date endDate, boolean automaticRenewal, boolean pricePayed, boolean cautionPayed, String typeName, int clientNumber) throws ConnectionException {
+    public void addNewSubscription(Subscription subscription) throws ConnectionException {
         try{
-
             Connection connection = SingletonConnection.getInstance();
+
             String sqlInstruction = "INSERT INTO libiavelo.subscription (price, discount, startDate, endDate, " +
                     "automaticRenewal, pricePayed, cautionPayed, typeName, clientNumber)\n" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
             //Creation du preparedStatement a partir de l'instruction sql
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-            preparedStatement.setInt(1, price);
-            if(discount == null) {
-                preparedStatement.setNull(2, Types.DOUBLE);
-            } else {
-                preparedStatement.setDouble(2, discount);
-            }
-            preparedStatement.setDate(3, startDate);
-            preparedStatement.setDate(4, endDate);
-            preparedStatement.setBoolean(5, automaticRenewal);
-            preparedStatement.setBoolean(6, pricePayed);
-            preparedStatement.setBoolean(7, cautionPayed);
-            preparedStatement.setString(8, typeName);
-            preparedStatement.setInt(9, clientNumber);
+            preparedStatement.setInt(1, subscription.getPrice());
+            preparedStatement.setDouble(2, subscription.getDiscount());
+            preparedStatement.setDate(3, new java.sql.Date(subscription.getStartDate().getTime()));
+            preparedStatement.setDate(4, new java.sql.Date(subscription.getEndDate().getTime()));
+            preparedStatement.setBoolean(5, subscription.getAutomaticRenewal());
+            preparedStatement.setBoolean(6, subscription.getPricePayed());
+            preparedStatement.setBoolean(7, subscription.getCautionPayed());
+            preparedStatement.setString( 8, subscription.getTypeName());
+            preparedStatement.setInt(9,subscription.getClientNumber());
 
+            String sqlInstruction2 = "SELECT COUNT(*) AS existing FROM libiavelo.card WHERE clientNumber = ?;";
+            PreparedStatement preparedStatement1 = connection.prepareStatement(sqlInstruction2);
+            preparedStatement1.setInt(1,subscription.getClientNumber());
+
+            // Vérifie si le client n'existe pas, pas clean, à corriger en catchant une erreur
+            ResultSet resultSet =  preparedStatement1.executeQuery();
+            resultSet.next();
+            if(resultSet.getInt("existing") == 0){
+                JOptionPane.showMessageDialog(null,"Ce client n'existe pas","Non",JOptionPane.ERROR_MESSAGE);
+            };
             preparedStatement.executeUpdate();
+
+
 
         }catch (SQLException sqlException){
             throw new ConnectionException("Erreur lors de la connection à la base de donnée");

@@ -15,6 +15,19 @@ public class Subscription {
     private int clientNumber;
 
     public Subscription(){}
+    public Subscription(int price, double discount,
+                        Date startDate, Date endDate, boolean automaticRenewal,
+                        boolean pricePayed, boolean cautionPayed, String typeName, int clientNumber){
+        this.price = price;
+        this.discount = discount;
+        this.startDate =startDate;
+        this.endDate = endDate;
+        this.automaticRenewal = automaticRenewal;
+        this.pricePayed = pricePayed;
+        this.cautionPayed = cautionPayed;
+        this.typeName = typeName;
+        this.clientNumber = clientNumber;
+    }
 
     public void setSubscriptionID(String subscriptionID) {
         this.subscriptionID = subscriptionID;

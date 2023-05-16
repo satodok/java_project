@@ -1,13 +1,22 @@
 package viewPackage;
 
 import com.toedter.calendar.JDateChooser;
+import controllerPackage.ApplicationController;
+import exceptionPackage.ConnectionException;
+import exceptionPackage.ExistingElementException;
+import modelPackage.Subscription;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.sql.Connection;
 
 public class SubscriptionFormPanel extends JPanel {
+    private ApplicationController controller;
+
     private JPanel formPanel;
     private JPanel buttonsPanel;
 
@@ -16,21 +25,28 @@ public class SubscriptionFormPanel extends JPanel {
     private JButton quitButton;
 
     private JTextField price;
+    private JTextField discount;
     private JCheckBox pricePayed;
     private JCheckBox cautionPayed;
     private JDateChooser startDate;
+    private JDateChooser endDate;
     private JCheckBox automaticRenewal;
     private JComboBox<String> typeName;
     private JTextField clientNumber;
 
 
     public SubscriptionFormPanel(){
+        setController(new ApplicationController());
         formPanel = new JPanel();
         formPanel.setLayout(new GridLayout(0, 2, 10, 15));
 
         formPanel.add(new JLabel("Price"));
         price = new JTextField();
         formPanel.add(price);
+
+        formPanel.add(new JLabel("Possible discount"));
+        discount = new JTextField();
+        formPanel.add(discount);
 
         formPanel.add(new JLabel("Price payed"));
         pricePayed = new JCheckBox();
@@ -43,6 +59,10 @@ public class SubscriptionFormPanel extends JPanel {
         formPanel.add(new JLabel("Start date"));
         startDate = new JDateChooser();
         formPanel.add(startDate);
+
+        formPanel.add(new JLabel("End date"));
+        endDate = new JDateChooser();
+        formPanel.add(endDate);
 
         formPanel.add(new JLabel("Automatic renewal"));
         automaticRenewal = new JCheckBox();
@@ -94,6 +114,28 @@ public class SubscriptionFormPanel extends JPanel {
                 if (!errorMessage.isEmpty()) {
                     JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
                 }
+                else{
+                    if(discount.getText().isEmpty()){
+                        discount.setText(null);
+                    }
+                    int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to validate your registration?", "Validation", JOptionPane.YES_NO_OPTION);
+                    if (response == JOptionPane.YES_OPTION) {
+                        JOptionPane.showMessageDialog(null, "Registration validated.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        setVisible(false);
+                        Subscription subscription = new Subscription(Integer.parseInt(price.getText()),
+                                Double.parseDouble(discount.getText()),startDate.getDate(),endDate.getDate(),
+                                automaticRenewal.isSelected(),pricePayed.isSelected(),cautionPayed.isSelected(),
+                                (String) typeName.getSelectedItem(),Integer.parseInt(clientNumber.getText()));
+
+                        try{
+                            controller.addNewSubscription(subscription);
+                        }
+                        catch (ConnectionException exception){
+                            //JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+
+                }
             }
         });
     }
@@ -102,16 +144,16 @@ public class SubscriptionFormPanel extends JPanel {
         if (price.getText().isEmpty()) {
             errorMessage += "Price field is mandatory\n";
         }
-        if(!price.getText().isEmpty() || !containsOnlyDigits(price.getText())){
+        if(price.getText().isEmpty() || !containsOnlyDigits(price.getText())){
             errorMessage += "The price must only contain digits\n";
         }
         if (clientNumber.getText().isEmpty()) {
             errorMessage += "Price field is mandatory\n";
         }
-        if(!clientNumber.getText().isEmpty() || !containsOnlyDigits(clientNumber.getText())){
+        if(clientNumber.getText().isEmpty() || !containsOnlyDigits(clientNumber.getText())){
             errorMessage += "The client number must only contain digits\n";
         }
-        if (startDate == null) {
+        if (startDate.getDate() == null) {
             errorMessage += "Start date field is mandatory\n";
         }
 
@@ -131,4 +173,8 @@ public class SubscriptionFormPanel extends JPanel {
         String digitsRegex = "\\d+";
         return str.matches(digitsRegex);
     }
+    public void setController(ApplicationController controller) {
+        this.controller = controller;
+    }
+
 }
