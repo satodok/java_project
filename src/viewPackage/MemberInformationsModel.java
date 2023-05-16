@@ -29,12 +29,12 @@ public class MemberInformationsModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return 0;
+        return 1;
     }
 
     @Override
     public int getColumnCount() {
-        return 0;
+        return columnNames.size();
     }
 
     @Override
@@ -47,7 +47,8 @@ public class MemberInformationsModel extends AbstractTableModel {
             case 3 : return memberInformations.getPhoneNumber();
             case 4 : return memberInformations.getGender();
             case 5 : return memberInformations.getEmailAddress();
-            case 6 : return memberInformations.getAddress();
+            case 6 : return memberInformations.getNewsLetter();
+            case 7 : return memberInformations.getAddress();
             default:return null;
         }
     }
@@ -72,6 +73,8 @@ public class MemberInformationsModel extends AbstractTableModel {
             case 5: c = String.class;
                 break;
             case 6: c = String.class;
+                break;
+            case 7: c = String.class;
                 break;
             default: c = String.class;
         }

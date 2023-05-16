@@ -73,4 +73,8 @@ public class MemberInformations {
     public String getGender() {
         return gender;
     }
+
+    public boolean getNewsLetter(){
+        return newsletter;
+    }
 }

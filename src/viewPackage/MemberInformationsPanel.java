@@ -26,45 +26,45 @@ public class MemberInformationsPanel extends JFrame{
 
     public MemberInformationsPanel(){
         super("My informations");
-        this.setBounds(100,100,600,600);
+        this.setBounds(100,100,900,600);
         setController(new ApplicationController());
-            nationalNumberLabel = new JLabel("Enter your national number");
-            nationalNumberInupt = new JTextField();
-            nationalNumberInupt.setPreferredSize(new Dimension(200, 30));
+        nationalNumberLabel = new JLabel("Enter your national number");
+        nationalNumberInupt = new JTextField();
+        nationalNumberInupt.setPreferredSize(new Dimension(200, 30));
 
         informationsPanel = new JPanel();
-            informationsPanel.add(nationalNumberLabel);
-            informationsPanel.add(nationalNumberInupt);
-            setVisible(true);
-            add(informationsPanel,BorderLayout.NORTH);
+        informationsPanel.add(nationalNumberLabel);
+        informationsPanel.add(nationalNumberInupt);
+        setVisible(true);
+        add(informationsPanel,BorderLayout.NORTH);
 
-            searchButton = new JButton("Search");
-            informationsPanel.add(searchButton);
+        searchButton = new JButton("Search");
+        informationsPanel.add(searchButton);
 
-            searchButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    nationalNumber = nationalNumberInupt.getText();
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nationalNumber = nationalNumberInupt.getText();
 
-                    try{
-                        memberInformations = controller.findMemberInformationsByNationalNumber(nationalNumber);
-                        model = new MemberInformationsModel(memberInformations);
+                try{
+                    memberInformations = controller.findMemberInformationsByNationalNumber(nationalNumber);
+                    model = new MemberInformationsModel(memberInformations);
 
-                        if(scrollPane != null){
-                            remove(scrollPane);
-                        }
-
-                        table = new JTable(model);
-                        scrollPane = new JScrollPane(table);
-                        add(scrollPane, BorderLayout.CENTER);
-                        setVisible(true);
+                    if(scrollPane != null){
+                        remove(scrollPane);
                     }
-                    catch (UnfoundResearchException | ConnectionException exception){
-                        JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
-                    }
+
+                    table = new JTable(model);
+                    scrollPane = new JScrollPane(table);
+                    add(scrollPane, BorderLayout.CENTER);
+                    setVisible(true);
                 }
-            });
-        }
+                catch (UnfoundResearchException | ConnectionException exception){
+                    JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+    }
     public void setController(ApplicationController controller) {
         this.controller = controller;
     }

@@ -37,7 +37,7 @@ public class DBAccess implements DataAccess{
     public ArrayList<String> getAllNationalNumbers() throws ConnectionException, UnfoundResearchException{
         try{
             ArrayList<String>nationalNumbers = new ArrayList<>();
-            Connection connection = SingletonConnection.getInstance("Haloreach89");
+            Connection connection = SingletonConnection.getInstance("GhotikA6540");
             String sqlInstruction = "SELECT nationalNumber FROM libiavelo.member";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
@@ -61,7 +61,7 @@ public class DBAccess implements DataAccess{
 
         try{
             MemberAddress memberAddress;
-            Connection connection = SingletonConnection.getInstance("Haloreach89");
+            Connection connection = SingletonConnection.getInstance("GhotikA6540");
             // Instruction
             String sqlInstruction = "SELECT m.firstName, m.lastName, a.street, a.streetNumber, l.postalCode, l.name\n" +
                     "FROM libiavelo.member m \n" +
@@ -99,7 +99,7 @@ public class DBAccess implements DataAccess{
     public ArrayList<DiscountMember> findMembersWithDiscountFromAgeRange(GregorianCalendar dateMin, GregorianCalendar dateMax) throws UnfoundResearchException, ConnectionException{
 
         try {
-            Connection connection = SingletonConnection.getInstance("Fr!te1017");
+            Connection connection = SingletonConnection.getInstance("GhotikA6540");
             // Instruction
             String sql = "SELECT m.firstName, m.lastName, s.discount, c.clientNumber\n" +
                     "from member m\n" +
@@ -154,7 +154,7 @@ public class DBAccess implements DataAccess{
     @Override
     public ArrayList<Member> findMembersFromSubscriptionPlan(String subscriptionType) throws ConnectionException, UnfoundResearchException {
         try{
-            Connection connection = SingletonConnection.getInstance("Haloreach89");
+            Connection connection = SingletonConnection.getInstance("GhotikA6540");
             // Instruction SQL
             String sqlInstruction = "SELECT m.firstName, m.lastName, m.clientNumber\n" +
                     "FROM libiavelo.member m\n" +
@@ -195,7 +195,7 @@ public class DBAccess implements DataAccess{
     @Override
     public ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, RentalDetailsException, WrongArgumentException{
         try {
-            Connection connection = SingletonConnection.getInstance("Fr!te1017");
+            Connection connection = SingletonConnection.getInstance("GhotikA6540");
             // Instruction
             String sql = "Select s.name, b.typeName, c.clientNumber, m.firstName, m.lastName\n" +
                     "from station s\n" +
@@ -258,13 +258,14 @@ public class DBAccess implements DataAccess{
     public MemberInformations findMemberInformationsByNationalNumber(String nationalNumber) throws UnfoundResearchException, ConnectionException {
         try {
             MemberInformations memberInformations;
-            Connection connection = SingletonConnection.getInstance("Haloreach89");
+            Connection connection = SingletonConnection.getInstance("GhotikA6540");
             // Instruction
-            String sqlInstruction = "SELECT m.firstName, m.lastName, m.birthDate, m.phoneNumber, m.gender, m.email, m.newsletter, m.street, m.streetNumber, m.clientNumber " +
-                    "FROM libiavelo.member m " +
-                    "JOIN libiavelo.address a ON (m.street = a.street AND m.streetNumber = a.streetNumber) " +
-                    "JOIN libiavelo.locality l ON (l.postalCode = a.postalCode AND l.name = a.locality)  " +
+            String sqlInstruction = "SELECT m.clientNumber, m.firstName, m.lastName, m.birthDate, m.phoneNumber, m.gender, m.email, m.newsletter, m.street, m.streetNumber,a.locality, a.postalCode\n" +
+                    "FROM libiavelo.member m \n" +
+                    "JOIN libiavelo.address a ON (m.street = a.street AND m.streetNumber = a.streetNumber) \n" +
+                    "JOIN libiavelo.locality l ON (l.postalCode = a.postalCode AND l.name = a.locality)  \n" +
                     "WHERE m.nationalNumber = ?";
+
             //Creation du preparedStatement a partir de l'instruction sql
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setString(1, nationalNumber);
@@ -281,7 +282,7 @@ public class DBAccess implements DataAccess{
             String email = data.getString("email");
             Boolean newsletter = data.getBoolean("newsletter");
             String street = data.getString("street");
-            String locality = data.getString("name");
+            String locality = data.getString("locality");
             Integer streetNumber = data.getInt("streetNumber");
             Integer postalCode = data.getInt("postalCode");
 
