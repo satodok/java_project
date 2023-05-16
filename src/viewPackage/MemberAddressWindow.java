@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MemberAddressPanel extends JFrame {
+public class MemberAddressWindow extends JFrame {
     private ApplicationController controller;
     private String nationalNumber;
     private JLabel nationalNumberLabel;
@@ -22,7 +22,7 @@ public class MemberAddressPanel extends JFrame {
     private JScrollPane scrollPane;
     private JTable table;
 
-    public MemberAddressPanel() {
+    public MemberAddressWindow() {
         super("Research member address");
         this.setBounds(100, 100, 600, 600);
         setController(new ApplicationController());

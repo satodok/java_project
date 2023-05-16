@@ -1,40 +1,38 @@
 package viewPackage;
 
 import controllerPackage.ApplicationController;
+import exceptionPackage.ConnectionException;
+import exceptionPackage.UnfoundResearchException;
+import modelPackage.Subscription;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import exceptionPackage.*;
-import modelPackage.MemberInformations;
-import exceptionPackage.ConnectionException;
-import exceptionPackage.UnfoundResearchException;
-
-public class MemberInformationsPanel extends JFrame{
+public class SubscriptionInformationsWindow extends JFrame {
     private ApplicationController controller;
-    private MemberInformations memberInformations;
-    private JTextField nationalNumberInupt;
-    private String nationalNumber;
-    private JLabel nationalNumberLabel;
+    private Subscription subscription;
+    private JTextField subscriptionIDInput;
+    private String subscriptionID;
+    private JLabel subscriptionIDLabel;
     private JPanel informationsPanel;
-    private MemberInformationsModel model;
+    private SubscriptionInformationsModel model;
     private JScrollPane scrollPane;
     private JTable table;
     private JButton searchButton;
 
-    public MemberInformationsPanel(){
-        super("My informations");
+    public SubscriptionInformationsWindow(){
+        super("Subscription search");
         this.setBounds(100,100,900,600);
         setController(new ApplicationController());
-        nationalNumberLabel = new JLabel("Enter your national number");
-        nationalNumberInupt = new JTextField();
-        nationalNumberInupt.setPreferredSize(new Dimension(200, 30));
+        subscriptionIDLabel = new JLabel("Enter the search subscription ID");
+        subscriptionIDInput = new JTextField();
+        subscriptionIDInput.setPreferredSize(new Dimension(150, 30));
 
         informationsPanel = new JPanel();
-        informationsPanel.add(nationalNumberLabel);
-        informationsPanel.add(nationalNumberInupt);
+        informationsPanel.add(subscriptionIDLabel);
+        informationsPanel.add(subscriptionIDInput);
         setVisible(true);
         add(informationsPanel,BorderLayout.NORTH);
 
@@ -44,11 +42,11 @@ public class MemberInformationsPanel extends JFrame{
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                nationalNumber = nationalNumberInupt.getText();
+                subscriptionID = subscriptionIDInput.getText();
 
                 try{
-                    memberInformations = controller.findMemberInformationsByNationalNumber(nationalNumber);
-                    model = new MemberInformationsModel(memberInformations);
+                    subscription = controller.findSubscriptionBySubscriptionID(subscriptionID);
+                    model = new SubscriptionInformationsModel(subscription);
 
                     if(scrollPane != null){
                         remove(scrollPane);
@@ -69,4 +67,3 @@ public class MemberInformationsPanel extends JFrame{
         this.controller = controller;
     }
 }
-

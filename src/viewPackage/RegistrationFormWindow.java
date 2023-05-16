@@ -11,12 +11,11 @@ import modelPackage.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class RegistrationForm extends JPanel{
+public class RegistrationFormWindow extends JPanel{
     private ApplicationController controller;
     private JPanel formPanel;
     private JPanel buttonsPanel;
@@ -40,7 +39,7 @@ public class RegistrationForm extends JPanel{
 
 
 
-    public RegistrationForm(){
+    public RegistrationFormWindow(){
         setController(new ApplicationController());
         formPanel = new JPanel();
         formPanel.setLayout(new GridLayout(0, 2, 10, 15));

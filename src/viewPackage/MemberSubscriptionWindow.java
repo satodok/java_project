@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class MemberSubscriptionPanel extends JFrame{
+public class MemberSubscriptionWindow extends JFrame{
     private ApplicationController controller;
     private String subscriptionType;
     private JLabel subscriptionTypeLabel;
@@ -23,7 +23,7 @@ public class MemberSubscriptionPanel extends JFrame{
     private JScrollPane scrollPane;
     private JTable table;
 
-    public MemberSubscriptionPanel() {
+    public MemberSubscriptionWindow() {
         super("Research members from subscription type");
         this.setBounds(100, 100, 600, 600);
         setController(new ApplicationController());

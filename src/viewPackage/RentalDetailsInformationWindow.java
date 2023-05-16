@@ -4,7 +4,6 @@ import controllerPackage.ApplicationController;
 import exceptionPackage.ConnectionException;
 import exceptionPackage.RentalDetailsException;
 import exceptionPackage.UnfoundResearchException;
-import exceptionPackage.WrongArgumentException;
 import modelPackage.RentalDetailsInformation;
 
 import javax.swing.*;
@@ -15,14 +14,14 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-public class RentalDetailsInformationPanel extends JFrame {
+public class RentalDetailsInformationWindow extends JFrame {
     private ApplicationController controller;
 
     private GregorianCalendar startDate = new GregorianCalendar();
     private GregorianCalendar endDate = new GregorianCalendar();
     private JPanel panel = new JPanel();
 
-    public RentalDetailsInformationPanel() {
+    public RentalDetailsInformationWindow() {
         super("Research rental details in range");
         this.setBounds(100, 100, 600, 600);
         setController(new ApplicationController());

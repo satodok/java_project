@@ -88,7 +88,7 @@ public class MenuWindow extends JFrame{
         register.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                RegistrationForm registrationForm = new RegistrationForm();
+                RegistrationFormWindow registrationForm = new RegistrationFormWindow();
                 setContentPane(registrationForm);
                 revalidate();
             }
@@ -96,7 +96,7 @@ public class MenuWindow extends JFrame{
 
         myInformations.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                MemberInformationsPanel memberInformations = new MemberInformationsPanel();
+                MemberInformationsWindow memberInformations = new MemberInformationsWindow();
                 memberInformations.setVisible(true);
             }
         });
@@ -117,33 +117,33 @@ public class MenuWindow extends JFrame{
 
         subscriptionSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SubscriptionInformationsPanel subscriptionInformationsPanel = new SubscriptionInformationsPanel();
+                SubscriptionInformationsWindow subscriptionInformationsPanel = new SubscriptionInformationsWindow();
                 subscriptionInformationsPanel.setVisible(true);
             }
         });
         searchMemberAddress.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                MemberAddressPanel memberAddressPanel = new MemberAddressPanel();
+                MemberAddressWindow memberAddressPanel = new MemberAddressWindow();
             }
         });
 
         searchMembersWithDiscount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DiscountMemberPanel memberDiscountPanel = new DiscountMemberPanel();
+                DiscountMemberWindow memberDiscountPanel = new DiscountMemberWindow();
             }
         });
 
         searchMembersSubscriptionPlan.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MemberSubscriptionPanel memberSubscriptionPanel = new MemberSubscriptionPanel();
+                MemberSubscriptionWindow memberSubscriptionPanel = new MemberSubscriptionWindow();
             }
         });
 
         searchRentalsDetails.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RentalDetailsInformationPanel rentalDetailsInformationPanel = new RentalDetailsInformationPanel();
+                RentalDetailsInformationWindow rentalDetailsInformationPanel = new RentalDetailsInformationWindow();
             }
         });
 
