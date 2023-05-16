@@ -228,11 +228,7 @@ public class DBAccess implements DataAccess{
             return rentals;
 
         } catch (SQLException sqlException) {
-            throw new RentalDetailsException("Erreur : a revoir plus tard");
-        }
-        catch (IllegalArgumentException invalidArgumentException) {
-            System.out.println("test 1");
-            throw new WrongArgumentException("Mauvaise donnée");
+            throw new IllegalArgumentException();
         }
     }
     @Override

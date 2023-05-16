@@ -4,6 +4,7 @@ import controllerPackage.ApplicationController;
 import exceptionPackage.ConnectionException;
 import exceptionPackage.RentalDetailsException;
 import exceptionPackage.UnfoundResearchException;
+import exceptionPackage.WrongArgumentException;
 import modelPackage.RentalDetailsInformation;
 
 import javax.swing.*;
@@ -36,11 +37,11 @@ public class RentalDetailsInformationPanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                try {
+                // Demande de startDate et endDate en utilisant JOptionPane
+                String startDateInput = JOptionPane.showInputDialog(null, "Enter the start date (yyyy-mm-dd):");
+                String endDateInput = JOptionPane.showInputDialog(null, "Enter the end date (yyyy-mm-dd):");
 
-                    // Demande de startDate et endDate en utilisant JOptionPane
-                    String startDateInput = JOptionPane.showInputDialog(null, "Enter the start date (yyyy-mm-dd):");
-                    String endDateInput = JOptionPane.showInputDialog(null, "Enter the end date (yyyy-mm-dd):");
+                try {
 
                     // Conversion des dates en GregorianCalendar
                     startDate.setTime(Date.valueOf(startDateInput));
@@ -58,9 +59,9 @@ public class RentalDetailsInformationPanel extends JFrame {
                 } catch (UnfoundResearchException | RentalDetailsException | ConnectionException unfoundResearchException) {
                     JOptionPane.showMessageDialog(null, unfoundResearchException.getMessage(),
                             "Erreur", JOptionPane.ERROR_MESSAGE);
-                } catch (IllegalArgumentException invalidArgumentException) {
-                    System.out.println("test2");
-                    JOptionPane.showMessageDialog(null, invalidArgumentException.getMessage(),
+                }
+                catch (IllegalArgumentException invalidArgumentException) {
+                    JOptionPane.showMessageDialog(null, "Erreur : mauvaise donée entrée",
                             "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
             }
