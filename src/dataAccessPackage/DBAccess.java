@@ -464,6 +464,7 @@ public class DBAccess implements DataAccess{
     @Override
     public void deleteSubscription(String subscriptionID) throws ConnectionException, UnfoundResearchException {
         try {
+            //test
             Connection connection = SingletonConnection.getInstance();
             String sqlInstruction = "DELETE FROM libiavelo.subscription \n" +
                     "WHERE subscriptionId = ?;";
