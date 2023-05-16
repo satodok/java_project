@@ -71,4 +71,8 @@ public class BusinessManager {
     public Subscription findSubscriptionBySubscriptionID(String subscriptionID) throws UnfoundResearchException, ConnectionException{
         return dao.findSubscriptionBySubscriptionID(subscriptionID);
     }
+
+    public void deleteSubscription(String subscriptionID) throws ConnectionException, UnfoundResearchException{
+        dao.deleteSubscription(subscriptionID);
+    }
 }
