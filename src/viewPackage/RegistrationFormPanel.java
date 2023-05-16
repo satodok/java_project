@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class RegistrationFormWindow extends JPanel{
+public class RegistrationFormPanel extends JPanel{
     private ApplicationController controller;
     private JPanel formPanel;
     private JPanel buttonsPanel;
@@ -39,7 +39,7 @@ public class RegistrationFormWindow extends JPanel{
 
 
 
-    public RegistrationFormWindow(){
+    public RegistrationFormPanel(){
         setController(new ApplicationController());
         formPanel = new JPanel();
         formPanel.setLayout(new GridLayout(0, 2, 10, 15));
