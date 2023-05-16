@@ -1,55 +1,65 @@
 package viewPackage;
 
 import controllerPackage.ApplicationController;
+
+import exceptionPackage.ConnectionException;
 import exceptionPackage.UnfoundResearchException;
-import modelPackage.Subscription;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class UnsubscribeWindow extends JFrame {
-    private ApplicationController controller;
+public class SubscriptionDeleteWindow extends JFrame {
 
-    private JLabel subscriptionIDLabel;
-    private JTextField subscriptionIDInput;
-    private JPanel informationsPanel;
-    private JButton searchButton;
-    private String subscriptionID;
-    private int subscriptionIDINT;
+        private ApplicationController controller;
 
-    public UnsubscribeWindow(){
-        super("Unsubscribe");
-        this.setBounds(100,100,400,400);
+        private JLabel subscriptionIDLabel;
+        private JTextField subscriptionIDInput;
+        private JPanel informationsPanel;
+        private JPanel buttonPanel;
+        private JButton searchButton;
+        private String subscriptionID;
 
-        subscriptionIDLabel = new JLabel("Enter the search subscription ID");
-        subscriptionIDInput = new JTextField();
-        subscriptionIDInput.setPreferredSize(new Dimension(150, 30));
+        public SubscriptionDeleteWindow(){
+            super("Unsubscribe");
+            this.setBounds(100,100,400,400);
+            setController(new ApplicationController());
 
-        informationsPanel = new JPanel();
-        informationsPanel.add(subscriptionIDLabel);
-        informationsPanel.add(subscriptionIDInput);
-        setVisible(true);
-        add(informationsPanel,BorderLayout.NORTH);
+            subscriptionIDLabel = new JLabel("Enter the delete subscription ID");
+            subscriptionIDInput = new JTextField();
+            subscriptionIDInput.setPreferredSize(new Dimension(150, 30));
 
-        searchButton = new JButton("Search");
-        informationsPanel.add(searchButton);
+            informationsPanel = new JPanel();
+            informationsPanel.add(subscriptionIDLabel);
+            informationsPanel.add(subscriptionIDInput);
 
-        searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                subscriptionID = subscriptionIDInput.getText();
-                subscriptionIDINT = Integer.parseInt(subscriptionID);
+            buttonPanel = new JPanel();
+            searchButton = new JButton("Search");
+            buttonPanel.add(searchButton);
 
-                //try{
+            add(informationsPanel,BorderLayout.NORTH);
+            add(buttonPanel, BorderLayout.CENTER);
+            setVisible(true);
 
-                //}catch (UnfoundResearchException unfoundResearchException){
-                    //JOptionPane.showMessageDialog(null, unfoundResearchException.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
-                //}
-            }
+            searchButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    subscriptionID = subscriptionIDInput.getText();
 
-        });
+                    try{
+                        controller.deleteSubscription(subscriptionID);
 
+                    } catch (ConnectionException | UnfoundResearchException sqlException){
+                    JOptionPane.showMessageDialog(null, sqlException.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+            });
+
+        }
+    public void setController(ApplicationController controller) {
+        this.controller = controller;
     }
 }
+
