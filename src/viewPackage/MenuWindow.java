@@ -87,6 +87,7 @@ public class MenuWindow extends JFrame{
 
         register.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
                 RegistrationForm registrationForm = new RegistrationForm();
                 setContentPane(registrationForm);
                 revalidate();

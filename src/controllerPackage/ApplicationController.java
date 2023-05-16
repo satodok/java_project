@@ -16,6 +16,10 @@ public class ApplicationController {
         businessManager = new BusinessManager();
     }
 
+    //Récupérer toutes les localités
+    public ArrayList<String> getLocalities() throws ConnectionException, UnfoundResearchException{
+        return businessManager.getLocalities();
+    }
     // Recherche 1
     public ArrayList<String> getAllNationalNumbers() throws ConnectionException, UnfoundResearchException{
         return businessManager.getAllNationalNumbers();

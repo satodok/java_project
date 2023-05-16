@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 public interface DataAccess {
+    //Récupérer toutes les localités
+    ArrayList<String> getLocalities() throws ConnectionException, UnfoundResearchException;
 
     // recherches
     public ArrayList<String> getAllNationalNumbers()throws ConnectionException, UnfoundResearchException;

@@ -8,6 +8,29 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 public class DBAccess implements DataAccess{
+    // Récupérer toutes les localités
+
+
+    @Override
+    public ArrayList<String> getLocalities() throws ConnectionException, UnfoundResearchException {
+        try{
+            ArrayList<String> localities = new ArrayList<>();
+            Connection connection = SingletonConnection.getInstance("Haloreach89");
+            String sqlInstruction = "SELECT name FROM libiavelo.locality";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            ResultSet data = preparedStatement.executeQuery();
+
+            String locality;
+            while(data.next()){
+                locality = data.getString("name");
+                localities.add(locality);
+            }
+            return localities;
+        }
+        catch(SQLException sqlException){
+            throw new UnfoundResearchException("Erreur : aucun résultat ne correspond à votre recherche.");
+        }
+    }
 
     // Recherche numéro 1
     @Override
