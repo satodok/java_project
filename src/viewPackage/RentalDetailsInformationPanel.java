@@ -56,12 +56,12 @@ public class RentalDetailsInformationPanel extends JFrame {
                     add(scrollPane, BorderLayout.SOUTH);
                     setVisible(true);
 
-                } catch (UnfoundResearchException  | ConnectionException unfoundResearchException) {
-                    JOptionPane.showMessageDialog(null, unfoundResearchException.getMessage(),
+                } catch (UnfoundResearchException  | ConnectionException exception) {
+                    JOptionPane.showMessageDialog(null, exception.getMessage(),
                             "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
-                catch (IllegalArgumentException invalidArgumentException) {
-                    JOptionPane.showMessageDialog(null, "Erreur : mauvaise donée entrée",
+                catch (IllegalArgumentException | RentalDetailsException exception) {
+                    JOptionPane.showMessageDialog(null, "Erreur : mauvaise donnée entrée",
                             "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
             }

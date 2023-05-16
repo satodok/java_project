@@ -10,9 +10,10 @@ public class SingletonConnection {
     private SingletonConnection() {
     }
 
-    public static Connection getInstance(String password) throws ConnectionException {
+    public static Connection getInstance() throws ConnectionException {
         try {
             if (uniqueConnection == null) {
+                String password = JOptionPane.showInputDialog("Veuillez entrer votre mdp");
                 uniqueConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/libiavelo",
                         "root",
                             password);
