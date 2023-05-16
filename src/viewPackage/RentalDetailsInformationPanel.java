@@ -56,7 +56,7 @@ public class RentalDetailsInformationPanel extends JFrame {
                     add(scrollPane, BorderLayout.SOUTH);
                     setVisible(true);
 
-                } catch (UnfoundResearchException | RentalDetailsException | ConnectionException unfoundResearchException) {
+                } catch (UnfoundResearchException  | ConnectionException unfoundResearchException) {
                     JOptionPane.showMessageDialog(null, unfoundResearchException.getMessage(),
                             "Erreur", JOptionPane.ERROR_MESSAGE);
                 }

@@ -193,7 +193,7 @@ public class DBAccess implements DataAccess{
 
 
     @Override
-    public ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, RentalDetailsException, WrongArgumentException{
+    public ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, WrongArgumentException{
         try {
             Connection connection = SingletonConnection.getInstance("mdp");
             // Instruction
