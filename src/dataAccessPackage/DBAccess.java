@@ -301,4 +301,49 @@ public class DBAccess implements DataAccess{
             throw new UnfoundResearchException("Erreur : aucun résultat ne correspond à votre recherche.");
         }
     }
+
+    public Subscription findSubscriptionBySubscriptionID(String subscriptionID) throws UnfoundResearchException, ConnectionException{
+        try{
+            Subscription subscription;
+            Connection connection = SingletonConnection.getInstance("mdp");
+            String sqlInstruction = "SELECT s.subscriptionID, s.price, s.discount, s.startDate, s.endDate, s.automaticRenewal, s.pricePayed, s.cautionPayed, s.typeName, s.clientNumber\n" +
+                    "FROM libiavelo.subscription s\n" +
+                    "JOIN libiavelo.type t ON (s.typeName = t.typeName)\n" +
+                    "JOIN libiavelo.card c ON (s.clientNumber = c.clientNumber)\n" +
+                    "WHERE s.subscriptionID = ?";
+            //Creation du preparedStatement a partir de l'instruction sql
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setString(1, subscriptionID);
+
+            // executer la requete et recuperer le resultat
+            ResultSet data = preparedStatement.executeQuery();
+            data.next();
+            subscription = new Subscription();
+
+            int price = data.getInt("price");
+            double discount = data.getDouble("discount");
+            Date startDate = data.getDate("startDate");
+            Date endDate = data.getDate("endDate");
+            Boolean automaticRenewal = data.getBoolean("automaticRenewal");
+            Boolean pricePayed = data.getBoolean("pricePayed");
+            Boolean cautionPayed = data.getBoolean("cautionPayed");
+            String typeName = data.getString("typeName");
+            int clientNumber = data.getInt("clientNumber");
+
+            subscription.setPrice(price);
+            subscription.setDiscount(discount);
+            subscription.setStartDate(startDate);
+            subscription.setEndDate(endDate);
+            subscription.setAutomaticRenewal(automaticRenewal);
+            subscription.setPricePayed(pricePayed);
+            subscription.setCautionPayed(cautionPayed);
+            subscription.setTypeName(typeName);
+            subscription.setClientNumber(clientNumber);
+
+            return subscription;
+        }
+        catch(SQLException sqlException){
+            throw new UnfoundResearchException("Erreur : aucun résultat ne correspond à votre recherche.");
+        }
+    }
 }
