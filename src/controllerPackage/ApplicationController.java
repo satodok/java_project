@@ -50,7 +50,7 @@ public class ApplicationController {
     }
 
     //Recherche 4
-    public ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, WrongArgumentException{
+    public ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, RentalDetailsException, WrongArgumentException{
         return businessManager.findRentalDetailsFromDateRange(startDate, endDate);
     }
 
