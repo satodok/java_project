@@ -62,4 +62,9 @@ public class BusinessManager {
     public ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, WrongArgumentException{
         return dao.findRentalDetailsFromDateRange(startDate, endDate);
     }
+
+    //CRUD subscription
+    public Subscription findSubscriptionBySubscriptionID(String subscriptionID) throws UnfoundResearchException, ConnectionException{
+        return dao.findSubscriptionBySubscriptionID(subscriptionID);
+    }
 }

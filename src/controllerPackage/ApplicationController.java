@@ -49,4 +49,10 @@ public class ApplicationController {
         return businessManager.findRentalDetailsFromDateRange(startDate, endDate);
     }
 
+    //CRUD subscription
+    public Subscription findSubscriptionBySubscriptionID(String subscriptionID) throws UnfoundResearchException, ConnectionException{
+        return businessManager.findSubscriptionBySubscriptionID(subscriptionID);
+    }
+
+
 }

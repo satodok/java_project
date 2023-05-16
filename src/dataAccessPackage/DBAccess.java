@@ -305,7 +305,7 @@ public class DBAccess implements DataAccess{
     public Subscription findSubscriptionBySubscriptionID(String subscriptionID) throws UnfoundResearchException, ConnectionException{
         try{
             Subscription subscription;
-            Connection connection = SingletonConnection.getInstance("mdp");
+            Connection connection = SingletonConnection.getInstance("GhotikA6540");
             String sqlInstruction = "SELECT s.subscriptionID, s.price, s.discount, s.startDate, s.endDate, s.automaticRenewal, s.pricePayed, s.cautionPayed, s.typeName, s.clientNumber\n" +
                     "FROM libiavelo.subscription s\n" +
                     "JOIN libiavelo.type t ON (s.typeName = t.typeName)\n" +

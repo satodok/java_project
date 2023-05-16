@@ -18,7 +18,7 @@ public class MenuWindow extends JFrame{
 
     // subscription items
     private JMenuItem subscribe;
-    private JMenuItem subscriptionList;
+    private JMenuItem subscriptionSearch;
     private JMenuItem unsubscribe;
 
     // my account item
@@ -63,8 +63,8 @@ public class MenuWindow extends JFrame{
         subscription.add(subscribe);
         unsubscribe = new JMenuItem("Unsubscribe");
         subscription.add(unsubscribe);
-        subscriptionList = new JMenuItem("Subscription list");
-        subscription.add(subscriptionList);
+        subscriptionSearch = new JMenuItem("Subscription search");
+        subscription.add(subscriptionSearch);
 
         register = new JMenuItem("Register");
         myAccount.add(register);
@@ -115,13 +115,12 @@ public class MenuWindow extends JFrame{
             }
         });
 
-        subscriptionList.addActionListener(new ActionListener() {
+        subscriptionSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SubscriptionInformations subscriptionInformations = new SubscriptionInformations();
-                subscriptionInformations.setVisible(true);
+                SubscriptionInformationsPanel subscriptionInformationsPanel = new SubscriptionInformationsPanel();
+                subscriptionInformationsPanel.setVisible(true);
             }
-        }
-        );
+        });
         searchMemberAddress.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 MemberAddressPanel memberAddressPanel = new MemberAddressPanel();
