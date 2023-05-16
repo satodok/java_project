@@ -9,18 +9,18 @@ public class RentalDetailsInformationModel extends AbstractTableModel {
     private ArrayList<String> columnNames;
     private ArrayList<RentalDetailsInformation> contents;
 
-    public RentalDetailsInformationModel(ArrayList<RentalDetailsInformation> members) {
+    public RentalDetailsInformationModel(ArrayList<RentalDetailsInformation> rentals) {
         columnNames = new ArrayList<>();
         columnNames.add("Name");
         columnNames.add("Type");
         columnNames.add("Client number");
         columnNames.add("First name");
         columnNames.add("Last name");
-        setContents(members);
+        setContents(rentals);
     }
 
-    private void setContents(ArrayList<RentalDetailsInformation> members) {
-        contents = members;
+    private void setContents(ArrayList<RentalDetailsInformation> rentals) {
+        contents = rentals;
     }
 
     public int getColumnCount( ) { return columnNames.size( ); }
@@ -28,13 +28,13 @@ public class RentalDetailsInformationModel extends AbstractTableModel {
     public String getColumnName(int column) { return columnNames.get(column); }
 
     public Object getValueAt (int row, int column) {
-        RentalDetailsInformation member = contents.get(row);
+        RentalDetailsInformation rental = contents.get(row);
         switch(column) {
-            case 0 : return member.getName();
-            case 1 : return member.getType();
-            case 2 : return member.getClientNumber();
-            case 3 : return member.getFirstName();
-            case 4 : return member.getLastName();
+            case 0 : return rental.getName();
+            case 1 : return rental.getType();
+            case 2 : return rental.getClientNumber();
+            case 3 : return rental.getFirstName();
+            case 4 : return rental.getLastName();
             default : return null;
         }
     }

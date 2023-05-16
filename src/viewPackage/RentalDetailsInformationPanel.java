@@ -24,10 +24,13 @@ public class RentalDetailsInformationPanel extends JFrame {
         setController(new ApplicationController());
 
         JButton searchButton = new JButton("Search");
+        panel.add(searchButton); // Ajoute le bouton de recherche au panneau
+
+        String startDateInput = JOptionPane.showInputDialog(null, "Enter the start date (yyyy-mm-dd):");
+        String endDateInput = JOptionPane.showInputDialog(null, "Enter the end date (yyyy-mm-dd):");
+
         searchButton.addActionListener(e -> {
             // Demande de startDate et endDate en utilisant JOptionPane
-            String startDateInput = JOptionPane.showInputDialog(null, "Enter the start date (yyyy-mm-dd):");
-            String endDateInput = JOptionPane.showInputDialog(null, "Enter the end date (yyyy-mm-dd):");
 
             try {
                 // Conversion des dates en GregorianCalendar
@@ -55,7 +58,7 @@ public class RentalDetailsInformationPanel extends JFrame {
             }
         });
 
-        panel.add(searchButton); // Ajoute le bouton de recherche au panneau
+
 
         getContentPane().add(panel); // Ajoute le panneau à la fenêtre
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

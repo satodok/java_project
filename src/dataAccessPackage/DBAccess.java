@@ -196,11 +196,11 @@ public class DBAccess implements DataAccess{
             // executer la requete et recuperer le resultat
             ResultSet data = preparedStatement.executeQuery();
 
+            ArrayList<RentalDetailsInformation> rentals = new ArrayList<>();
             RentalDetailsInformation rental;
+
             String firstName, lastName, name, type;
             Integer clientNumber;
-
-            ArrayList<RentalDetailsInformation> rentals = new ArrayList<>();
 
             while(data.next()) {
                 rental = new RentalDetailsInformation();
@@ -208,7 +208,7 @@ public class DBAccess implements DataAccess{
                 name = data.getString("name");
                 rental.setName(name);
 
-                type = data.getString("type");
+                type = data.getString("typeName");
                 rental.setType(type);
 
                 clientNumber = data.getInt("clientNumber");
@@ -222,11 +222,9 @@ public class DBAccess implements DataAccess{
 
                 rentals.add(rental);
             }
-            System.out.println("test1");
             if(rentals.isEmpty()){
                 throw new UnfoundResearchException("Erreur : aucun résultat ne correspond à votre recherche.");
             }
-            System.out.println("test2");
             return rentals;
 
         } catch (SQLException sqlException) {
