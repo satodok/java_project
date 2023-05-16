@@ -78,4 +78,8 @@ public class BusinessManager {
     public void deleteSubscription(String subscriptionID) throws ConnectionException, UnfoundResearchException{
         dao.deleteSubscription(subscriptionID);
     }
+
+    public ArrayList<Subscription> getAllSubscription() throws ConnectionException, UnfoundResearchException{
+        return dao.getAllSubscription();
+    }
 }

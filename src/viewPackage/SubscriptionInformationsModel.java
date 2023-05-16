@@ -97,4 +97,10 @@ public class SubscriptionInformationsModel extends AbstractTableModel {
         }
         return c;
     }
+
+    public void addRow(Object[] rowData) {
+    }
+
+    public void setRowCount(int i) {
+    }
 }

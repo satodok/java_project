@@ -66,4 +66,8 @@ public class ApplicationController {
         businessManager.deleteSubscription(subscriptionID);
     }
 
+    public ArrayList<Subscription> getAllSubscription() throws ConnectionException, UnfoundResearchException{
+        return businessManager.getAllSubscription();
+    }
+
 }

@@ -476,4 +476,50 @@ public class DBAccess implements DataAccess{
             throw new UnfoundResearchException("rien trouvé");
         }
     }
+
+
+    @Override
+    public ArrayList<Subscription> getAllSubscription() throws ConnectionException, UnfoundResearchException{
+        try{
+            ArrayList<Subscription>subscriptions = new ArrayList<>();
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "SELECT * FROM libiavelo.subscription";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            ResultSet data = preparedStatement.executeQuery();
+
+
+            while(data.next()){
+                Subscription subscription = new Subscription();
+
+                String ID = data.getString("subscriptionId");
+                int price = data.getInt("price");
+                double discount = data.getDouble("discount");
+                Date startDate = data.getDate("startDate");
+                Date endDate = data.getDate("endDate");
+                Boolean automaticRenewal = data.getBoolean("automaticRenewal");
+                Boolean pricePayed = data.getBoolean("pricePayed");
+                Boolean cautionPayed = data.getBoolean("cautionPayed");
+                String typeName = data.getString("typeName");
+                int clientNumber = data.getInt("clientNumber");
+
+                subscription.setSubscriptionID(ID);
+                subscription.setPrice(price);
+                subscription.setDiscount(discount);
+                subscription.setStartDate(startDate);
+                subscription.setEndDate(endDate);
+                subscription.setAutomaticRenewal(automaticRenewal);
+                subscription.setPricePayed(pricePayed);
+                subscription.setCautionPayed(cautionPayed);
+                subscription.setTypeName(typeName);
+                subscription.setClientNumber(clientNumber);
+
+                subscriptions.add(subscription);
+            }
+            return subscriptions;
+        }
+        catch(SQLException sqlException){
+            throw new UnfoundResearchException("Erreur : aucun résultat ne correspond à votre recherche.");
+        }
+    }
 }
