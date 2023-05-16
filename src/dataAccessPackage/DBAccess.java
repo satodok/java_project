@@ -186,7 +186,7 @@ public class DBAccess implements DataAccess{
                     "on c.clientNumber = r.clientNumber\n" +
                     "inner join member m\n" +
                     "on m.clientNumber = c.clientNumber\n" +
-                    "where r.startDate > ? And r.returnDate < ?;";
+                    "where r.startDate > ? And r.startDate < ?;";
 
             //Creation du preparedStatement a partir de l'instruction sql
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -222,11 +222,11 @@ public class DBAccess implements DataAccess{
 
                 rentals.add(rental);
             }
-
+            System.out.println("test1");
             if(rentals.isEmpty()){
                 throw new UnfoundResearchException("Erreur : aucun résultat ne correspond à votre recherche.");
             }
-
+            System.out.println("test2");
             return rentals;
 
         } catch (SQLException sqlException) {
