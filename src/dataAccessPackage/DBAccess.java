@@ -348,4 +348,36 @@ public class DBAccess implements DataAccess{
             throw new UnfoundResearchException("Erreur : aucun résultat ne correspond à votre recherche.");
         }
     }
+
+    @Override
+    public void addNewSubscription(String subscriptionID, int price, Double discount, Date startDate, Date endDate, boolean automaticRenewal, boolean pricePayed, boolean cautionPayed, String typeName, int clientNumber) throws ConnectionException {
+        try{
+
+            Connection connection = SingletonConnection.getInstance("mdp");
+            String sqlInstruction = "INSERT INTO libiavelo.subscription (price, discount, startDate, endDate, " +
+                    "automaticRenewal, pricePayed, cautionPayed, typeName, clientNumber)\n" +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+            //Creation du preparedStatement a partir de l'instruction sql
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1, price);
+            if(discount == null) {
+                preparedStatement.setNull(2, Types.DOUBLE);
+            } else {
+                preparedStatement.setDouble(2, discount);
+            }
+            preparedStatement.setDate(3, startDate);
+            preparedStatement.setDate(4, endDate);
+            preparedStatement.setBoolean(5, automaticRenewal);
+            preparedStatement.setBoolean(6, pricePayed);
+            preparedStatement.setBoolean(7, cautionPayed);
+            preparedStatement.setString(8, typeName);
+            preparedStatement.setInt(9, clientNumber);
+
+            preparedStatement.executeUpdate();
+
+        }catch (SQLException sqlException){
+            throw new ConnectionException("Erreur lors de la connection à la base de donnée");
+        }
+    }
 }
