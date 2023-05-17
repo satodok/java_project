@@ -22,6 +22,9 @@ public class BusinessManager {
     public void addMember(Member member) throws ConnectionException, ExistingElementException{
         dao.addMember(member);
     }
+    public void updateMember(Member member) throws ConnectionException, WrongArgumentException, UnfoundResearchException, ExistingElementException{
+         dao.updateMember(member);
+    }
     public void addNewSubscription(Subscription subscription) throws ConnectionException {
         dao.addNewSubscription(subscription);
     }
@@ -60,6 +63,7 @@ public class BusinessManager {
     }
 
     // CRUD member
+
 
     public MemberInformations findMemberInformationsByNationalNumber(String nationalNumber) throws UnfoundResearchException,ConnectionException{
         return dao.findMemberInformationsByNationalNumber(nationalNumber);

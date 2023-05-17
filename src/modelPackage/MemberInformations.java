@@ -1,13 +1,19 @@
 package modelPackage;
 
+import com.toedter.calendar.JCalendar;
+
 import java.util.Date;
 
 public class MemberInformations {
     private String lastName;
     private String firstName;
+    private String street;
+    private Integer streetNumber;
+    private String locality;
+    private Integer postalCode;
     private String address;
     private Date birthDate;
-    private int phoneNumber;
+    private String phoneNumber;
     private String gender;
     private String emailAddress;
     private boolean newsletter;
@@ -22,8 +28,24 @@ public class MemberInformations {
         this.firstName = firstName;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddress() {
+        address = streetNumber + " "+ street + ", " + postalCode + " " + locality;
+    }
+
+    public void setPostalCode(Integer postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public void setStreetNumber(Integer streetNumber) {
+        this.streetNumber = streetNumber;
     }
 
     public void setBirthDate(Date birthDate) {
@@ -42,7 +64,7 @@ public class MemberInformations {
         this.newsletter = newsletter;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -62,7 +84,7 @@ public class MemberInformations {
         return birthDate;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -76,5 +98,17 @@ public class MemberInformations {
 
     public boolean getNewsLetter(){
         return newsletter;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public Integer getStreetNumber() {
+        return streetNumber;
     }
 }
