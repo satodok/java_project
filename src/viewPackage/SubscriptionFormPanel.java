@@ -121,9 +121,6 @@ public class SubscriptionFormPanel extends JPanel {
                     JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 else{
-                    if(discount.getText().isEmpty()){
-                        discount.setText(null);
-                    }
                     int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to validate your registration?", "Validation", JOptionPane.YES_NO_OPTION);
                     if (response == JOptionPane.YES_OPTION) {
                         JOptionPane.showMessageDialog(null, "Registration validated.", "Information", JOptionPane.INFORMATION_MESSAGE);
@@ -140,26 +137,30 @@ public class SubscriptionFormPanel extends JPanel {
                             JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
-
                 }
             }
         });
     }
-    public String checkForm(){
+    public String checkForm() {
         String errorMessage = "";
         if (price.getText().isEmpty()) {
             errorMessage += "Price field is mandatory\n";
         }
-        if(price.getText().isEmpty() || !containsOnlyDigits(price.getText())){
+        if (!price.getText().isEmpty() && !containsOnlyDigits(price.getText())) {
             errorMessage += "The price must only contain digits\n";
         }
         if (startDate.getDate() == null) {
             errorMessage += "Start date field is mandatory\n";
         }
-        if(Double.parseDouble(discount.getText()) >= 1.0){
+        if (discount.getText().isEmpty()) {
+            discount.setText("0"); // Valeur par défaut si le champ est vide
+        }
+        if (Double.parseDouble(discount.getText()) >= 1.0) {
             errorMessage += "Discount must be below 100%\n";
         }
-
+        if (Double.parseDouble(discount.getText()) < 0) {
+            errorMessage += "Discount must be up 0%\n";
+        }
         return errorMessage;
     }
     public void resetForm(){
