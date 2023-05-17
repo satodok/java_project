@@ -19,11 +19,10 @@ public class SubscriptionDeleteWindow extends JFrame {
 
         private JTable table;
         private JButton deleteButton;
-        Subscription subscription = new Subscription();
 
         public SubscriptionDeleteWindow()  {
             super("Unsubscribe");
-            this.setBounds(100,100,400,400);
+            this.setBounds(100,100,1000,600);
             setController(new ApplicationController());
 
             DefaultTableModel tableModel = new DefaultTableModel();
@@ -59,6 +58,7 @@ public class SubscriptionDeleteWindow extends JFrame {
                 }
 
                 table = new JTable(tableModel);
+                table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
                 JScrollPane scrollPane = new JScrollPane(table);
                 add(scrollPane, BorderLayout.CENTER);
 
@@ -78,10 +78,8 @@ public class SubscriptionDeleteWindow extends JFrame {
 
                         // Appeler la méthode de suppression avec les ID sélectionnés
                         try {
-                            controller.deleteSubscription("selectedIDs");
-                        } catch (ConnectionException ex) {
-                            ex.printStackTrace();
-                        } catch (UnfoundResearchException ex) {
+                            controller.deleteSubscription(selectedIDs);
+                        } catch (ConnectionException | UnfoundResearchException ex) {
                             ex.printStackTrace();
                         }
 
@@ -89,7 +87,9 @@ public class SubscriptionDeleteWindow extends JFrame {
                         tableModel.setRowCount(0); // Supprimer toutes les lignes existantes
                         try {
                             for (Subscription subscription : controller.getAllSubscription()) {
-                                Object[] rowData = {subscription.getPrice(),
+                                Object[] rowData = {
+                                        subscription.getSubscriptionID(),
+                                        subscription.getPrice(),
                                         subscription.getDiscount(),
                                         subscription.getAutomaticRenewal(),
                                         subscription.getCautionPayed(),
@@ -100,9 +100,7 @@ public class SubscriptionDeleteWindow extends JFrame {
                                         subscription.getTypeName()};
                                 tableModel.addRow(rowData);
                             }
-                        } catch (ConnectionException ex) {
-                            ex.printStackTrace();
-                        } catch (UnfoundResearchException ex) {
+                        } catch (ConnectionException | UnfoundResearchException ex) {
                             ex.printStackTrace();
                         }
                     }
