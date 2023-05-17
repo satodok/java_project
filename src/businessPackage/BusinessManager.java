@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -186,6 +187,9 @@ public class BusinessManager {
         double percentGold = 0;
         double percentSilver = 0;
         double percentBronze = 0;
+        String goldArrondi = "";
+        String silverArrondi = "";
+        String bronzeArrondi = "";
 
         try {
             for (StatSubscription statSubscription : dao.getStatSubscription()) {
@@ -207,17 +211,23 @@ public class BusinessManager {
                 totalSub = cptGold + cptSilver + cptBronze;
                 totalPrice = totalPriceGold + totalPriceSilver +totalPriceBronze;
 
+                DecimalFormat format = new DecimalFormat("#.00");
+
                 percentGold = ((double)cptGold / totalSub)*100;
                 percentSilver = ((double)cptSilver/ totalSub)*100;
                 percentBronze = ((double)cptBronze / totalSub)*100;
+
+                goldArrondi = format.format(percentGold);
+                silverArrondi = format.format(percentSilver);
+                bronzeArrondi = format.format(percentBronze);
 
             }
             JOptionPane.showMessageDialog(null, "Voici le nombre total d'abonnement : "+ totalSub);
             JOptionPane.showMessageDialog(null, "Voici le chiffre d'affaire total : "+ totalPrice);
 
-            JOptionPane.showMessageDialog(null, "Gold : "+ percentGold + "% ");
-            JOptionPane.showMessageDialog(null, "Silver : "+ percentSilver + "% ");
-            JOptionPane.showMessageDialog(null, "Bronze : "+ percentBronze + "% ");
+            JOptionPane.showMessageDialog(null, "Gold : "+ goldArrondi + "% ");
+            JOptionPane.showMessageDialog(null, "Silver : "+ silverArrondi + "% ");
+            JOptionPane.showMessageDialog(null, "Bronze : "+ bronzeArrondi + "% ");
         }catch (UnfoundResearchException | ConnectionException exception){
             JOptionPane.showMessageDialog(null, "Erreur",
                     "Erreur", JOptionPane.ERROR_MESSAGE);
