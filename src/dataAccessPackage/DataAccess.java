@@ -12,7 +12,9 @@ public interface DataAccess {
     public ArrayList<String> getLocalities() throws ConnectionException, UnfoundResearchException;
 
     // CRUD member
-    public void addAddress(String streetNumber, String street, String locality) throws ConnectionException, ExistingElementException;
+    public int getPostalCode(String locality) throws ConnectionException, WrongArgumentException;
+    public void updateAddress(Integer streetNumber, String street, String locality) throws ConnectionException, WrongArgumentException;
+    public void addAddress(Integer streetNumber, String street, String locality) throws ConnectionException, ExistingElementException;
     public void addMember(Member member) throws ConnectionException, ExistingElementException;
     public void updateMember(Member member) throws ConnectionException, WrongArgumentException, UnfoundResearchException, ExistingElementException;
 

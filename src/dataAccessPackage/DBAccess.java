@@ -12,10 +12,10 @@ import java.util.GregorianCalendar;
 
 public class DBAccess implements DataAccess{
 
-    // Fonction utilisée pour le CRUD membre
+    // Fonction pour le CRUD membre
+
     @Override
-    public void addAddress(String streetNumber, String street, String locality) throws ExistingElementException, ConnectionException {
-        //Récupérer le codePostal depuis la localité choisie par le membre dans la ComboBox du formulaire
+    public int getPostalCode(String locality) throws ConnectionException, WrongArgumentException {
         try{
             Connection connection = SingletonConnection.getInstance();
             String sqlInstruction = "SELECT postalCode FROM libiavelo.locality WHERE name = ?";
@@ -23,17 +23,31 @@ public class DBAccess implements DataAccess{
             preparedStatement.setString(1, locality);
             ResultSet data = preparedStatement.executeQuery();
 
-            Integer postalCode;
             data.next();
 
-            postalCode = data.getInt("postalCode");
+            return data.getInt("postalCode");
+
+        }
+        catch(SQLException sqlException){
+            throw  new WrongArgumentException("erreur : mauvaise localité entrée");
+        }
+    }
+
+    // Fonction utilisée pour le CRUD membre
+    @Override
+    public void addAddress(Integer streetNumber, String street, String locality) throws ExistingElementException, ConnectionException {
+        //Récupérer le codePostal depuis la localité choisie par le membre dans la ComboBox du formulaire
+        try{
+
+            updateAddress(streetNumber,street, locality);
+            Integer postalCode = getPostalCode(locality);
             // Insérer l'adresse du membre dans la BD
-            connection = SingletonConnection.getInstance();
+            Connection connection = SingletonConnection.getInstance();
             String sqlInstruction2 = "INSERT into libiavelo.address (street, streetNumber, postalCode, locality)\n" +
                     "VALUES (?, ?, ?, ?)";
-            preparedStatement = connection.prepareStatement(sqlInstruction2);
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction2);
             preparedStatement.setString(1, street);
-            preparedStatement.setString(2, streetNumber);
+            preparedStatement.setInt(2, streetNumber);
             preparedStatement.setInt(3, postalCode);
             preparedStatement.setString(4, locality);
             preparedStatement.executeUpdate();
@@ -47,40 +61,93 @@ public class DBAccess implements DataAccess{
     //Fonction principale pour l'update du CRUD membre
 
 
+    //Fonction pour le CRUD member
+
+    @Override
+    public void updateAddress(Integer streetNumber, String street, String locality) throws ConnectionException, WrongArgumentException {
+
+        int postalCode = getPostalCode(locality);
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String query = "UPDATE libiavelo.address \n" +
+                    "SET postalCode = ?, locality = ? \n" +
+                    "WHERE street = ? AND streetNumber = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, postalCode);
+            preparedStatement.setString(2, locality);
+            preparedStatement.setString(3, street);
+            preparedStatement.setInt(4, streetNumber);
+        }
+        catch(SQLException sqlException){
+            throw new WrongArgumentException("Erreur : mauvaises entrées rentrées");
+        }
+    }
+
     @Override
     public void updateMember(Member member) throws ConnectionException, WrongArgumentException, UnfoundResearchException, ExistingElementException {
-        try{
+        try {
+            Connection connection = SingletonConnection.getInstance();
             MemberInformations memberAddressCheck = findMemberInformationsByNationalNumber(member.getNationalNumber());
+            System.out.println("adresse base : " + memberAddressCheck.getAddress());
+            System.out.println("adresse update : " + member.getLocality() + member.getStreet() + member.getStreetNumber());
             String street = memberAddressCheck.getStreet();
             Integer streetNumber = memberAddressCheck.getStreetNumber();
             String locality = memberAddressCheck.getLocality();
 
-            //Si l'adresse a changé, ajouter la nouvelle addresse
-            if(!member.getStreet().equals(memberAddressCheck.getStreet()) ||
-                    !member.getStreetNumber().equals(memberAddressCheck.getStreetNumber())){
-                //addAddress(member.getStreetNumber(), member.getStreet(), member.getLocality());
+            //l'adresse a changé, add la nouvelle addresse dans la table address et update member avec la nouvelle adresse
+            if ((!member.getStreet().equals(memberAddressCheck.getStreet()))
+                    || (Integer.parseInt(member.getStreetNumber()) != memberAddressCheck.getStreetNumber())) {
+                addAddress(Integer.parseInt(member.getStreetNumber()), member.getStreet(), member.getLocality());
+                String sqlInstruction = "UPDATE libiavelo.member \n" +
+                        "SET lastName = ?, firstName = ?, birthDate = ?, phoneNumber = ?, " +
+                        "gender = ?, email = ?, newsletter = ?, street = ?, streetNumber = ? \n" +
+                        "WHERE nationalNumber = ?";
+
+                PreparedStatement statement = connection.prepareStatement(sqlInstruction);
+                statement.setString(1, member.getLastName());
+                statement.setString(2, member.getFirstName());
+
+                statement.setDate(3, new java.sql.Date(member.getBirthDate().getTime()));
+                statement.setString(4, member.getPhoneNumber());
+                statement.setString(5, member.getGender());
+                statement.setString(6, member.getEmail());
+                statement.setBoolean(7, member.getNewsletter());
+                statement.setString(8, member.getStreet());
+                statement.setInt(9, Integer.parseInt(member.getStreetNumber()));
+                statement.setString(10, member.getNationalNumber());
+
+                statement.executeUpdate();
+                System.out.println("okpremiercond");
             }
-            Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "UPDATE libiavelo.member \n" +
-                    "SET lastName = ?, firstName = ?, birthDate = ?, phoneNumber = ?, " +
-                    "gender = ?, email = ?, newsletter = ?, street = ?, streetNumber = ? \n"+
-                    "WHERE nationalNumber = ?";
+            //Le numéro et la rue n'ont pas changé
+            else if (member.getStreet().equals(memberAddressCheck.getStreet()) &&
+                    Integer.parseInt(member.getStreetNumber()) == (memberAddressCheck.getStreetNumber())) {
+                //La localité a changé, il faut modifier l'occurence de la table address
+                    if (!member.getLocality().equals(memberAddressCheck.getLocality())) {
+                    updateAddress(streetNumber,street,locality);
+                        System.out.println("oksecondecond");
+                    }
+                    //Update la table member sans modifier les valeurs d'adresse
+                    String query = "UPDATE libiavelo.member \n" +
+                            "SET lastName = ?, firstName = ?, birthDate = ?, phoneNumber = ?, " +
+                            "gender = ?, email = ?, newsletter = ? \n" +
+                            "WHERE nationalNumber = ?";
 
-            PreparedStatement statement = connection.prepareStatement(sqlInstruction);
-            statement.setString(1, member.getLastName());
-            statement.setString(2, member.getFirstName());
+                    PreparedStatement preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setString(1, member.getLastName());
+                    preparedStatement.setString(2, member.getFirstName());
 
-            statement.setDate(3, new java.sql.Date(member.getBirthDate().getTime()));
-            statement.setString(4, member.getPhoneNumber());
-            statement.setString(5, member.getGender());
-            statement.setString(6, member.getEmail());
-            statement.setBoolean(7, member.getNewsletter());
-            statement.setString(8, member.getStreet());
-            statement.setInt(9, Integer.parseInt(member.getStreetNumber()));
-            statement.setString(10, member.getNationalNumber());
+                    preparedStatement.setDate(3, new java.sql.Date(member.getBirthDate().getTime()));
+                    preparedStatement.setString(4, member.getPhoneNumber());
+                    preparedStatement.setString(5, member.getGender());
+                    preparedStatement.setString(6, member.getEmail());
+                    preparedStatement.setBoolean(7, member.getNewsletter());
+                    preparedStatement.setString(8, member.getStreet());
 
-            statement.executeUpdate();
+                    preparedStatement.executeUpdate();
+                System.out.println("oktroisièmecond");
 
+            }
         }
         catch(SQLException sqlException){
             String errorMessage = "Erreur : " + sqlException.getMessage();
@@ -95,7 +162,7 @@ public class DBAccess implements DataAccess{
     public void addMember(Member member) throws ConnectionException, ExistingElementException {
         try{
             //Appel a la fonction d'ajout d'adresse
-            addAddress(member.getStreetNumber(), member.getStreet(), member.getLocality());
+            addAddress(Integer.parseInt(member.getStreetNumber()), member.getStreet(), member.getLocality());
             Connection connection = SingletonConnection.getInstance();
 
             // Créer la carte du membre et donc son numéro client
