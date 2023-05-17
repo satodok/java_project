@@ -37,8 +37,6 @@ public class RegistrationFormPanel extends JPanel{
     private JButton quitButton;
 
 
-
-
     public RegistrationFormPanel(){
         // Initialisation de tous les attributs
         setController(new ApplicationController());
