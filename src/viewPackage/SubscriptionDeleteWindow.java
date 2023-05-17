@@ -66,22 +66,26 @@ public class SubscriptionDeleteWindow extends JFrame {
                 deleteButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // Récupérer les indices des lignes sélectionnées
-                        int[] selectedRows = table.getSelectedRows();
 
-                        // Stocker les ID des lignes sélectionnées
-                        ArrayList<String> selectedIDs = new ArrayList<>();
-                        for (int row : selectedRows) {
-                            String id = (String) table.getValueAt(row, 0); // Supposant que la première colonne contient l'ID
-                            selectedIDs.add(id);
-                        }
+                        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete ?", "Validation delete", JOptionPane.YES_NO_OPTION);
+                        if (response == JOptionPane.YES_OPTION) {
 
-                        // Appeler la méthode de suppression avec les ID sélectionnés
-                        try {
-                            controller.deleteSubscription(selectedIDs);
-                        } catch (ConnectionException | UnfoundResearchException ex) {
-                            ex.printStackTrace();
-                        }
+                            // Récupérer les indices des lignes sélectionnées
+                            int[] selectedRows = table.getSelectedRows();
+
+                            // Stocker les ID des lignes sélectionnées
+                            ArrayList<String> selectedIDs = new ArrayList<>();
+                            for (int row : selectedRows) {
+                                String id = (String) table.getValueAt(row, 0); // Supposant que la première colonne contient l'ID
+                                selectedIDs.add(id);
+                            }
+
+                            // Appeler la méthode de suppression avec les ID sélectionnés
+                            try {
+                                controller.deleteSubscription(selectedIDs);
+                            } catch (ConnectionException | UnfoundResearchException ex) {
+                                ex.printStackTrace();
+                            }
 
                         // Rafraîchir la table après la suppression
                         tableModel.setRowCount(0); // Supprimer toutes les lignes existantes
@@ -104,15 +108,12 @@ public class SubscriptionDeleteWindow extends JFrame {
                             ex.printStackTrace();
                         }
                     }
+                }
                 });
                 add(deleteButton, BorderLayout.SOUTH);
-
             } catch (ConnectionException | UnfoundResearchException sqlException){
                     JOptionPane.showMessageDialog(null, sqlException.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                     }
-
-
-
         }
 
     public void setController(ApplicationController controller) {
