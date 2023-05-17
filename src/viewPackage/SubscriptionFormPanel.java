@@ -125,7 +125,7 @@ public class SubscriptionFormPanel extends JPanel {
                     if (response == JOptionPane.YES_OPTION) {
                         JOptionPane.showMessageDialog(null, "Registration validated.", "Information", JOptionPane.INFORMATION_MESSAGE);
                         setVisible(false);
-                        Subscription subscription = new Subscription(Integer.parseInt(price.getText()),
+                        Subscription subscription = new Subscription(null,Integer.parseInt(price.getText()),
                                 Double.parseDouble(discount.getText()),startDate.getDate(),endDate.getDate(),
                                 automaticRenewal.isSelected(),pricePayed.isSelected(),cautionPayed.isSelected(),
                                 (String) typeName.getSelectedItem(),(Integer) clientNumber.getSelectedItem());

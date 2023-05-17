@@ -14,7 +14,7 @@ public class SubscriptionInformationsWindow extends JFrame {
     private ApplicationController controller;
     private Subscription subscription;
     private JTextField subscriptionIDInput;
-    private String subscriptionID;
+    private Integer subscriptionID;
     private JLabel subscriptionIDLabel;
     private JPanel informationsPanel;
     private SubscriptionInformationsModel model;
@@ -42,7 +42,7 @@ public class SubscriptionInformationsWindow extends JFrame {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                subscriptionID = subscriptionIDInput.getText();
+                subscriptionID = Integer.parseInt(subscriptionIDInput.getText());
 
                 try{
                     subscription = controller.findSubscriptionBySubscriptionID(subscriptionID);

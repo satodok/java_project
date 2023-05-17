@@ -3,7 +3,7 @@ package modelPackage;
 import java.util.Date;
 
 public class Subscription {
-    private String subscriptionID;
+    private Integer subscriptionID;
     private int price;
     private double discount;
     private Date startDate;
@@ -15,9 +15,10 @@ public class Subscription {
     private int clientNumber;
 
     public Subscription(){}
-    public Subscription(int price, double discount,
+    public Subscription(Integer subscriptionID, int price, double discount,
                         Date startDate, Date endDate, boolean automaticRenewal,
                         boolean pricePayed, boolean cautionPayed, String typeName, Integer clientNumber){
+        this.subscriptionID = subscriptionID;
         this.price = price;
         this.discount = discount;
         this.startDate =startDate;
@@ -29,7 +30,7 @@ public class Subscription {
         this.clientNumber = clientNumber;
     }
 
-    public void setSubscriptionID(String subscriptionID) {
+    public void setSubscriptionID(Integer subscriptionID) {
         this.subscriptionID = subscriptionID;
     }
 
@@ -69,7 +70,7 @@ public class Subscription {
         this.clientNumber = clientNumber;
     }
 
-    public String getSubscriptionID() {
+    public Integer getSubscriptionID() {
         return subscriptionID;
     }
 

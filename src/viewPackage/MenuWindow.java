@@ -18,7 +18,7 @@ public class MenuWindow extends JFrame{
 
     // subscription items
     private JMenuItem subscribe;
-    private String ok;
+    private JMenuItem subscriptionUpdate;
     private JMenuItem subscriptionSearch;
     private JMenuItem unsubscribe;
 
@@ -67,6 +67,8 @@ public class MenuWindow extends JFrame{
         subscription.add(unsubscribe);
         subscriptionSearch = new JMenuItem("Subscription search");
         subscription.add(subscriptionSearch);
+        subscriptionUpdate = new JMenuItem("Update");
+        subscription.add(subscriptionUpdate);
 
         register = new JMenuItem("Register");
         myAccount.add(register);
@@ -89,9 +91,16 @@ public class MenuWindow extends JFrame{
         searchRentalsDetails = new JMenuItem("Search rentalsDetails from date Range");
         researches.add(searchRentalsDetails);
 
+        subscriptionUpdate.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                SubscriptionUpdateFormPanel subscriptionUpdateFormPanel = new SubscriptionUpdateFormPanel();
+                setContentPane(subscriptionUpdateFormPanel);
+                revalidate();
+            }
+        });
+
         update.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 RegistrationUpdateFormPanel registrationUpdateFormPanel = new RegistrationUpdateFormPanel();
                 setContentPane(registrationUpdateFormPanel);
                 revalidate();

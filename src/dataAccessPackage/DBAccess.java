@@ -2,6 +2,7 @@ package dataAccessPackage;
 
 import modelPackage.*;
 import exceptionPackage.*;
+import viewPackage.SubscriptionUpdateFormPanel;
 
 import javax.swing.*;
 import java.io.PrintWriter;
@@ -491,7 +492,7 @@ public class DBAccess implements DataAccess{
         }
     }
 
-    public Subscription findSubscriptionBySubscriptionID(String subscriptionID) throws UnfoundResearchException, ConnectionException{
+    public Subscription findSubscriptionBySubscriptionID(Integer subscriptionID) throws UnfoundResearchException, ConnectionException{
         try{
             Subscription subscription;
             Connection connection = SingletonConnection.getInstance();
@@ -502,14 +503,14 @@ public class DBAccess implements DataAccess{
                     "WHERE s.subscriptionID = ?";
             //Creation du preparedStatement a partir de l'instruction sql
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-            preparedStatement.setString(1, subscriptionID);
+            preparedStatement.setInt(1, subscriptionID);
 
             // executer la requete et recuperer le resultat
             ResultSet data = preparedStatement.executeQuery();
             data.next();
             subscription = new Subscription();
 
-            String ID = data.getString("subscriptionID");
+            Integer ID = data.getInt("subscriptionID");
             int price = data.getInt("price");
             double discount = data.getDouble("discount");
             Date startDate = data.getDate("startDate");
@@ -606,7 +607,7 @@ public class DBAccess implements DataAccess{
             while(data.next()){
                 Subscription subscription = new Subscription();
 
-                String ID = data.getString("subscriptionId");
+                Integer ID = data.getInt("subscriptionId");
                 int price = data.getInt("price");
                 double discount = data.getDouble("discount");
                 Date startDate = data.getDate("startDate");
@@ -657,5 +658,53 @@ public class DBAccess implements DataAccess{
             System.out.println(sqlException.getMessage());
             throw new UnfoundResearchException("Error : no results were found from your search");
         }
+    }
+    public ArrayList<Integer> getAllSUbscriptionIDs() throws ConnectionException, UnfoundResearchException{
+        try{
+            ArrayList<Integer> subscriptionIDs = new ArrayList<>();
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "SELECT subscriptionID FROM libiavelo.subscription";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            ResultSet data = preparedStatement.executeQuery();
+            int subscriptionID;
+
+            while(data.next()){
+                subscriptionID = data.getInt("subscriptionID");
+                subscriptionIDs.add(subscriptionID);
+            }
+            return subscriptionIDs;
+        }
+        catch (SQLException sqlException){
+            System.out.println(sqlException.getMessage());
+            throw new UnfoundResearchException("Error : no results were found from your search");
+        }
+    }
+    public void updateSubscription(Subscription subscription) throws ConnectionException, WrongArgumentException, UnfoundResearchException, ExistingElementException{
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "UPDATE libiavelo.subscription \n" +
+                    "SET price = ?, discount = ?, startDate = ?, endDate = ?, automaticRenewal = ?, " +
+                    "pricePayed = ?, cautionPayed = ?, typeName = ?, clientNumber = ? " +
+                    "WHERE subscriptionID = ?;";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1,subscription.getPrice());
+            preparedStatement.setDouble(2,subscription.getDiscount());
+            preparedStatement.setDate(3,new java.sql.Date(subscription.getStartDate().getTime()));
+            preparedStatement.setDate(4,new java.sql.Date(subscription.getEndDate().getTime()));
+            preparedStatement.setBoolean(5,subscription.getAutomaticRenewal());
+            preparedStatement.setBoolean(6,subscription.getPricePayed());
+            preparedStatement.setBoolean(7,subscription.getCautionPayed());
+            preparedStatement.setString(8,subscription.getTypeName());
+            preparedStatement.setInt(9,subscription.getClientNumber());
+            preparedStatement.setInt(10,subscription.getSubscriptionID());
+            preparedStatement.executeUpdate();
+        }
+        catch(SQLException exception){
+            System.out.println("Error : "+exception.getMessage());
+            throw new WrongArgumentException("Erreur = mauvaise valeurs entrées");
+        }
+
     }
 }

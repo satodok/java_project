@@ -25,9 +25,11 @@ public interface DataAccess {
     public ArrayList <Member> findMembersFromSubscriptionPlan(String subscriptionType) throws ConnectionException,UnfoundResearchException;
     public ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, RentalDetailsException, WrongArgumentException;
     public MemberInformations findMemberInformationsByNationalNumber(String nationalNumber) throws UnfoundResearchException, ConnectionException;
-    public Subscription findSubscriptionBySubscriptionID(String subscriptionID) throws UnfoundResearchException, ConnectionException;
+    public Subscription findSubscriptionBySubscriptionID(Integer subscriptionID) throws UnfoundResearchException, ConnectionException;
     public void addNewSubscription(Subscription subscription) throws ConnectionException;
     void deleteSubscription(ArrayList<String> subscriptionID) throws ConnectionException, UnfoundResearchException;
     public ArrayList<Subscription> getAllSubscription() throws ConnectionException, UnfoundResearchException;
     public ArrayList<Integer> getAllClientNumbers() throws ConnectionException, UnfoundResearchException;
-    }
+    public ArrayList<Integer> getAllSUbscriptionIDs() throws ConnectionException, UnfoundResearchException;
+    public void updateSubscription(Subscription subscription) throws ConnectionException, WrongArgumentException, UnfoundResearchException, ExistingElementException;
+}

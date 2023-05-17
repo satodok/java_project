@@ -75,7 +75,7 @@ public class BusinessManager {
     }
 
     //CRUD subscription
-    public Subscription findSubscriptionBySubscriptionID(String subscriptionID) throws UnfoundResearchException, ConnectionException{
+    public Subscription findSubscriptionBySubscriptionID(Integer subscriptionID) throws UnfoundResearchException, ConnectionException{
         return dao.findSubscriptionBySubscriptionID(subscriptionID);
     }
 
@@ -91,4 +91,10 @@ public class BusinessManager {
         return dao.getAllClientNumbers();
     }
 
+    public ArrayList<Integer> getAllSUbscriptionIDs() throws ConnectionException, UnfoundResearchException{
+        return dao.getAllSUbscriptionIDs();
     }
+    public void updateSubscription(Subscription subscription) throws ConnectionException, WrongArgumentException, UnfoundResearchException, ExistingElementException{
+        dao.updateSubscription(subscription);
+    }
+}

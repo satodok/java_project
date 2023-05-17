@@ -61,7 +61,7 @@ public class ApplicationController {
     }
 
     //CRUD subscription
-    public Subscription findSubscriptionBySubscriptionID(String subscriptionID) throws UnfoundResearchException, ConnectionException{
+    public Subscription findSubscriptionBySubscriptionID(Integer subscriptionID) throws UnfoundResearchException, ConnectionException{
         return businessManager.findSubscriptionBySubscriptionID(subscriptionID);
     }
 
@@ -76,4 +76,10 @@ public class ApplicationController {
     public ArrayList<Integer> getAllClientNumbers() throws ConnectionException, UnfoundResearchException{
         return businessManager.getAllClientNumbers();
     }
+    public ArrayList<Integer> getAllSUbscriptionIDs() throws ConnectionException, UnfoundResearchException{
+        return businessManager.getAllSUbscriptionIDs();
     }
+    public void updateSubscription(Subscription subscription) throws ConnectionException, WrongArgumentException, UnfoundResearchException, ExistingElementException{
+        businessManager.updateSubscription(subscription);
+    }
+}
