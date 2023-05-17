@@ -18,14 +18,14 @@ public class MenuWindow extends JFrame{
 
     // subscription items
     private JMenuItem subscribe;
-    private String ok;
     private JMenuItem subscriptionSearch;
     private JMenuItem unsubscribe;
 
     // my account item
     private JMenuItem myInformations;
     private JMenuItem register;
-    private JMenuItem update;
+    private JMenuItem updateAccount;
+    private JMenuItem deleteAccount;
 
     // rental items
     private JMenuItem rentABike;
@@ -72,8 +72,10 @@ public class MenuWindow extends JFrame{
         myAccount.add(register);
         myInformations = new JMenuItem("My informations");
         myAccount.add(myInformations);
-        update = new JMenuItem(("Update"));
-        myAccount.add(update);
+        updateAccount = new JMenuItem(("Update my account"));
+        myAccount.add(updateAccount);
+        deleteAccount = new JMenuItem("Delete my account");
+        myAccount.add(deleteAccount);
 
         rentABike = new JMenuItem("Rent a bike");
         bikeRental.add(rentABike);
@@ -89,7 +91,14 @@ public class MenuWindow extends JFrame{
         searchRentalsDetails = new JMenuItem("Search rentalsDetails from date Range");
         researches.add(searchRentalsDetails);
 
-        update.addActionListener(new ActionListener() {
+        deleteAccount.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RegistrationDeleteWindow registrationDeleteWindow = new RegistrationDeleteWindow();
+                registrationDeleteWindow.setVisible(true);
+            }
+        });
+        updateAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 RegistrationUpdateFormPanel registrationUpdateFormPanel = new RegistrationUpdateFormPanel();

@@ -19,6 +19,12 @@ public class BusinessManager {
     }
 
     // CRUD member
+    public void deleteAllRelatedToMembers(ArrayList<String> nationalNumbers) throws ConnectionException, UnfoundResearchException{
+        dao.deleteAllRelatedToMembers(nationalNumbers);
+    }
+    public ArrayList<Member> getAllMembers() throws ConnectionException,UnfoundResearchException{
+        return dao.getAllMembers();
+    }
     public void addMember(Member member) throws ConnectionException, ExistingElementException{
         dao.addMember(member);
     }

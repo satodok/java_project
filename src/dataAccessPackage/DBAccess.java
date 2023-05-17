@@ -12,8 +12,88 @@ import java.util.GregorianCalendar;
 
 public class DBAccess implements DataAccess{
 
-    // Fonction pour le CRUD membre
+    //Fonction pour le CRUD membre
 
+    @Override
+    public void deleteAllRelatedToMembers(ArrayList<String> nationalNumbers) throws ConnectionException, UnfoundResearchException {
+        Connection connection = SingletonConnection.getInstance();
+        try {
+            for (String nationalNumber : nationalNumbers) {
+
+                // Supprimer la ligne de la table Member
+                String query = "DELETE FROM libiavelo.member WHERE nationalNumber = ?";
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setString(1,nationalNumber);
+                statement.executeUpdate();
+
+                MemberInformations member = findMemberInformationsByNationalNumber(nationalNumber);
+                String street = member.getStreet();
+                Integer streetNumber = member.getStreetNumber();
+                Integer clientNumber = member.getClientNumber();
+                //Supprimer la ligne liée à la table card
+                String sqlInstruction = "DELETE FROM libiavelo.card WHERE clientNumber = ?";
+                PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+                preparedStatement.setInt(1,member.getClientNumber());
+                preparedStatement.executeUpdate();
+
+                //Supprimer la ligne liée à la table address
+                String sqlInstruction2 = "DELETE FROM libiavelo.address WHERE street = ? AND streetNumber = ?";
+                PreparedStatement queryStatement = connection.prepareStatement(sqlInstruction2);
+                queryStatement.setString(1,member.getStreet());
+                queryStatement.setInt(2, member.getStreetNumber());
+                queryStatement.executeUpdate();
+
+
+            }
+
+        } catch (SQLException sqlException) {
+            System.out.println("Erreur : " + sqlException.getMessage());
+            throw new UnfoundResearchException("aucune valeur disponible à supprimer");
+        }
+    }
+
+
+    //Fonction pour le CRUD membre
+
+
+    @Override
+    public ArrayList<Member> getAllMembers() throws ConnectionException, UnfoundResearchException {
+        try{
+            ArrayList<Member> members = new ArrayList<>();
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "SELECT * FROM libiavelo.member";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+
+            ResultSet data = preparedStatement.executeQuery();
+            while(data.next()){
+                Member member = new Member();
+                member.setNationalNumber(data.getString("nationalNumber"));
+                member.setNewsletter(data.getBoolean("newsletter"));
+                member.setLastName(data.getString("lastName"));
+                member.setFirstName(data.getString("firstName"));
+                if ( ! data.wasNull( ) ) {
+                    member.setGender(data.getString("gender"));
+                    member.setPhoneNumber(data.getString("phoneNumber"));
+                    long date = data.getDate("birthDate").getTime();
+                    member.setBirthDate(new java.util.Date(date));
+                }
+
+                member.setEmail(data.getString("email"));
+                member.setStreet(data.getString("street"));
+                member.setClientNumber(data.getInt("clientNumber"));
+                member.setStreetNumber(String.valueOf(data.getInt("streetNumber")));
+
+                    members.add(member);
+            }
+            return members;
+        }
+        catch(SQLException sqlException){
+            System.out.println("Erreur : "+ sqlException.getMessage());
+            throw new UnfoundResearchException("Erreur : aucun membre enregistré");
+        }
+    }
+
+    // Fonction pour le CRUD membre
     @Override
     public int getPostalCode(String locality) throws ConnectionException, WrongArgumentException {
         try{
@@ -24,7 +104,6 @@ public class DBAccess implements DataAccess{
             ResultSet data = preparedStatement.executeQuery();
 
             data.next();
-
             return data.getInt("postalCode");
 
         }
@@ -77,6 +156,7 @@ public class DBAccess implements DataAccess{
             preparedStatement.setString(2, locality);
             preparedStatement.setString(3, street);
             preparedStatement.setInt(4, streetNumber);
+            preparedStatement.executeUpdate();
         }
         catch(SQLException sqlException){
             throw new WrongArgumentException("Erreur : mauvaises entrées rentrées");
@@ -88,8 +168,6 @@ public class DBAccess implements DataAccess{
         try {
             Connection connection = SingletonConnection.getInstance();
             MemberInformations memberAddressCheck = findMemberInformationsByNationalNumber(member.getNationalNumber());
-            System.out.println("adresse base : " + memberAddressCheck.getAddress());
-            System.out.println("adresse update : " + member.getLocality() + member.getStreet() + member.getStreetNumber());
             String street = memberAddressCheck.getStreet();
             Integer streetNumber = memberAddressCheck.getStreetNumber();
             String locality = memberAddressCheck.getLocality();
@@ -117,7 +195,6 @@ public class DBAccess implements DataAccess{
                 statement.setString(10, member.getNationalNumber());
 
                 statement.executeUpdate();
-                System.out.println("okpremiercond");
             }
             //Le numéro et la rue n'ont pas changé
             else if (member.getStreet().equals(memberAddressCheck.getStreet()) &&
@@ -125,7 +202,6 @@ public class DBAccess implements DataAccess{
                 //La localité a changé, il faut modifier l'occurence de la table address
                     if (!member.getLocality().equals(memberAddressCheck.getLocality())) {
                     updateAddress(streetNumber,street,locality);
-                        System.out.println("oksecondecond");
                     }
                     //Update la table member sans modifier les valeurs d'adresse
                     String query = "UPDATE libiavelo.member \n" +
@@ -145,7 +221,6 @@ public class DBAccess implements DataAccess{
                     preparedStatement.setString(8, member.getStreet());
 
                     preparedStatement.executeUpdate();
-                System.out.println("oktroisièmecond");
 
             }
         }
@@ -188,6 +263,7 @@ public class DBAccess implements DataAccess{
             preparedStatement.executeUpdate();
 
 
+
         }
         catch(SQLException sqlException){
             throw new ExistingElementException("Erreur : ce membre existe déjà");
@@ -209,6 +285,7 @@ public class DBAccess implements DataAccess{
                 locality = data.getString("name");
                 localities.add(locality);
             }
+
             return localities;
         }
         catch(SQLException sqlException){
@@ -233,6 +310,7 @@ public class DBAccess implements DataAccess{
                 nationalNumber = data.getString("nationalNumber");
                 nationalNumbers.add(nationalNumber);
             }
+
             return nationalNumbers;
         }
         catch(SQLException sqlException){
@@ -470,6 +548,7 @@ public class DBAccess implements DataAccess{
             String locality = data.getString("locality");
             Integer streetNumber = data.getInt("streetNumber");
             Integer postalCode = data.getInt("postalCode");
+            Integer clientNumber = data.getInt("clientNumber");
 
             memberInformations.setFirstName(firstName);
             memberInformations.setLastName(lastName);
@@ -482,6 +561,7 @@ public class DBAccess implements DataAccess{
             memberInformations.setStreet(street);
             memberInformations.setStreetNumber(streetNumber);
             memberInformations.setPostalCode(postalCode);
+            memberInformations.setClientNumber(clientNumber);
             memberInformations.setAddress();
             return memberInformations;
 

@@ -12,6 +12,8 @@ public interface DataAccess {
     public ArrayList<String> getLocalities() throws ConnectionException, UnfoundResearchException;
 
     // CRUD member
+    public ArrayList<Member> getAllMembers() throws ConnectionException,UnfoundResearchException;
+    public void deleteAllRelatedToMembers(ArrayList<String> nationalNumbers) throws ConnectionException, UnfoundResearchException;
     public int getPostalCode(String locality) throws ConnectionException, WrongArgumentException;
     public void updateAddress(Integer streetNumber, String street, String locality) throws ConnectionException, WrongArgumentException;
     public void addAddress(Integer streetNumber, String street, String locality) throws ConnectionException, ExistingElementException;

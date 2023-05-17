@@ -53,7 +53,7 @@ public class RegistrationUpdateFormPanel extends JPanel {
         }
 
         comboBoxPannel.add(nationalNumbersBox);
-        searchButton = new JButton("FindMemberInfo");
+        searchButton = new JButton("Find to update");
         comboBoxPannel.add(searchButton);
         add(comboBoxPannel,CENTER_ALIGNMENT);
 

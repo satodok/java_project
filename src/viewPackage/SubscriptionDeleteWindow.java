@@ -111,8 +111,8 @@ public class SubscriptionDeleteWindow extends JFrame {
                 }
                 });
                 add(deleteButton, BorderLayout.SOUTH);
-            } catch (ConnectionException | UnfoundResearchException sqlException){
-                    JOptionPane.showMessageDialog(null, sqlException.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            } catch (ConnectionException | UnfoundResearchException exception){
+                    JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                     }
         }
 
