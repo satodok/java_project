@@ -462,7 +462,7 @@ public class DBAccess implements DataAccess{
 
 
     @Override
-    public void deleteSubscription(String subscriptionID) throws ConnectionException, UnfoundResearchException {
+    public void deleteSubscription(ArrayList<String> subscriptionID) throws ConnectionException, UnfoundResearchException {
         try {
             //test
             Connection connection = SingletonConnection.getInstance();
@@ -470,8 +470,12 @@ public class DBAccess implements DataAccess{
                     "WHERE subscriptionId = ?;";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-            preparedStatement.setString(1, subscriptionID);
-            int rowsAffected = preparedStatement.executeUpdate();
+            for (String subscription : subscriptionID) {
+                // Ajoutez chaque valeur à la requête préparée
+                preparedStatement.setString(1, subscription);  // Remplacez 1 par l'index de la colonne correspondante
+                // Exécutez la requête préparée pour chaque valeur
+                preparedStatement.executeUpdate();
+            }
 
         } catch (SQLException sqlException) {
             throw new UnfoundResearchException("rien trouvé");

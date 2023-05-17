@@ -62,7 +62,7 @@ public class ApplicationController {
         return businessManager.findSubscriptionBySubscriptionID(subscriptionID);
     }
 
-    public void deleteSubscription(String subscriptionID) throws ConnectionException, UnfoundResearchException{
+    public void deleteSubscription(ArrayList<String> subscriptionID) throws ConnectionException, UnfoundResearchException{
         businessManager.deleteSubscription(subscriptionID);
     }
 
