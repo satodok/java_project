@@ -17,6 +17,7 @@ public class MemberInformations {
     private String gender;
     private String emailAddress;
     private boolean newsletter;
+    private Integer clientNumber;
 
     public MemberInformations(){}
 
@@ -88,6 +89,14 @@ public class MemberInformations {
         return phoneNumber;
     }
 
+    public void setClientNumber(Integer clientNumber) {
+        this.clientNumber = clientNumber;
+    }
+
+    public Integer getClientNumber() {
+        return clientNumber;
+    }
+
     public String getEmailAddress() {
         return emailAddress;
     }
@@ -111,4 +120,5 @@ public class MemberInformations {
     public Integer getStreetNumber() {
         return streetNumber;
     }
+
 }

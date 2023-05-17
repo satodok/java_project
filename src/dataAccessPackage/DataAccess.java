@@ -11,7 +11,12 @@ public interface DataAccess {
     //Récupérer toutes les localités
     public ArrayList<String> getLocalities() throws ConnectionException, UnfoundResearchException;
 
+    //Thread
+    ArrayList<Counter>getStock() throws ConnectionException, UnfoundResearchException;
+
     // CRUD member
+    public ArrayList<Member> getAllMembers() throws ConnectionException,UnfoundResearchException;
+    public void deleteAllRelatedToMembers(ArrayList<String> nationalNumbers) throws ConnectionException, UnfoundResearchException;
     public int getPostalCode(String locality) throws ConnectionException, WrongArgumentException;
     public void updateAddress(Integer streetNumber, String street, String locality) throws ConnectionException, WrongArgumentException;
     public void addAddress(Integer streetNumber, String street, String locality) throws ConnectionException, ExistingElementException;
@@ -30,6 +35,7 @@ public interface DataAccess {
     void deleteSubscription(ArrayList<String> subscriptionID) throws ConnectionException, UnfoundResearchException;
     public ArrayList<Subscription> getAllSubscription() throws ConnectionException, UnfoundResearchException;
     public ArrayList<Integer> getAllClientNumbers() throws ConnectionException, UnfoundResearchException;
+    public ArrayList<Integer> getBikesRemainingInStation(ArrayList<Integer> numerosStaion) throws ConnectionException;
     public ArrayList<Integer> getAllSUbscriptionIDs() throws ConnectionException, UnfoundResearchException;
     public void updateSubscription(Subscription subscription) throws ConnectionException, WrongArgumentException, UnfoundResearchException, ExistingElementException;
 }

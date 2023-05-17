@@ -37,6 +37,39 @@ public class Member {
         this.locality = locality;
     }
 
+
+    public void setNewsletter(Boolean newsletter) {
+        this.newsletter = newsletter;
+    }
+
+    public void setNationalNumber(String nationalNumber) {
+        this.nationalNumber = nationalNumber;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
+
+    public void setStreetNumber(String streetNumber) {
+        this.streetNumber = streetNumber;
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -103,5 +136,8 @@ public class Member {
         return gender;
     }
 
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }
 
