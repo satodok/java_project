@@ -40,6 +40,7 @@ public class RegistrationFormPanel extends JPanel{
 
 
     public RegistrationFormPanel(){
+        // Initialisation de tous les attributs
         setController(new ApplicationController());
         formPanel = new JPanel();
         formPanel.setLayout(new GridLayout(0, 2, 10, 15));
@@ -110,6 +111,8 @@ public class RegistrationFormPanel extends JPanel{
 
         add(formPanel,BorderLayout.CENTER);
         add(buttonsPanel,BorderLayout.SOUTH);
+
+        //Implementation de l'action engendrée par le bouton quit
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -117,6 +120,7 @@ public class RegistrationFormPanel extends JPanel{
             }
         });
 
+        //implemntation des actions effectuées par le bouton reinitalisation
         reinitialisationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -128,6 +132,7 @@ public class RegistrationFormPanel extends JPanel{
             }
         });
 
+        // Implementation des actions effectuées avec le bouton validation
         validationButton.addActionListener(new ActionListener() {
 
             @Override
@@ -199,8 +204,9 @@ public class RegistrationFormPanel extends JPanel{
             errorMessage += "Birth date field is mandatory\n";
         }
         if ((!phoneNumberField.getText().isEmpty())){
-            if(!containsOnlyDigits(phoneNumberField.getText()) ||phoneNumberField.getText().length() != 10){
-                errorMessage += "Phone number field must contain 10 digits.\n";
+            if(!containsOnlyDigits(phoneNumberField.getText()) ||phoneNumberField.getText().length() != 10 ||
+                    !phoneNumberField.getText().startsWith("0")){
+                errorMessage += "Phone number field must contain 10 digits and start with 0.\n";
             }
         }
         if (!genderField.getText().isEmpty() && !containsOnlyLetters(genderField.getText())) {
@@ -243,9 +249,11 @@ public class RegistrationFormPanel extends JPanel{
         newsletterField.setSelected(false);
     }
 
+
+
     //REGEX pour vérifier si les champs int contiennent que des chiffres
     public boolean containsOnlyDigits(String str) {
-        // Utiliser une expression régulière pour vérifier si la chaîne ne contient que des chiffres
+
         String digitsRegex = "\\d+";
         return str.matches(digitsRegex);
     }

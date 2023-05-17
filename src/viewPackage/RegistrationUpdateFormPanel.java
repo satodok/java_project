@@ -6,6 +6,7 @@ import exceptionPackage.ConnectionException;
 import exceptionPackage.ExistingElementException;
 import exceptionPackage.UnfoundResearchException;
 import modelPackage.Member;
+import modelPackage.MemberInformations;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,6 @@ import java.util.regex.Pattern;
 public class RegistrationUpdateFormPanel extends JPanel {
     private ApplicationController controller;
     private JPanel searchButtonPanel;
-    private String nationalNumber;
     private JButton searchButton;
     private JComboBox<String>nationalNumbersBox;
     private JPanel formPanel;
@@ -52,78 +52,17 @@ public class RegistrationUpdateFormPanel extends JPanel {
             JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
 
-        formPanel.add(new JLabel("Chose a national number"));
-        formPanel.add(nationalNumbersBox);
-
-        formPanel.add(new JLabel("Last name"));
-        lastNameField = new JTextField();
-        formPanel.add(lastNameField);
-
-        formPanel.add(new JLabel("First name"));
-        firstNameField = new JTextField();
-        formPanel.add(firstNameField);
-
-        formPanel.add(new JLabel("Birth date"));
-        birthDateField = new JDateChooser();
-        formPanel.add(birthDateField);
-
-        formPanel.add(new JLabel("Phone Number"));
-        phoneNumberField = new JTextField();
-        formPanel.add(phoneNumberField);
-
-        formPanel.add(new JLabel("Gender"));
-        genderField = new JTextField();
-        formPanel.add(genderField);
-
-        formPanel.add(new JLabel("Email address"));
-        emailAdressField = new JTextField();
-        formPanel.add(emailAdressField);
-
-        streetField = new JTextField();
-        streetNumberField = new JTextField();
-        try {
-            localityField = new JComboBox();
-            for (String locality : controller.getLocalities()) {
-                localityField.addItem(locality);
-            }
-        } catch (UnfoundResearchException | ConnectionException exception) {
-            JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
-        }
-
-
-        formPanel.add(new JLabel("Street"));
-        formPanel.add(streetField);
-
-        formPanel.add(new JLabel("Street number"));
-        formPanel.add(streetNumberField);
-
-        formPanel.add(new JLabel("Locality"));
-        formPanel.add(localityField);
-
-        formPanel.add(new JLabel("Do you want to subscribe to the newsletter?"));
-        newsletterField = new JCheckBox();
-
-        formPanel.add(newsletterField);
+        comboBoxPannel.add(nationalNumbersBox);
+        searchButton = new JButton("FindMemberInfo");
+        comboBoxPannel.add(searchButton);
+        add(comboBoxPannel,CENTER_ALIGNMENT);
 
         buttonsPanel = new JPanel();
-
         validationButton = new JButton("Validation");
         quitButton = new JButton("Quit");
 
         buttonsPanel.add(validationButton);
         buttonsPanel.add(quitButton);
-
-        add(comboBoxPannel, BorderLayout.NORTH);
-        add(formPanel, BorderLayout.CENTER);
-        add(buttonsPanel, BorderLayout.SOUTH);
-
-        quitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-            }
-        });
-
         validationButton.addActionListener(new ActionListener() {
 
             @Override
@@ -156,8 +95,8 @@ public class RegistrationUpdateFormPanel extends JPanel {
                                 newsletterField.isSelected(), streetField.getText(),
                                 streetNumberField.getText(), (String) localityField.getSelectedItem());
                         try {
-                            controller.addMember(member);
-                        } catch (ExistingElementException | ConnectionException exception) {
+                            controller.updateMember(member);
+                        } catch (ConnectionException | ExistingElementException | UnfoundResearchException exception) {
                             JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                         }
 
@@ -165,58 +104,146 @@ public class RegistrationUpdateFormPanel extends JPanel {
                 }
             }
         });
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+            }
+        });
 
-    }
+        searchButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    MemberInformations member = controller.findMemberInformationsByNationalNumber((String)nationalNumbersBox.getSelectedItem());
+                    comboBoxPannel.setVisible(false);
+
+                    formPanel.add(new JLabel("Last name"));
+                    lastNameField = new JTextField();
+                    lastNameField.setText(member.getLastName());
+                    formPanel.add(lastNameField);
+
+                    formPanel.add(new JLabel("First name"));
+                    firstNameField = new JTextField();
+                    firstNameField.setText(member.getFirstName());
+                    formPanel.add(firstNameField);
+
+                    formPanel.add(new JLabel("Birth date"));
+                    birthDateField = new JDateChooser();
+                    birthDateField.setDate(member.getBirthDate());
+                    formPanel.add(birthDateField);
+
+                    formPanel.add(new JLabel("Phone Number"));
+                    phoneNumberField = new JTextField();
+                    phoneNumberField.setText(String.valueOf(member.getPhoneNumber()));
+                    formPanel.add(phoneNumberField);
+
+                    formPanel.add(new JLabel("Gender"));
+                    genderField = new JTextField();
+                    genderField.setText(member.getGender());
+                    formPanel.add(genderField);
+
+                    formPanel.add(new JLabel("Email address"));
+                    emailAdressField = new JTextField();
+                    emailAdressField.setText(member.getEmailAddress());
+                    formPanel.add(emailAdressField);
+
+                    formPanel.add(new JLabel("Street"));
+                    streetField = new JTextField();
+                    streetField.setText(member.getStreet());
+                    formPanel.add(streetField);
+
+                    formPanel.add(new JLabel("Street number"));
+                    streetNumberField = new JTextField();
+                    streetNumberField.setText(String.valueOf(member.getStreetNumber()));
+                    formPanel.add(streetNumberField);
+                    try {
+                        localityField = new JComboBox();
+                        for (String locality : controller.getLocalities()) {
+                            localityField.addItem(locality);
+                        }
+                    } catch (UnfoundResearchException | ConnectionException exception) {
+                        JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                    formPanel.add(new JLabel("Locality"));
+                    localityField.setSelectedItem(member.getLocality());
+                    formPanel.add(localityField);
+
+
+
+
+                    formPanel.add(new JLabel("Do you want to subscribe to the newsletter?"));
+                    newsletterField = new JCheckBox();
+                    newsletterField.setSelected(member.getNewsLetter());
+                    formPanel.add(newsletterField);
+
+
+                    add(formPanel);
+                    add(buttonsPanel);
+                }
+                catch(UnfoundResearchException | ConnectionException exception){
+                    JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+
+            }
+        });
+    };
+
     public String checkForm(){
         // Verification s'il y a des erreurs ou non
         String errorMessage = "";
         if (lastNameField.getText().isEmpty()) {
-            errorMessage += "Last name field is mandatory\n";
+            errorMessage += "Last name field cannot be removed\n";
         }
         if (firstNameField.getText().isEmpty()) {
-            errorMessage += "First name field is mandatory\n";
+            errorMessage += "First name field cannot be removed\n";
         }
-        if (!firstNameField.getText().isEmpty() && !containsOnlyLetters(firstNameField.getText())) {
+        if (!containsOnlyLetters(firstNameField.getText())) {
             errorMessage += "First name field must contain only letters\n";
         }
-        if (!lastNameField.getText().isEmpty() && !containsOnlyLetters(lastNameField.getText())) {
+        if (!containsOnlyLetters(lastNameField.getText())) {
             errorMessage += "Last name field must contain only letters\n";
         }
         if (birthDateField.getDate() == null) {
-            errorMessage += "Birth date field is mandatory\n";
+            errorMessage += "Birth date field cannot be removed\n";
         }
         if ((!phoneNumberField.getText().isEmpty())){
-            if(!containsOnlyDigits(phoneNumberField.getText()) ||phoneNumberField.getText().length() != 10){
-                errorMessage += "Phone number field must contain 10 digits.\n";
+            if(!containsOnlyDigits(phoneNumberField.getText()) ||phoneNumberField.getText().length() != 10 ||
+                    !phoneNumberField.getText().startsWith("0")){
+                errorMessage += "Phone number field must contain 10 digits and start with 0.\n";
             }
         }
         if (!genderField.getText().isEmpty() && !containsOnlyLetters(genderField.getText())) {
             errorMessage += "Gender field must contain only letters\n";
         }
         if (emailAdressField.getText().isEmpty()) {
-            errorMessage += "Email address field is mandatory\n";
+            errorMessage += "Email address field cannot be removed\n";
         }
-        if (!emailAdressField.getText().isEmpty() && !isValidEmailAddress(emailAdressField.getText())) {
+        if (!isValidEmailAddress(emailAdressField.getText())) {
             errorMessage += "Please, enter a valid email address.\n";
         }
         if (streetField.getText().isEmpty()) {
-            errorMessage += "Street field is mandatory\n";
+            errorMessage += "Street field cannot be removed\n";
         }
-        if (!streetField.getText().isEmpty() && !containsOnlyLetters(streetField.getText())) {
+        if (!containsOnlyLetters(streetField.getText())) {
             errorMessage += "Street field must contain only letters.\n";
         }
 
         if (streetNumberField.getText().isEmpty()) {
-            errorMessage += "Street number field is mandatory\n";
+            errorMessage += "Street number field cannot be removed\n";
         }
-        if (!streetNumberField.getText().isEmpty() && !containsOnlyDigits(streetNumberField.getText())) {
+        if (!containsOnlyDigits(streetNumberField.getText())) {
             errorMessage += "Street number field must contain only digits.";
         }
         return errorMessage;
 
     }
+
+
+    // Utiliser une expression régulière pour vérifier si la chaîne ne contient que des chiffres
     public boolean containsOnlyDigits(String str) {
-        // Utiliser une expression régulière pour vérifier si la chaîne ne contient que des chiffres
         String digitsRegex = "\\d+";
         return str.matches(digitsRegex);
     }

@@ -20,6 +20,9 @@ public class ApplicationController {
     public void addMember(Member member) throws ConnectionException, ExistingElementException{
         businessManager.addMember(member);
     }
+    public void updateMember(Member member) throws ConnectionException, WrongArgumentException, UnfoundResearchException, ExistingElementException{
+        businessManager.updateMember(member);
+    }
     public void addNewSubscription(Subscription subscription) throws ConnectionException {
         businessManager.addNewSubscription(subscription);
     }

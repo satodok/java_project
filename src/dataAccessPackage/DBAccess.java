@@ -12,10 +12,10 @@ import java.util.GregorianCalendar;
 
 public class DBAccess implements DataAccess{
 
-    // Fonction utilisée pour l'ajout pour le CRUD membre
+    // Fonction utilisée pour le CRUD membre
     @Override
     public void addAddress(String streetNumber, String street, String locality) throws ExistingElementException, ConnectionException {
-        //Récupérer le codePostal depuis la localité choisi par le membre dans la ComboBox du formulaire
+        //Récupérer le codePostal depuis la localité choisie par le membre dans la ComboBox du formulaire
         try{
             Connection connection = SingletonConnection.getInstance();
             String sqlInstruction = "SELECT postalCode FROM libiavelo.locality WHERE name = ?";
@@ -39,11 +39,58 @@ public class DBAccess implements DataAccess{
             preparedStatement.executeUpdate();
         }
         catch(SQLException sqlException){
+            System.out.println("Erreur : " + sqlException.getMessage());
             throw new ExistingElementException("Erreur : l'adresse que vous essayez d'entrer existe déjà");
         }
     }
 
-    //Fonction principale pour l'ajout pour le CRUD membre
+    //Fonction principale pour l'update du CRUD membre
+
+
+    @Override
+    public void updateMember(Member member) throws ConnectionException, WrongArgumentException, UnfoundResearchException, ExistingElementException {
+        try{
+            MemberInformations memberAddressCheck = findMemberInformationsByNationalNumber(member.getNationalNumber());
+            String street = memberAddressCheck.getStreet();
+            Integer streetNumber = memberAddressCheck.getStreetNumber();
+            String locality = memberAddressCheck.getLocality();
+
+            //Si l'adresse a changé, ajouter la nouvelle addresse
+            if(!member.getStreet().equals(memberAddressCheck.getStreet()) ||
+                    !member.getStreetNumber().equals(memberAddressCheck.getStreetNumber())){
+                //addAddress(member.getStreetNumber(), member.getStreet(), member.getLocality());
+            }
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "UPDATE libiavelo.member \n" +
+                    "SET lastName = ?, firstName = ?, birthDate = ?, phoneNumber = ?, " +
+                    "gender = ?, email = ?, newsletter = ?, street = ?, streetNumber = ? \n"+
+                    "WHERE nationalNumber = ?";
+
+            PreparedStatement statement = connection.prepareStatement(sqlInstruction);
+            statement.setString(1, member.getLastName());
+            statement.setString(2, member.getFirstName());
+
+            statement.setDate(3, new java.sql.Date(member.getBirthDate().getTime()));
+            statement.setString(4, member.getPhoneNumber());
+            statement.setString(5, member.getGender());
+            statement.setString(6, member.getEmail());
+            statement.setBoolean(7, member.getNewsletter());
+            statement.setString(8, member.getStreet());
+            statement.setInt(9, Integer.parseInt(member.getStreetNumber()));
+            statement.setString(10, member.getNationalNumber());
+
+            statement.executeUpdate();
+
+        }
+        catch(SQLException sqlException){
+            String errorMessage = "Erreur : " + sqlException.getMessage();
+            System.out.println(errorMessage);
+            throw new WrongArgumentException("Erreur : mauvaises valeurs entrées.");
+        }
+
+    }
+
+    //Fonction principale pour l'ajout du CRUD membre
     @Override
     public void addMember(Member member) throws ConnectionException, ExistingElementException {
         try{
@@ -348,7 +395,7 @@ public class DBAccess implements DataAccess{
             String lastName = data.getString("lastName");
             String firstName = data.getString("firstName");
             Date birthDate = data.getDate("birthDate");
-            Integer phoneNumber = data.getInt("phoneNumber");
+            String phoneNumber = data.getString("phoneNumber");
             String gender = data.getString("gender");
             String email = data.getString("email");
             Boolean newsletter = data.getBoolean("newsletter");
@@ -364,7 +411,11 @@ public class DBAccess implements DataAccess{
             memberInformations.setGender(gender);
             memberInformations.setEmailAddress(email);
             memberInformations.setNewsletter(newsletter);
-            memberInformations.setAddress(streetNumber + " "+ street + ", " + postalCode + " " + locality);
+            memberInformations.setLocality(locality);
+            memberInformations.setStreet(street);
+            memberInformations.setStreetNumber(streetNumber);
+            memberInformations.setPostalCode(postalCode);
+            memberInformations.setAddress();
             return memberInformations;
 
         }
