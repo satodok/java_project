@@ -78,10 +78,10 @@ public class RegistrationUpdateFormPanel extends JPanel {
                 // Si tout est correct valider le formulaire et enregistrer les données dans la BD
                 else {
                     // transformer les valeurs facultatives en null si elles sont vides
-                    if (phoneNumberField.getText().isEmpty()) {
+                    if(phoneNumberField.getText().isEmpty() || phoneNumberField.getText().equals("null")){
                         phoneNumberField.setText(null);
                     }
-                    if (genderField.getText().isEmpty()) {
+                    if(genderField.getText().isEmpty() || genderField.getText().equals("null")){
                         genderField.setText(null);
                     }
                     // Demander la validation du formulaire avant de le sauver
