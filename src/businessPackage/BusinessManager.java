@@ -140,8 +140,7 @@ public class BusinessManager {
                                 currentBikesRemaining += bikesRemaining.get(j); // Initialise currentBikesRemaining à la valeur de bikesRemaining correspondante
                             }
                             double percentageUsed = ((20.0 - currentBikesRemaining) / 20.0) * 100.0;
-                            System.out.println(bikesRemaining);
-                            System.out.println("Station " + currentStationNumber + ": " + percentageUsed + "% de vélos utilisés");
+                            JOptionPane.showMessageDialog(null, "Station " + currentStationNumber + ": " + percentageUsed + "% de vélos utilisés");
 
                             currentBikesRemaining = 0; // Réinitialiser la valeur pour la prochaine station
                         }
