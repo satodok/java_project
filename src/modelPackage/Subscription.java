@@ -17,7 +17,7 @@ public class Subscription {
     public Subscription(){}
     public Subscription(int price, double discount,
                         Date startDate, Date endDate, boolean automaticRenewal,
-                        boolean pricePayed, boolean cautionPayed, String typeName, int clientNumber){
+                        boolean pricePayed, boolean cautionPayed, String typeName, Integer clientNumber){
         this.price = price;
         this.discount = discount;
         this.startDate =startDate;
@@ -96,12 +96,15 @@ public class Subscription {
     public int getClientNumber() {
         return clientNumber;
     }
+
     public boolean getAutomaticRenewal(){
         return automaticRenewal;
     }
+
     public boolean getPricePayed(){
         return pricePayed;
     }
+
     public boolean getCautionPayed(){
         return cautionPayed;
     }

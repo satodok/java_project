@@ -82,4 +82,9 @@ public class BusinessManager {
     public ArrayList<Subscription> getAllSubscription() throws ConnectionException, UnfoundResearchException{
         return dao.getAllSubscription();
     }
-}
+
+    public ArrayList<Integer> getAllClientNumbers() throws ConnectionException, UnfoundResearchException{
+        return dao.getAllClientNumbers();
+    }
+
+    }

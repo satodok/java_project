@@ -37,8 +37,6 @@ public class RegistrationFormPanel extends JPanel{
     private JButton quitButton;
 
 
-
-
     public RegistrationFormPanel(){
         setController(new ApplicationController());
         formPanel = new JPanel();

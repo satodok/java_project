@@ -425,6 +425,7 @@ public class DBAccess implements DataAccess{
         try{
             Connection connection = SingletonConnection.getInstance();
 
+
             String sqlInstruction = "INSERT INTO libiavelo.subscription (price, discount, startDate, endDate, " +
                     "automaticRenewal, pricePayed, cautionPayed, typeName, clientNumber)\n" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -441,16 +442,6 @@ public class DBAccess implements DataAccess{
             preparedStatement.setString( 8, subscription.getTypeName());
             preparedStatement.setInt(9,subscription.getClientNumber());
 
-            String sqlInstruction2 = "SELECT COUNT(*) AS existing FROM libiavelo.card WHERE clientNumber = ?;";
-            PreparedStatement preparedStatement1 = connection.prepareStatement(sqlInstruction2);
-            preparedStatement1.setInt(1,subscription.getClientNumber());
-
-            // Vérifie si le client n'existe pas, pas clean, à corriger en catchant une erreur
-            ResultSet resultSet =  preparedStatement1.executeQuery();
-            resultSet.next();
-            if(resultSet.getInt("existing") == 0){
-                JOptionPane.showMessageDialog(null,"Ce client n'existe pas","Non",JOptionPane.ERROR_MESSAGE);
-            };
             preparedStatement.executeUpdate();
 
 
@@ -525,6 +516,28 @@ public class DBAccess implements DataAccess{
         }
         catch(SQLException sqlException){
             throw new UnfoundResearchException("Erreur : aucun résultat ne correspond à votre recherche.");
+        }
+    }
+
+    public ArrayList<Integer> getAllClientNumbers() throws ConnectionException, UnfoundResearchException{
+        try{
+            ArrayList<Integer> clientNumbers = new ArrayList<>();
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "SELECT clientNumber FROM libiavelo.card";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            ResultSet data = preparedStatement.executeQuery();
+            int clientNumber;
+
+            while(data.next()){
+                clientNumber = data.getInt("clientNumber");
+                clientNumbers.add(clientNumber);
+            }
+            return clientNumbers;
+        }
+        catch (SQLException sqlException){
+            System.out.println(sqlException.getMessage());
+            throw new UnfoundResearchException("Error : no results were found from your search");
         }
     }
 }

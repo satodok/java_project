@@ -3,16 +3,13 @@ package viewPackage;
 import com.toedter.calendar.JDateChooser;
 import controllerPackage.ApplicationController;
 import exceptionPackage.ConnectionException;
-import exceptionPackage.ExistingElementException;
+import exceptionPackage.UnfoundResearchException;
 import modelPackage.Subscription;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.sql.Connection;
 
 public class SubscriptionFormPanel extends JPanel {
     private ApplicationController controller;
@@ -32,7 +29,7 @@ public class SubscriptionFormPanel extends JPanel {
     private JDateChooser endDate;
     private JCheckBox automaticRenewal;
     private JComboBox<String> typeName;
-    private JTextField clientNumber;
+    private JComboBox<Integer> clientNumber;
 
 
     public SubscriptionFormPanel(){
@@ -73,8 +70,17 @@ public class SubscriptionFormPanel extends JPanel {
         typeName = new JComboBox<>(types);
         formPanel.add(typeName);
 
+        try{
+            clientNumber = new JComboBox();
+            for(Integer number : controller.getAllClientNumbers()){
+                clientNumber.addItem(number);
+            }
+        }
+        catch(UnfoundResearchException | ConnectionException exception){
+            JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
         formPanel.add(new JLabel("Client number"));
-        clientNumber = new JTextField();
         formPanel.add(clientNumber);
 
         buttonsPanel = new JPanel();
@@ -125,13 +131,13 @@ public class SubscriptionFormPanel extends JPanel {
                         Subscription subscription = new Subscription(Integer.parseInt(price.getText()),
                                 Double.parseDouble(discount.getText()),startDate.getDate(),endDate.getDate(),
                                 automaticRenewal.isSelected(),pricePayed.isSelected(),cautionPayed.isSelected(),
-                                (String) typeName.getSelectedItem(),Integer.parseInt(clientNumber.getText()));
+                                (String) typeName.getSelectedItem(),(Integer) clientNumber.getSelectedItem());
 
                         try{
                             controller.addNewSubscription(subscription);
                         }
                         catch (ConnectionException exception){
-                            //JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
 
@@ -147,14 +153,11 @@ public class SubscriptionFormPanel extends JPanel {
         if(price.getText().isEmpty() || !containsOnlyDigits(price.getText())){
             errorMessage += "The price must only contain digits\n";
         }
-        if (clientNumber.getText().isEmpty()) {
-            errorMessage += "Price field is mandatory\n";
-        }
-        if(clientNumber.getText().isEmpty() || !containsOnlyDigits(clientNumber.getText())){
-            errorMessage += "The client number must only contain digits\n";
-        }
         if (startDate.getDate() == null) {
             errorMessage += "Start date field is mandatory\n";
+        }
+        if(Double.parseDouble(discount.getText()) >= 1.0){
+            errorMessage += "Discount must be below 100%\n";
         }
 
         return errorMessage;
@@ -166,7 +169,6 @@ public class SubscriptionFormPanel extends JPanel {
         startDate.setDate(null);
         typeName.setSelectedItem(0);
         automaticRenewal.setSelected(false);
-        clientNumber.setText("");
     }
     public boolean containsOnlyDigits(String str) {
         // Utiliser une expression régulière pour vérifier si la chaîne ne contient que des chiffres

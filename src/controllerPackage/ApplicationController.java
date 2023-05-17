@@ -70,4 +70,7 @@ public class ApplicationController {
         return businessManager.getAllSubscription();
     }
 
-}
+    public ArrayList<Integer> getAllClientNumbers() throws ConnectionException, UnfoundResearchException{
+        return businessManager.getAllClientNumbers();
+    }
+    }
