@@ -79,9 +79,7 @@ public class SubscriptionDeleteWindow extends JFrame {
                         // Appeler la méthode de suppression avec les ID sélectionnés
                         try {
                             controller.deleteSubscription(selectedIDs);
-                        } catch (ConnectionException ex) {
-                            ex.printStackTrace();
-                        } catch (UnfoundResearchException ex) {
+                        } catch (ConnectionException | UnfoundResearchException ex) {
                             ex.printStackTrace();
                         }
 
@@ -102,9 +100,7 @@ public class SubscriptionDeleteWindow extends JFrame {
                                         subscription.getTypeName()};
                                 tableModel.addRow(rowData);
                             }
-                        } catch (ConnectionException ex) {
-                            ex.printStackTrace();
-                        } catch (UnfoundResearchException ex) {
+                        } catch (ConnectionException | UnfoundResearchException ex) {
                             ex.printStackTrace();
                         }
                     }
