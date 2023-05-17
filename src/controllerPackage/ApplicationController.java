@@ -94,4 +94,12 @@ public class ApplicationController {
     public void updateSubscription(Subscription subscription) throws ConnectionException, WrongArgumentException, UnfoundResearchException, ExistingElementException{
         businessManager.updateSubscription(subscription);
     }
+
+    public void getStatSubscription() throws ConnectionException, UnfoundResearchException{
+        businessManager.performBusinessTask2();
+    }
+
+    public void performBusinessTask1() throws ConnectionException{
+        businessManager.performBusinessTask1();
+    }
 }

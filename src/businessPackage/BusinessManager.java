@@ -173,4 +173,54 @@ public class BusinessManager {
     public void updateSubscription(Subscription subscription) throws ConnectionException, WrongArgumentException, UnfoundResearchException, ExistingElementException{
         dao.updateSubscription(subscription);
     }
+
+    public void performBusinessTask2(){
+        int cptGold = 0;
+        int cptSilver = 0;
+        int cptBronze = 0;
+        int totalPriceGold = 0;
+        int totalPriceSilver = 0;
+        int totalPriceBronze = 0;
+        int totalPrice = 0;
+        int totalSub = 0;
+        double percentGold = 0;
+        double percentSilver = 0;
+        double percentBronze = 0;
+
+        try {
+            for (StatSubscription statSubscription : dao.getStatSubscription()) {
+                switch (statSubscription.getType()) {
+                    case "GOLD":
+                        cptGold += 1;
+                        totalPriceGold += statSubscription.getPrice();
+                        break;
+                    case "SILVER":
+                        cptSilver += 1;
+                        totalPriceSilver += statSubscription.getPrice();
+                        break;
+                    case "BRONZE":
+                        cptBronze += 1;
+                        totalPriceBronze += statSubscription.getPrice();
+                        break;
+                }
+
+                totalSub = cptGold + cptSilver + cptBronze;
+                totalPrice = totalPriceGold + totalPriceSilver +totalPriceBronze;
+
+                percentGold = ((double)cptGold / totalSub)*100;
+                percentSilver = ((double)cptSilver/ totalSub)*100;
+                percentBronze = ((double)cptBronze / totalSub)*100;
+
+            }
+            JOptionPane.showMessageDialog(null, "Voici le nombre total d'abonnement : "+ totalSub);
+            JOptionPane.showMessageDialog(null, "Voici le chiffre d'affaire total : "+ totalPrice);
+
+            JOptionPane.showMessageDialog(null, "Gold : "+ percentGold + "% ");
+            JOptionPane.showMessageDialog(null, "Silver : "+ percentSilver + "% ");
+            JOptionPane.showMessageDialog(null, "Bronze : "+ percentBronze + "% ");
+        }catch (UnfoundResearchException | ConnectionException exception){
+            JOptionPane.showMessageDialog(null, "Erreur",
+                    "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }

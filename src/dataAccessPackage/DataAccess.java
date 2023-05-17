@@ -24,18 +24,19 @@ public interface DataAccess {
     public void updateMember(Member member) throws ConnectionException, WrongArgumentException, UnfoundResearchException, ExistingElementException;
 
     // recherches
-    public ArrayList<String> getAllNationalNumbers()throws ConnectionException, UnfoundResearchException;
-    public MemberAddress findMemberAddressByNationalNumber(String nationalNumber) throws UnfoundResearchException, ConnectionException;
-    public ArrayList<DiscountMember> findMembersWithDiscountFromAgeRange(GregorianCalendar dateMin, GregorianCalendar dateMax) throws UnfoundResearchException, ConnectionException;
-    public ArrayList <Member> findMembersFromSubscriptionPlan(String subscriptionType) throws ConnectionException,UnfoundResearchException;
-    public ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, RentalDetailsException, WrongArgumentException;
-    public MemberInformations findMemberInformationsByNationalNumber(String nationalNumber) throws UnfoundResearchException, ConnectionException;
-    public Subscription findSubscriptionBySubscriptionID(Integer subscriptionID) throws UnfoundResearchException, ConnectionException;
-    public void addNewSubscription(Subscription subscription) throws ConnectionException;
+    ArrayList<String> getAllNationalNumbers()throws ConnectionException, UnfoundResearchException;
+    MemberAddress findMemberAddressByNationalNumber(String nationalNumber) throws UnfoundResearchException, ConnectionException;
+    ArrayList<DiscountMember> findMembersWithDiscountFromAgeRange(GregorianCalendar dateMin, GregorianCalendar dateMax) throws UnfoundResearchException, ConnectionException;
+    ArrayList <Member> findMembersFromSubscriptionPlan(String subscriptionType) throws ConnectionException,UnfoundResearchException;
+    ArrayList<RentalDetailsInformation> findRentalDetailsFromDateRange(Date startDate, Date endDate) throws ConnectionException, UnfoundResearchException, RentalDetailsException, WrongArgumentException;
+    MemberInformations findMemberInformationsByNationalNumber(String nationalNumber) throws UnfoundResearchException, ConnectionException;
+    Subscription findSubscriptionBySubscriptionID(Integer subscriptionID) throws UnfoundResearchException, ConnectionException;
+    void addNewSubscription(Subscription subscription) throws ConnectionException;
     void deleteSubscription(ArrayList<String> subscriptionID) throws ConnectionException, UnfoundResearchException;
-    public ArrayList<Subscription> getAllSubscription() throws ConnectionException, UnfoundResearchException;
-    public ArrayList<Integer> getAllClientNumbers() throws ConnectionException, UnfoundResearchException;
-    public ArrayList<Integer> getBikesRemainingInStation(ArrayList<Integer> numerosStaion) throws ConnectionException;
-    public ArrayList<Integer> getAllSUbscriptionIDs() throws ConnectionException, UnfoundResearchException;
-    public void updateSubscription(Subscription subscription) throws ConnectionException, WrongArgumentException, UnfoundResearchException, ExistingElementException;
+    ArrayList<Subscription> getAllSubscription() throws ConnectionException, UnfoundResearchException;
+    ArrayList<Integer> getAllClientNumbers() throws ConnectionException, UnfoundResearchException;
+    ArrayList<Integer> getBikesRemainingInStation(ArrayList<Integer> numerosStaion) throws ConnectionException;
+    ArrayList<Integer> getAllSUbscriptionIDs() throws ConnectionException, UnfoundResearchException;
+    void updateSubscription(Subscription subscription) throws ConnectionException, WrongArgumentException, UnfoundResearchException, ExistingElementException;
+    ArrayList<StatSubscription>getStatSubscription()throws ConnectionException, UnfoundResearchException;
 }

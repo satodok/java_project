@@ -849,4 +849,32 @@ public class DBAccess implements DataAccess{
         }
 
     }
+
+    @Override
+    public ArrayList<StatSubscription> getStatSubscription() throws ConnectionException, UnfoundResearchException {
+        try {
+
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "SELECT s.typeName, s.price\n" +
+                    "from libiavelo.subscription s";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            ResultSet data = preparedStatement.executeQuery();
+
+            ArrayList<StatSubscription> statSubscriptions = new ArrayList<>();
+
+            while(data.next()){
+                StatSubscription statSubscription = new StatSubscription();
+
+                statSubscription.setType(data.getString("typeName"));
+                statSubscription.setPrice(data.getInt("price"));
+                statSubscriptions.add(statSubscription);
+            }
+
+            return statSubscriptions;
+        }catch (SQLException exception){
+            System.out.println(exception.getMessage());
+            throw new UnfoundResearchException("Erreur : aucun résultat");
+        }
+    }
 }

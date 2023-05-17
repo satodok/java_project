@@ -1,6 +1,9 @@
 package viewPackage;
 
 import businessPackage.BusinessManager;
+import controllerPackage.ApplicationController;
+import exceptionPackage.ConnectionException;
+import exceptionPackage.UnfoundResearchException;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -43,11 +46,16 @@ public class MenuWindow extends JFrame{
 
     //businessTask items
     private JMenuItem stationTask;
+    private JMenuItem subTypeTask;
 
+
+    private ApplicationController controller;
 
     public MenuWindow(){
         super("Libia Vélo");
         this.setBounds(100,100,600,600);
+
+        controller = new ApplicationController();
         JOptionPane.showMessageDialog(null,"Welcome to the Libia Vélo app!","Welcome",JOptionPane.INFORMATION_MESSAGE);
 
         // Lancer le thread de vérification des stocks
@@ -109,6 +117,8 @@ public class MenuWindow extends JFrame{
 
         stationTask = new JMenuItem("Station task");
         businessTask.add(stationTask);
+        subTypeTask = new JMenuItem("Subscription Task");
+        businessTask.add(subTypeTask);
 
         subscriptionUpdate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -205,8 +215,24 @@ public class MenuWindow extends JFrame{
         stationTask.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BusinessManager businessManager = new BusinessManager();
-                businessManager.performBusinessTask1();
+                try {
+                    controller.performBusinessTask1();
+                }catch (ConnectionException exception){
+                    JOptionPane.showMessageDialog(null, "Erreur",
+                            "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        subTypeTask.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    controller.getStatSubscription();
+                }catch (UnfoundResearchException | ConnectionException exception){
+                    JOptionPane.showMessageDialog(null, "Erreur",
+                            "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
