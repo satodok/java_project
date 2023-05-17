@@ -16,6 +16,11 @@ public class ApplicationController {
         businessManager = new BusinessManager();
     }
 
+    //Thread
+    public ArrayList<Counter>getStock() throws ConnectionException, UnfoundResearchException{
+        return businessManager.getStock();
+    }
+    //CRUD member
     public void deleteAllRelatedToMembers(ArrayList<String> nationalNumbers) throws ConnectionException, UnfoundResearchException{
         businessManager.deleteAllRelatedToMembers(nationalNumbers);
     }

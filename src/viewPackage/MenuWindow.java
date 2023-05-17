@@ -43,6 +43,11 @@ public class MenuWindow extends JFrame{
         this.setBounds(100,100,600,600);
         JOptionPane.showMessageDialog(null,"Welcome to the Libia Vélo app!","Welcome",JOptionPane.INFORMATION_MESSAGE);
 
+        // Lancer le thread de vérification des stocks
+        VerifyStockThread stockThread = new VerifyStockThread(this);
+        stockThread.start();
+
+        //Création des différents menus
         this.menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
         this.application = new JMenu("Application");
@@ -91,6 +96,7 @@ public class MenuWindow extends JFrame{
         searchRentalsDetails = new JMenuItem("Search rentalsDetails from date Range");
         researches.add(searchRentalsDetails);
 
+        // Selection de deleteAccount
         deleteAccount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -98,6 +104,7 @@ public class MenuWindow extends JFrame{
                 registrationDeleteWindow.setVisible(true);
             }
         });
+        // Selection de updateAccount
         updateAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
@@ -106,6 +113,8 @@ public class MenuWindow extends JFrame{
                 revalidate();
             }
         });
+
+        //Actions menu register
         register.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
@@ -115,6 +124,7 @@ public class MenuWindow extends JFrame{
             }
         });
 
+        //Action menu information
         myInformations.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 MemberInformationsWindow memberInformations = new MemberInformationsWindow();
@@ -122,6 +132,7 @@ public class MenuWindow extends JFrame{
             }
         });
 
+        //actions menu subscribe
         subscribe.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 SubscriptionFormPanel subscribeWindow = new SubscriptionFormPanel();
@@ -129,6 +140,8 @@ public class MenuWindow extends JFrame{
                 revalidate();
             }
         });
+
+        //actions menu unsubscribe
         unsubscribe.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 SubscriptionDeleteWindow unSubscribeWindow = new SubscriptionDeleteWindow();
@@ -136,17 +149,23 @@ public class MenuWindow extends JFrame{
             }
         });
 
+        //action menu Subscription search
+
         subscriptionSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 SubscriptionInformationsWindow subscriptionInformationsPanel = new SubscriptionInformationsWindow();
                 subscriptionInformationsPanel.setVisible(true);
             }
         });
+
+        //Actions search member address
         searchMemberAddress.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 MemberAddressWindow memberAddressPanel = new MemberAddressWindow();
             }
         });
+
+        //Actions search members with discount
 
         searchMembersWithDiscount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -154,6 +173,7 @@ public class MenuWindow extends JFrame{
             }
         });
 
+        // Actions search members from subscription plan
         searchMembersSubscriptionPlan.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -161,6 +181,7 @@ public class MenuWindow extends JFrame{
             }
         });
 
+        // Actions search rentals details
         searchRentalsDetails.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -174,6 +195,11 @@ public class MenuWindow extends JFrame{
             }
         } );
         this.setVisible(true);
+
+
+    }
+    public void displayStockInformation(String message) {
+        JOptionPane.showMessageDialog(null, message, "Alerte", JOptionPane.PLAIN_MESSAGE);
     }
 
 }

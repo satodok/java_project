@@ -18,6 +18,11 @@ public class BusinessManager {
         this.dao = dao;
     }
 
+    //Thread
+    public ArrayList<Counter>getStock() throws ConnectionException, UnfoundResearchException{
+        return dao.getStock();
+    }
+
     // CRUD member
     public void deleteAllRelatedToMembers(ArrayList<String> nationalNumbers) throws ConnectionException, UnfoundResearchException{
         dao.deleteAllRelatedToMembers(nationalNumbers);

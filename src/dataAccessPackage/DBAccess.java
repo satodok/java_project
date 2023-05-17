@@ -14,6 +14,33 @@ public class DBAccess implements DataAccess{
 
     //Fonction pour le CRUD membre
 
+    public ArrayList<Counter>getStock() throws ConnectionException, UnfoundResearchException{
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "SELECT typeName, stationNumber, bikesRemaining FROM libiavelo.counter";
+            Statement statement = connection.prepareStatement(sqlInstruction);
+            ResultSet data = statement.executeQuery(sqlInstruction);
+            ArrayList<Counter>counters = new ArrayList<>();
+            while (data.next()){
+                Counter counter = new Counter();
+                counter.setBikesRemaining(data.getInt("bikesRemaining"));
+                counter.setTypeName(data.getString("typeName"));
+                counter.setStationNumber(data.getInt("stationNumber"));
+                counters.add(counter);
+            }
+
+            for(Counter test : counters){
+                System.out.println("test : " + test.getBikesRemaining());
+            }
+
+            return counters;
+        }
+        catch(SQLException sqlException){
+            throw new UnfoundResearchException("Erreur : aucun compteur trouvé");
+        }
+
+    }
+
     @Override
     public void deleteAllRelatedToMembers(ArrayList<String> nationalNumbers) throws ConnectionException, UnfoundResearchException {
         Connection connection = SingletonConnection.getInstance();
