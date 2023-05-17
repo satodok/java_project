@@ -1,5 +1,7 @@
 package viewPackage;
 
+import businessPackage.BusinessManager;
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -12,6 +14,7 @@ public class MenuWindow extends JFrame{
     private JMenu myAccount;
     private JMenu subscription;
     private JMenu researches;
+    private JMenu businessTask;
 
     // quit item
     private JMenuItem quit;
@@ -37,6 +40,9 @@ public class MenuWindow extends JFrame{
     private JMenuItem searchMembersSubscriptionPlan;
     private JMenuItem searchRentalsDetails;
 
+    //businessTask items
+    private JMenuItem stationTask;
+
 
     public MenuWindow(){
         super("Libia Vélo");
@@ -60,6 +66,8 @@ public class MenuWindow extends JFrame{
         this.menuBar.add(bikeRental);
         this.researches = new JMenu("Researches");
         this.menuBar.add(researches);
+        this.businessTask = new JMenu("Business Task");
+        this.menuBar.add(businessTask);
 
         quit = new JMenuItem("Quit");
         application.add(quit);
@@ -95,6 +103,9 @@ public class MenuWindow extends JFrame{
         researches.add(searchMembersSubscriptionPlan);
         searchRentalsDetails = new JMenuItem("Search rentalsDetails from date Range");
         researches.add(searchRentalsDetails);
+
+        stationTask = new JMenuItem("Station occupation");
+        businessTask.add(stationTask);
 
         // Selection de deleteAccount
         deleteAccount.addActionListener(new ActionListener() {
@@ -186,6 +197,14 @@ public class MenuWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 RentalDetailsInformationWindow rentalDetailsInformationPanel = new RentalDetailsInformationWindow();
+            }
+        });
+
+        stationTask.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BusinessManager businessManager = new BusinessManager();
+                businessManager.performBusinessTask1();
             }
         });
 
