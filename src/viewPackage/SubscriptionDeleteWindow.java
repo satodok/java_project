@@ -7,6 +7,7 @@ import exceptionPackage.UnfoundResearchException;
 import modelPackage.Subscription;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +26,17 @@ public class SubscriptionDeleteWindow extends JFrame {
             this.setBounds(100,100,400,400);
             setController(new ApplicationController());
 
-            SubscriptionInformationsModel  tableModel = new SubscriptionInformationsModel(subscription);
+            DefaultTableModel tableModel = new DefaultTableModel();
+            tableModel.addColumn("Susbcription ID");
+            tableModel.addColumn("Price");
+            tableModel.addColumn("Discount");
+            tableModel.addColumn("Automatic renewal");
+            tableModel.addColumn("Caution payed");
+            tableModel.addColumn("Price payed");
+            tableModel.addColumn("Start date");
+            tableModel.addColumn("End date");
+            tableModel.addColumn("Client number");
+            tableModel.addColumn("Type name");
 
             try{
             ArrayList<Subscription> subscriptionList = controller.getAllSubscription();
@@ -61,8 +72,8 @@ public class SubscriptionDeleteWindow extends JFrame {
                         // Stocker les ID des lignes sélectionnées
                         ArrayList<String> selectedIDs = new ArrayList<>();
                         for (int row : selectedRows) {
-                            String subscriptionId = (String) table.getValueAt(row, 0); // Supposant que la première colonne contient l'ID
-                            selectedIDs.add(subscriptionId);
+                            String id = (String) table.getValueAt(row, 0); // Supposant que la première colonne contient l'ID
+                            selectedIDs.add(id);
                         }
 
                         // Appeler la méthode de suppression avec les ID sélectionnés
@@ -96,6 +107,8 @@ public class SubscriptionDeleteWindow extends JFrame {
                         }
                     }
                 });
+                add(deleteButton, BorderLayout.SOUTH);
+
             } catch (ConnectionException | UnfoundResearchException sqlException){
                     JOptionPane.showMessageDialog(null, sqlException.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                     }
