@@ -83,4 +83,8 @@ public class ApplicationController {
     public ArrayList<Integer> getAllClientNumbers() throws ConnectionException, UnfoundResearchException{
         return businessManager.getAllClientNumbers();
     }
+
+    public ArrayList<Integer> getBikesRemainingInStation(ArrayList<Integer> numerosStaion) throws ConnectionException{
+        return businessManager.getBikesRemainingInStation(numerosStaion);
+    }
     }

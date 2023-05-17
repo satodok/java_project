@@ -32,4 +32,5 @@ public interface DataAccess {
     void deleteSubscription(ArrayList<String> subscriptionID) throws ConnectionException, UnfoundResearchException;
     public ArrayList<Subscription> getAllSubscription() throws ConnectionException, UnfoundResearchException;
     public ArrayList<Integer> getAllClientNumbers() throws ConnectionException, UnfoundResearchException;
+    public ArrayList<Integer> getBikesRemainingInStation(ArrayList<Integer> numerosStaion) throws ConnectionException;
     }

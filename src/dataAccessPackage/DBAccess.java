@@ -738,4 +738,39 @@ public class DBAccess implements DataAccess{
             throw new UnfoundResearchException("Error : no results were found from your search");
         }
     }
+
+    @Override
+    public ArrayList<Integer> getBikesRemainingInStation(ArrayList<Integer> numerosStation) throws ConnectionException {
+        try {
+            ArrayList<Integer> bikesRemainingInStation = new ArrayList<>();
+            Connection connection = SingletonConnection.getInstance();
+
+            String sqlInstruction = "Select c.stationNumber, c.bikesRemaining\n" +
+                    "from counter c\n" +
+                    "where c.stationNumber = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+
+            for (int numero : numerosStation) {
+                // Ajoutez chaque valeur à la requête préparée
+                preparedStatement.setInt(1, numero);  // Remplacez 1 par l'index de la colonne correspondante
+                // Exécutez la requête préparée pour chaque valeur
+                //preparedStatement.executeQuery();
+            }
+            ResultSet data = preparedStatement.executeQuery();
+
+            int nbBikes;
+            while(data.next()){
+                nbBikes = data.getInt("bikesRemaining");
+                bikesRemainingInStation.add(nbBikes);
+            }
+
+            return bikesRemainingInStation;
+
+
+        }catch(SQLException sqlException){
+            throw new ConnectionException("Erreur : impossible de se connecter à la BD");
+        }
+
+    }
 }
