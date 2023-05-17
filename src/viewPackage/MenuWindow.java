@@ -107,6 +107,9 @@ public class MenuWindow extends JFrame{
         searchRentalsDetails = new JMenuItem("Search rentalsDetails from date Range");
         researches.add(searchRentalsDetails);
 
+        stationTask = new JMenuItem("Station task");
+        businessTask.add(stationTask);
+
         subscriptionUpdate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 SubscriptionUpdateFormPanel subscriptionUpdateFormPanel = new SubscriptionUpdateFormPanel();
