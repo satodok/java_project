@@ -7,6 +7,7 @@ import exceptionPackage.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 public class ApplicationController {
 
@@ -95,11 +96,11 @@ public class ApplicationController {
         businessManager.updateSubscription(subscription);
     }
 
-    public void getStatSubscription() throws ConnectionException, UnfoundResearchException{
-        businessManager.performBusinessTask2();
+    public StatSubscription getStatSubscription() throws ConnectionException, UnfoundResearchException{
+        return businessManager.performBusinessTask2();
     }
 
-    public void performBusinessTask1() throws ConnectionException{
-        businessManager.performBusinessTask1();
+    public HashMap performBusinessTask1(ArrayList<Integer> stationNumbers) throws ConnectionException{
+        return businessManager.performBusinessTask1(stationNumbers);
     }
 }

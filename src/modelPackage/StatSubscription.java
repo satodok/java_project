@@ -1,33 +1,65 @@
 package modelPackage;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 
 public class StatSubscription {
-    private String type;
-    private int price;
-    private int nbSubscription;
+    private Integer totalSub;
+    private Integer totalRevenue;
+    private BigDecimal goldPercentage;
+    private BigDecimal silverPercentage;
+    private BigDecimal bronzePercentage;
 
-    public String getType() {
-        return type;
+
+    public StatSubscription(Integer totalSub, Integer totalRevenue, BigDecimal goldPercentage, BigDecimal silverPercentage, BigDecimal bronzePercentage){
+        setTotalSub(totalSub);
+        setTotalRevenue(totalRevenue);
+        setGoldPercentage(goldPercentage);
+        setSilverPercentage(silverPercentage);
+        setBronzePercentage(bronzePercentage);
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public Integer getTotalSub() {
+        return totalSub;
     }
 
-    public int getPrice() {
-        return price;
+    public void setTotalSub(Integer totalSub) {
+        if (totalSub > 0)
+            this.totalSub = totalSub;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public Integer getTotalRevenue() {
+        return totalRevenue;
     }
 
-    public int getNbSubscription() {
-        return nbSubscription;
+    public void setTotalRevenue(Integer totalRevenue) {
+        if (totalRevenue > 0)
+            this.totalRevenue = totalRevenue;
     }
 
-    public void setNbSubscription(int nbSubscription) {
-        this.nbSubscription = nbSubscription;
+    public BigDecimal getGoldPercentage() {
+        return goldPercentage;
+    }
+
+    public void setGoldPercentage(BigDecimal goldPercentage) {
+        if (goldPercentage.compareTo(BigDecimal.ZERO) > 0)
+            this.goldPercentage = goldPercentage;
+    }
+
+    public BigDecimal getSilverPercentage() {
+        return silverPercentage;
+    }
+
+    public void setSilverPercentage(BigDecimal silverPercentage) {
+        if (silverPercentage.compareTo(BigDecimal.ZERO) > 0)
+            this.silverPercentage = silverPercentage;
+    }
+
+    public BigDecimal getBronzePercentage() {
+        return bronzePercentage;
+    }
+
+    public void setBronzePercentage(BigDecimal bronzePercentage) {
+        if (bronzePercentage.compareTo(BigDecimal.ZERO) > 0)
+            this.bronzePercentage = bronzePercentage;
     }
 }

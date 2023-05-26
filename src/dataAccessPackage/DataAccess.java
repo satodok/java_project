@@ -38,5 +38,5 @@ public interface DataAccess {
     ArrayList<Integer> getBikesRemainingInStation(ArrayList<Integer> numerosStaion) throws ConnectionException;
     ArrayList<Integer> getAllSUbscriptionIDs() throws ConnectionException, UnfoundResearchException;
     void updateSubscription(Subscription subscription) throws ConnectionException, WrongArgumentException, UnfoundResearchException, ExistingElementException;
-    ArrayList<StatSubscription>getStatSubscription()throws ConnectionException, UnfoundResearchException;
+    ArrayList<SubscriptionInfo>getStatSubscription()throws ConnectionException, UnfoundResearchException;
 }

@@ -4,13 +4,13 @@ import exceptionPackage.*;
 import dataAccessPackage.*;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.math.BigDecimal;
 
 public class BusinessManager {
     private DataAccess dao;
@@ -106,32 +106,13 @@ public class BusinessManager {
         return dao.getAllClientNumbers();
     }
 
-    public void performBusinessTask1() {
-        // Création de la fenêtre
-        JFrame frame = new JFrame("Research member discount");
-        frame.setBounds(100, 100, 400, 400);
-
-        // Création des composants de la fenêtre
-        JLabel instructionLabel = new JLabel("Entrez les numéros de station (séparés par une virgule) :");
-        JTextField stationNumbersTextField = new JTextField(20);
-        JButton compareButton = new JButton("Comparer");
-
-        // Ajout d'un ActionListener au bouton "Comparer"
-        compareButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String stationNumbersText = stationNumbersTextField.getText();
-                String[] stationNumberStrings = stationNumbersText.split(",");
-                ArrayList<Integer> stationNumbers = new ArrayList<>();
-
-                for (String stationNumberString : stationNumberStrings) {
-                    int stationNumber = Integer.parseInt(stationNumberString.trim());
-                    stationNumbers.add(stationNumber);
-
+    public HashMap performBusinessTask1(ArrayList<Integer> stationNumbers) {
+        HashMap<Integer, Double> bikesRemainingPercentages = new HashMap();
 
                     try {
                         // Appeler la fonction getBikesRemainingInStation avec les numéros de station obtenus
                         ArrayList<Integer> bikesRemaining = dao.getBikesRemainingInStation(stationNumbers);
+
 
                         int currentBikesRemaining = 0;
                         for (int i = 0; i < stationNumbers.size(); i++) {
@@ -141,32 +122,19 @@ public class BusinessManager {
                                 currentBikesRemaining += bikesRemaining.get(j); // Initialise currentBikesRemaining à la valeur de bikesRemaining correspondante
                             }
                             double percentageUsed = ((20.0 - currentBikesRemaining) / 20.0) * 100.0;
-                            JOptionPane.showMessageDialog(null, "Station " + currentStationNumber + ": " + percentageUsed + "% de vélos utilisés");
+
+                            bikesRemainingPercentages.put(currentStationNumber, percentageUsed);
 
                             currentBikesRemaining = 0; // Réinitialiser la valeur pour la prochaine station
                         }
-
-
                         stationNumbers.clear();
 
-                    } catch (ConnectionException sqlException) {
-                        sqlException.printStackTrace();
+                    } catch (ConnectionException exception) {
+                        exception.printStackTrace();
                     }
-                }
-            }
-        });
-
-        // Création du panneau de contenu et ajout des composants
-        JPanel contentPane = new JPanel();
-        contentPane.add(instructionLabel);
-        contentPane.add(stationNumbersTextField);
-        contentPane.add(compareButton);
-
-        // Définition du panneau de contenu de la fenêtre
-        frame.setContentPane(contentPane);
-        frame.pack();
-        frame.setVisible(true);
+                    return bikesRemainingPercentages;
     }
+
 
     public ArrayList<Integer> getAllSUbscriptionIDs() throws ConnectionException, UnfoundResearchException{
         return dao.getAllSUbscriptionIDs();
@@ -175,7 +143,7 @@ public class BusinessManager {
         dao.updateSubscription(subscription);
     }
 
-    public void performBusinessTask2(){
+    public StatSubscription performBusinessTask2(){
         int cptGold = 0;
         int cptSilver = 0;
         int cptBronze = 0;
@@ -187,50 +155,54 @@ public class BusinessManager {
         double percentGold = 0;
         double percentSilver = 0;
         double percentBronze = 0;
-        String goldArrondi = "";
-        String silverArrondi = "";
-        String bronzeArrondi = "";
+
+        StatSubscription statSubscription = null;
 
         try {
-            for (StatSubscription statSubscription : dao.getStatSubscription()) {
-                switch (statSubscription.getType()) {
+            for (SubscriptionInfo subscriptionInfo : dao.getStatSubscription()) {
+                switch (subscriptionInfo.getType()) {
                     case "GOLD":
                         cptGold += 1;
-                        totalPriceGold += statSubscription.getPrice();
+                        totalPriceGold += subscriptionInfo.getPrice();
                         break;
                     case "SILVER":
                         cptSilver += 1;
-                        totalPriceSilver += statSubscription.getPrice();
+                        totalPriceSilver += subscriptionInfo.getPrice();
                         break;
                     case "BRONZE":
                         cptBronze += 1;
-                        totalPriceBronze += statSubscription.getPrice();
+                        totalPriceBronze += subscriptionInfo.getPrice();
                         break;
                 }
 
                 totalSub = cptGold + cptSilver + cptBronze;
                 totalPrice = totalPriceGold + totalPriceSilver +totalPriceBronze;
 
-                DecimalFormat format = new DecimalFormat("#.00");
 
                 percentGold = ((double)cptGold / totalSub)*100;
                 percentSilver = ((double)cptSilver/ totalSub)*100;
                 percentBronze = ((double)cptBronze / totalSub)*100;
 
-                goldArrondi = format.format(percentGold);
-                silverArrondi = format.format(percentSilver);
-                bronzeArrondi = format.format(percentBronze);
+                BigDecimal bigDecimal1 = new BigDecimal(percentGold);
+                BigDecimal goldDecimal = bigDecimal1.setScale(2, BigDecimal.ROUND_HALF_UP);
+
+                BigDecimal bigDecimal2 = new BigDecimal(percentSilver);
+                BigDecimal silverDecimal = bigDecimal2.setScale(2, BigDecimal.ROUND_HALF_UP);
+
+                BigDecimal bigDecimal3 = new BigDecimal(percentBronze);
+                BigDecimal bronzeDecimal = bigDecimal3.setScale(2, BigDecimal.ROUND_HALF_UP);
+
+
+                statSubscription = new StatSubscription(totalSub, totalPrice, goldDecimal, silverDecimal, bronzeDecimal);
+
 
             }
-            JOptionPane.showMessageDialog(null, "Voici le nombre total d'abonnement : "+ totalSub);
-            JOptionPane.showMessageDialog(null, "Voici le chiffre d'affaire total : "+ totalPrice);
+        }
 
-            JOptionPane.showMessageDialog(null, "Gold : "+ goldArrondi + "% ");
-            JOptionPane.showMessageDialog(null, "Silver : "+ silverArrondi + "% ");
-            JOptionPane.showMessageDialog(null, "Bronze : "+ bronzeArrondi + "% ");
-        }catch (UnfoundResearchException | ConnectionException exception){
+        catch (UnfoundResearchException | ConnectionException exception){
             JOptionPane.showMessageDialog(null, "Erreur",
                     "Erreur", JOptionPane.ERROR_MESSAGE);
         }
+        return statSubscription;
     }
 }

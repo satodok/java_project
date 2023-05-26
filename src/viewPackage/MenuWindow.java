@@ -4,6 +4,7 @@ import businessPackage.BusinessManager;
 import controllerPackage.ApplicationController;
 import exceptionPackage.ConnectionException;
 import exceptionPackage.UnfoundResearchException;
+import modelPackage.StatSubscription;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -215,12 +216,7 @@ public class MenuWindow extends JFrame{
         stationTask.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    controller.performBusinessTask1();
-                }catch (ConnectionException exception){
-                    JOptionPane.showMessageDialog(null, "Erreur",
-                            "Erreur", JOptionPane.ERROR_MESSAGE);
-                }
+                BikesRemainingPercentsWindow bikesRemainingPercentsWindow = new BikesRemainingPercentsWindow();
             }
         });
 
@@ -228,7 +224,18 @@ public class MenuWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    controller.getStatSubscription();
+                    StatSubscription statSubscription = controller.getStatSubscription();
+                    String message;
+
+                    message = "Voici le nombre total d'abonnement : " + statSubscription.getTotalSub() + "\n";
+                    message += "Voici le chiffre d'affaire total : " + statSubscription.getTotalRevenue() + "\n";
+                    message += "Pourcentage Gold : " + statSubscription.getGoldPercentage() + "% \n";
+                    message += "Pourcentage Gold : " + statSubscription.getSilverPercentage() + "% \n";
+                    message += "Pourcentage Gold : " + statSubscription.getBronzePercentage() + "% \n";
+
+                    JOptionPane.showMessageDialog(null, message);
+
+
                 }catch (UnfoundResearchException | ConnectionException exception){
                     JOptionPane.showMessageDialog(null, "Erreur",
                             "Erreur", JOptionPane.ERROR_MESSAGE);

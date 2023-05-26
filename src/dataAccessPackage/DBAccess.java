@@ -2,11 +2,7 @@ package dataAccessPackage;
 
 import modelPackage.*;
 import exceptionPackage.*;
-import viewPackage.SubscriptionUpdateFormPanel;
 
-import javax.swing.*;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -851,7 +847,7 @@ public class DBAccess implements DataAccess{
     }
 
     @Override
-    public ArrayList<StatSubscription> getStatSubscription() throws ConnectionException, UnfoundResearchException {
+    public ArrayList<SubscriptionInfo> getStatSubscription() throws ConnectionException, UnfoundResearchException {
         try {
 
             Connection connection = SingletonConnection.getInstance();
@@ -861,10 +857,10 @@ public class DBAccess implements DataAccess{
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             ResultSet data = preparedStatement.executeQuery();
 
-            ArrayList<StatSubscription> statSubscriptions = new ArrayList<>();
+            ArrayList<SubscriptionInfo> statSubscriptions = new ArrayList<>();
 
             while(data.next()){
-                StatSubscription statSubscription = new StatSubscription();
+                SubscriptionInfo statSubscription = new SubscriptionInfo();
 
                 statSubscription.setType(data.getString("typeName"));
                 statSubscription.setPrice(data.getInt("price"));
